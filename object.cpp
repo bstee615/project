@@ -2,6 +2,7 @@
 
 Object::Object()
 {
+
 }
 
 void Object::CheckCollision(Object *that)

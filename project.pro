@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwidget.cpp \
     object.cpp \
     highscore.cpp \
-    world.cpp
+    world.cpp \
+    enemy.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
     highscore.h \
-    world.h
+    world.h \
+    enemy.h
 
 FORMS    += mainwidget.ui
