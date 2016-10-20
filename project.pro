@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     object.cpp \
     highscore.cpp \
     world.cpp \
-    loadsave.cpp
+    loadsave.cpp \
+    collisiondetails.cpp
     enemy.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
     highscore.h \
     world.h \
-    loadsave.h
+    loadsave.h \
+    collisiondetails.h
     enemy.h
 
 FORMS    += mainwidget.ui
