@@ -15,6 +15,7 @@ LoadSave& LoadSave::instance()
 	return *loadsave;
 }
 
+// loads a save state and configures objects
 void LoadSave::load(string filename)
 {
 	ifstream file(filename);
@@ -34,6 +35,7 @@ void LoadSave::load(string filename)
 	}
 }
 
+// reads object data and saves a save state file
 void LoadSave::save(string filename)
 {
 	ofstream file(filename);
@@ -46,4 +48,9 @@ void LoadSave::save(string filename)
 //		}
 		file.close();
 	}
+}
+
+void LoadSave::teardown()
+{
+	delete loadsave;
 }

@@ -18,9 +18,13 @@ class LoadSave
 public:
 	static LoadSave& instance();
 
+	// loads a save state and configures objects
 	void load(string filename);
 
+	// reads object data and saves a save state file
 	void save(string filename);
+
+	static void teardown();
 };
 
 #endif // LOADSAVE_H
