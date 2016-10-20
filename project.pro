@@ -18,12 +18,14 @@ SOURCES += main.cpp\
     highscore.cpp \
     world.cpp \
     loadsave.cpp
+    enemy.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
     highscore.h \
     world.h \
     loadsave.h
+    enemy.h
 
 FORMS    += mainwidget.ui
 
