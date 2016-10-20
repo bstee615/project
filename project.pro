@@ -16,11 +16,18 @@ SOURCES += main.cpp\
         mainwidget.cpp \
     object.cpp \
     highscore.cpp \
-    world.cpp
+    world.cpp \
+    loadsave.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
     highscore.h \
-    world.h
+    world.h \
+    loadsave.h
 
 FORMS    += mainwidget.ui
+
+QMAKE_CXXFLAGS += -std=c++11
+
+DISTFILES += \
+    GameFileFormat.txt
