@@ -18,7 +18,7 @@ SOURCES += main.cpp\
     highscore.cpp \
     world.cpp \
     loadsave.cpp \
-    collisiondetails.cpp
+    collisiondetails.cpp \
     enemy.cpp
 
 HEADERS  += mainwidget.h \
@@ -26,7 +26,7 @@ HEADERS  += mainwidget.h \
     highscore.h \
     world.h \
     loadsave.h \
-    collisiondetails.h
+    collisiondetails.h \
     enemy.h
 
 FORMS    += mainwidget.ui
