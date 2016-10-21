@@ -1,7 +1,14 @@
-#include "highscore.h"
+	#include "highscore.h"
 
+	HighScore* HighScore::highscore =  nullptr;
+	
+	HighScore& HighScore::instance() {
+		if (highscore == nullptr) {
+			highscore = new HighScore();
+		}
+		return *highscore;
 		
-
+	}
 	//read in the high scores numbers and users from a file into two vectors
 	//or exits if there is no file with the specified name
 	void HighScore::LoadScore () {
@@ -64,4 +71,8 @@
 			assert(h.getName(5) == "Joe");
 			h.SaveScores();
 			
+	}
+	
+	void HighScore::teardown() {
+		delete highscore;
 	}
