@@ -1,5 +1,8 @@
 #include "object.h"
-#include <iostream>
+
+int Object::nextID = 0;
+
+void Object::resetNextId() {nextID = 0;}
 
 Object::Object()
 {

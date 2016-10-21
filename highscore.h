@@ -15,7 +15,7 @@ private:
     vector <string> names;
 	static HighScore* highscore;
     HighScore() {}
-     HighScore(const Highscore& that) = delete; //prevent copying
+     HighScore(const HighScore& that) = delete; //prevent copying
 	    
 public: 
     static HighScore& instance();
