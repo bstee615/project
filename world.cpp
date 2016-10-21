@@ -4,7 +4,7 @@
 World World::world;
 
 // returns object with <id>, or NULL if none
-WorldObject *World::getById(int id) {
+Object *World::getById(int id) {
     for (size_t i = 0; i < objects.size(); ++i) {
         Object *obj = objects.at(i);
         if (obj->getId() == id) {
@@ -16,7 +16,7 @@ WorldObject *World::getById(int id) {
 
 //erases the object with the specified <id> pointer from the world vector, and returns the
 //pointer if it is found, or nullptr if not
-WorldObject *World::destroy(int id) {
+Object *World::destroy(int id) {
     Object *obj = NULL;
 
     auto iter = objects.begin();
@@ -50,7 +50,7 @@ World::~World() {
 
 // factory: creates and returns an Object or derived class, determined by
 // <type>. Returns NULL if <type> is not recognized.
-Object *World::createObject(const string& type) {
+/*Object *World::createObject(const string& type) {
     if (type.find("ob") == 0)
         return new Object;
     else if (type.find("it") == 0)
@@ -68,3 +68,4 @@ Object *World::createObject(const string& type) {
     else
         return NULL;
 }
+*/

@@ -41,7 +41,7 @@ public:
     // returns object with <id>, or NULL if none
     Object *getById(int id);
 
-    vector<WorldObject*>& getObjects() { return objects; }
+    vector<Object*>& getObjects() { return objects; }
 
     // Removes object with <id> from objects and returns it, or returns NULL if not found
     Object *destroy(int id);
