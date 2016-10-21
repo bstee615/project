@@ -14,9 +14,9 @@ private:
     vector<int> scores;
     vector <string> names;
 	static HighScore* highscore;
-	Highscore() {}
+    HighScore() {}
 public: 
-	static HighScore& instance;
+    static HighScore& instance();
 
 	//loads the top 10 high scores from a file into the vector
 	//or creates a new one
