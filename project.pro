@@ -18,7 +18,13 @@ SOURCES += main.cpp\
     highscore.cpp \
     world.cpp \
     loadsave.cpp \
-    collisiondetails.cpp
+    collisiondetails.cpp \
+    player.cpp \
+    platform.cpp \
+    collectible.cpp \
+    movingplatform.cpp \
+    item.cpp \
+    coin.cpp  \
     enemy.cpp
 
 HEADERS  += mainwidget.h \
@@ -26,7 +32,13 @@ HEADERS  += mainwidget.h \
     highscore.h \
     world.h \
     loadsave.h \
-    collisiondetails.h
+    collisiondetails.h \
+    player.h \
+    platform.h \
+    collectible.h \
+    movingplatform.h \
+    item.h \
+    coin.h \
     enemy.h
 
 FORMS    += mainwidget.ui

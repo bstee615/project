@@ -1,10 +1,16 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-class Player
+#include "object.h"
+
+class Player : public Object
 {
+    int xSpeed;
+    int YSpeed;
 public:
-    Player();
+    void jump();
+    void moveRight();
+    void moveLeft();
 };
 
 #endif // PLAYER_H

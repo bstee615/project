@@ -1,10 +1,12 @@
 #ifndef MOVINGPLATFORM_H
 #define MOVINGPLATFORM_H
 
-class MovingPlatform
+#include"object.h"
+#include"platform.h"
+
+class MovingPlatform : public Platform
 {
-public:
-    MovingPlatform();
+
 };
 
 #endif // MOVINGPLATFORM_H

@@ -1,10 +1,11 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-class Platform
+#include"object.h"
+
+class Platform : public Object
 {
-public:
-    Platform();
+
 };
 
 #endif // PLATFORM_H

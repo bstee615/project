@@ -1,10 +1,12 @@
 #ifndef COIN_H
 #define COIN_H
 
-class Coin
+#include"object.h"
+#include"collectible.h"
+
+class Coin : public Collectible
 {
-public:
-    Coin();
+
 };
 
 #endif // COIN_H

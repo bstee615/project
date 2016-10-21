@@ -1,10 +1,12 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-class Item
+#include"object.h"
+#include"collectible.h"
+
+class Item : public Collectible
 {
-public:
-    Item();
+
 };
 
 #endif // ITEM_H

@@ -1,10 +1,11 @@
 #ifndef COLLECTIBLE_H
 #define COLLECTIBLE_H
 
-class Collectible
+#include"object.h"
+
+class Collectible : public Object
 {
-public:
-    Collectible();
+
 };
 
 #endif // COLLECTIBLE_H

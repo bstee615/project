@@ -20,31 +20,4 @@ public:
     void CheckCollision(Object * that);
 };
 
-class Player : public Object
-{
-    int xSpeed;
-    int YSpeed;
-public:
-    void jump();
-    void moveRight();
-    void moveLeft();
-};
-
-class Platform : public Object
-{
-
-};
-
-
-
-class Collectible : public Object
-{
-
-};
-
-class Coin : public Collectible
-{
-
-};
-
 #endif // OBJECT_H
