@@ -4,6 +4,8 @@
 #include<QString>
 #include"collisiondetails.h"
 
+class collisionDetails;
+
 class Object
 {
 protected:
@@ -17,7 +19,7 @@ public:
     Object();
     Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_) { }
 
-    void CheckCollision(Object * that);
+    collisionDetails* CheckCollision(Object * that);
 };
 
 #endif // OBJECT_H
