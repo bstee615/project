@@ -7,9 +7,13 @@
 
 class Enemy : public Object
 {
+    int damage;
+    int speed;
 public:
     Enemy(): Object() { }
-    Enemy(int x_, int y_, int width_, int height_, QString image_): Object(x_,y_,width_,height_,image_) { }
+    Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
+
+    void move();
 };
 
 #endif // ENEMY_H
