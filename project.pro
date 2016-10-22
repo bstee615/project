@@ -47,3 +47,6 @@ QMAKE_CXXFLAGS += -std=c++11
 
 DISTFILES += \
     GameFileFormat.txt
+
+RESOURCES += \
+    resources.qrc
