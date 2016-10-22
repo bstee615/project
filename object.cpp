@@ -6,6 +6,11 @@ void Object::resetNextId() {nextID = 0;}
 
 Object::Object()
 {
+	id = nextID++;
+}
+
+Object::~Object()
+{
 
 }
 

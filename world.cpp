@@ -50,22 +50,21 @@ World::~World() {
 
 // factory: creates and returns an Object or derived class, determined by
 // <type>. Returns NULL if <type> is not recognized.
-/*Object *World::createObject(const string& type) {
-    if (type.find("ob") == 0)
-        return new Object;
-    else if (type.find("it") == 0)
-        return new Item;
-    else if (type.find("col") == 0)
-        return new Collectibe;
-   else if (type.find("coi") == 0)
-        return new Coin;
-   else if (type.find("mo") == 0)
-        return new MovingPlatform;
-   else if (type.find("play") == 0)
-	   return new Player;
-   else if (type.find("plat") == 0)
-	   return new Platform;
-    else
-        return NULL;
+Object *World::createObject(const string& type) {
+	if (type.find("ob") == 0)
+		return new Object;
+	else if (type.find("it") == 0)
+		return new Item;
+	else if (type.find("col") == 0)
+		return new Collectible;
+	else if (type.find("coi") == 0)
+		return new Coin;
+	else if (type.find("mo") == 0)
+		return new MovingPlatform;
+	else if (type.find("play") == 0)
+		return new Player;
+	else if (type.find("plat") == 0)
+		return new Platform;
+	else
+		return NULL;
 }
-*/

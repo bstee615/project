@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/maincharacter/maincharacterwalk2.png</file>
+        <file>images/maincharacter/maincharacterwalk1.png</file>
+        <file>images/maincharacter/maincharacterjump4.png</file>
+        <file>images/maincharacter/maincharacterjump3.png</file>
+        <file>images/maincharacter/maincharacterjump2.png</file>
+        <file>images/maincharacter/maincharacterjump1.png</file>
+        <file>images/maincharacter/maincharacterhurt.png</file>
+        <file>images/maincharacter/maincharackerkick.png</file>
+        <file>images/goldCoin/goldCoin9.png</file>
+        <file>images/goldCoin/goldCoin8.png</file>
+        <file>images/goldCoin/goldCoin7.png</file>
+        <file>images/goldCoin/goldCoin6.png</file>
+        <file>images/goldCoin/goldCoin5.png</file>
+        <file>images/goldCoin/goldCoin4.png</file>
+        <file>images/goldCoin/goldCoin3.png</file>
+        <file>images/goldCoin/goldCoin2.png</file>
+        <file>images/goldCoin/goldCoin1.png</file>
+        <file>images/maincharacter/maincharacterstand.png</file>
+    </qresource>
+</RCC>
