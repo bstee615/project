@@ -4,7 +4,7 @@
 #include "object.h"
 class Object;
 
-class collisionDetails
+class CollisionDetails
 {
     int overlapX1;
     int overlapX2;
@@ -12,7 +12,7 @@ class collisionDetails
     int overlapY2;
     Object* collided;
 public:
-    collisionDetails(int initX1, int initX2, int initY1, int initY2, Object* collidedWith) :
+    CollisionDetails(int initX1, int initX2, int initY1, int initY2, Object* collidedWith) :
         overlapX1(initX1), overlapX2(initX2), overlapY1(initY1), overlapY2(initY2), collided(collidedWith) {}
 
     int getOverlapX1() { return overlapX1; }

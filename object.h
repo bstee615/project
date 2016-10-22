@@ -4,7 +4,7 @@
 #include<QString>
 #include"collisiondetails.h"
 
-class collisionDetails;
+class CollisionDetails;
 
 class Object
 {
@@ -23,10 +23,8 @@ public:
         id = nextID++;
     }
 
-    void CheckCollision(Object * that);
-    int getId() { return id; }
-    void setId(int newId) { id = newId; }
-    collisionDetails* CheckCollision(Object * that);
+	CollisionDetails* checkCollision(Object * that);
+	void setId(int newId) { id = newId; }
     int getId() {return id;}
     static void resetNextId();
 

@@ -10,7 +10,7 @@ class Coin : public Collectible
 		int amount;
 	public:
 		int getAmount() { return amount; }
-		void set Amount(int newAmount) { amount = newAmount; }
+		void setAmount(int newAmount) { amount = newAmount; }
 };
 
 #endif // COIN_H

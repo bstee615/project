@@ -9,17 +9,17 @@ Object::Object()
 
 }
 
-collisionDetails* Object::CheckCollision(Object *that)
+CollisionDetails* Object::checkCollision(Object *that)
 {
     int thisX2 = this->x + this->width;
     int thisY2 = this->y + this->height;
     int thatX2 = that->x + that->width;
     int thatY2 = that->y + that->height;
-    collisionDetails* collision = NULL;
+	CollisionDetails* collision = NULL;
 
     if ((this->x <= that->x && thatX2 >= thisX2) &&
             (this->y <= that->y && thisY2 <= thatY2)) {
-        //collision = new collisionDetails();
+		//collision = new CollisionDetails();
     }
     return NULL;
 }

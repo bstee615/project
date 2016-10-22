@@ -3,7 +3,7 @@
 #include <object.h>
 
 void UnitTest() {
-    Object(10,10,10,10,"face").CheckCollision(new Object(11,11,10,10,"notFace"));
+	Object(10,10,10,10,"face").checkCollision(new Object(11,11,10,10,"notFace"));
 }
 
 int main(int argc, char *argv[])

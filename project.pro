@@ -13,7 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwidget.cpp \
     object.cpp \
     highscore.cpp \
     world.cpp \
@@ -25,7 +24,8 @@ SOURCES += main.cpp\
     movingplatform.cpp \
     item.cpp \
     coin.cpp  \
-    enemy.cpp
+    enemy.cpp \
+    mainwidget.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
