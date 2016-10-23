@@ -34,12 +34,14 @@ public:
 	virtual int getY() {return y;}
 	virtual int getWidth() {return width;}
 	virtual int getHeight() {return height;}
+	virtual QString getImage() {return image;}
 	int getId() {return id;}
 
 	virtual void setX(int x_) {x = x_;}
 	virtual void setY(int y_) {y = y_;}
 	virtual void setWidth(int w_) {width = w_;}
 	virtual void setHeight(int h_) {height = h_;}
+	virtual void setImage(QString image_) {image = image_;}
 	void setId(int newId) { id = newId; }
 
 };

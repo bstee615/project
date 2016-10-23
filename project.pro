@@ -45,8 +45,9 @@ FORMS    += mainwidget.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 
-DISTFILES += \
-    GameFileFormat.txt
-
 RESOURCES += \
     resources.qrc
+
+OTHER_FILES += \
+    LevelFileFormat.txt \
+	GameFileFormat.txt

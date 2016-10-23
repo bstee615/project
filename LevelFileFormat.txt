@@ -1,0 +1,26 @@
+# Format:
+# Comma-delimited
+# Extension .lv (but it's really just a text file)
+
+# Start with time (an int)
+# Level size - width,height
+# Screen bounds - x,y coordinate with respect to the level for the viewing area to start in
+# Player start coordinate - x,y of top-left corner of player rectangle
+# Then list of objects in the level, laid out similar to a save state
+
+# Something like this:
+
+500
+1000,300
+0,0
+10,80
+Platform,120,350,100,50
+Platform,120,350,100,50
+Platform,120,350,100,50
+Platform,120,350,100,50
+Coin,10,80,10
+Coin,20,80,10
+Coin,30,80,10
+Coin,100,10,10
+Coin,150,5,50
+Coin,300,60,10

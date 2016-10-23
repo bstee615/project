@@ -60,9 +60,9 @@ public:
 
     // Get singleton
     static World& instance() { return world; }
+
+	// Load level stored in "<filename>.lv"
+	void loadLevel(string filename);
 };
-
-
-extern World world;
 
 #endif // WORLD_H
