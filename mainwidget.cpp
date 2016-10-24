@@ -4,16 +4,19 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "world.h"
+#include "QKeyEvent"
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::MainWidget)
 {
+    right = false;
+    left = false;
 	ui->setupUi(this);
 
 	QLabel* lblPlayer = NULL;
 
-    //World::instance().loadLevel("easy.lv");
+    World::instance().loadLevel("easy.lv");
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -41,4 +44,24 @@ MainWidget::MainWidget(QWidget *parent) :
 MainWidget::~MainWidget()
 {
 	delete ui;
+}
+
+void MainWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Left) {
+        this->left = true;
+    } else if (event->key() == Qt::Key_Right) {
+        this->right = true;
+    } else if (event->key() == Qt::Key_Space) {
+        //World::instance().getPlayer()->jump();
+    }
+}
+
+void MainWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Left) {
+        this->left = false;
+    } else if (event->key() == Qt::Key_Right) {
+        this->right = false;
+    }
 }
