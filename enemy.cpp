@@ -1,4 +1,6 @@
 #include "enemy.h"
+#include "world.h"
+#include "platform.h"
 
 Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_): Object(x_,y_,width_,height_,image_)
 {
@@ -11,4 +13,22 @@ void Enemy::move()
         // IF this were about to collide with another object,
         // THEN switch directions.
         // ELSE move right.
+
+}
+bool Enemy::somethingisBelow()
+{
+    vector<Object*> objects = World::instance().getObjects();
+
+    for (auto i: objects)
+    {
+        Platform* plat = dynamic_cast<Platform*>(i);
+
+        if (plat->getX() >= this->getX() && plat->getX() <= this->getX() + this->getWidth())
+        {
+            if (plat->getX() + plat->getWidth()  >= this->getX() && plat->getX() + plat->getWidth() <= this->getX() + this->getWidth())
+            {
+
+            }
+        }
+    }
 }
