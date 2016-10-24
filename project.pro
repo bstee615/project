@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     item.cpp \
     coin.cpp  \
     enemy.cpp \
-    mainwidget.cpp
+    mainwidget.cpp \
+    objectlabel.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwidget.h \
     movingplatform.h \
     item.h \
     coin.h \
-    enemy.h
+    enemy.h \
+    objectlabel.h
 
 FORMS    += mainwidget.ui
 
