@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::MainWidget *ui;
+
+    bool right;
+    bool left;
+
+    void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent * event);
 };
 
 #endif // MAINWIDGET_H

@@ -15,7 +15,7 @@ void Enemy::move()
         // ELSE move right.
 
 }
-bool Enemy::isAbovePlatform()
+bool Enemy::isOnPlatform()
 {
     vector<Object*> objects = World::instance().getObjects();
 
