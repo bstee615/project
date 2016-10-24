@@ -18,6 +18,5 @@
         <file>images/goldCoin/goldCoin2.png</file>
         <file>images/goldCoin/goldCoin1.png</file>
         <file>images/maincharacter/maincharacterstand.png</file>
-        <file>easy.lv</file>
     </qresource>
 </RCC>

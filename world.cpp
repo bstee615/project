@@ -178,4 +178,8 @@ void World::loadLevel(string filename)
 		}
 		file.close();
 	}
+	else
+	{
+		throw runtime_error("Failure to open level file");
+	}
 }

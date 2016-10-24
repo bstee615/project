@@ -32,7 +32,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(167, 255, 252);</string>
+     <string notr="true">background-color: rgb(177, 177, 177);</string>
     </property>
     <property name="text">
      <string/>

@@ -12,20 +12,8 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->setupUi(this);
 
 	QLabel* lblPlayer = NULL;
-//	lblPlayer->show();
-//	lblPlayer->setGeometry(0, 0, 25, 48);
-//	lblPlayer->setPixmap(QPixmap(":/images/maincharacter/maincharacterstand.png"));
 
-//	Platform* plat = new Platform(0, ui->worldWidget->geometry().height() - 60, 150, 60, "");
-//	World::instance().add(plat);
-//	Platform* plat2 = new Platform(100, 120, 150, 20, "");
-//	World::instance().add(plat2);
-//	Platform* plat3 = new Platform(200, ui->worldWidget->geometry().height() - 60, ui->worldWidget->geometry().width() - 200, 60, "");
-//	World::instance().add(plat3);
-
-	World::instance().loadLevel(":/easy.lv");
-
-	qDebug() << World::instance().getObjects().size();
+	World::instance().loadLevel("easy.lv");
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -42,7 +30,7 @@ MainWidget::MainWidget(QWidget *parent) :
 			Platform* platform = dynamic_cast<Platform*>(worldObj);
 			QLabel* lblPlatform = new QLabel(ui->worldWidget);
 			lblPlatform->setGeometry(platform->getX(), platform->getY(), platform->getWidth(), platform->getHeight());
-			lblPlatform->setStyleSheet(QStringLiteral("background-color: orange;"));
+			lblPlatform->setStyleSheet(QStringLiteral("background-color: gray;"));
 			lblPlatform->show();
 		}
 	}
