@@ -21,7 +21,12 @@ private slots:
       void timerHit();
 private:
     Ui::MainWidget *ui;
-    QTimer * timer;
+    QTimer * timer; 
+    bool right;
+    bool left;
+
+    void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent * event);
 };
 
 class ObjectLabel {

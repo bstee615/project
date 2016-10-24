@@ -5,6 +5,8 @@
 #include "ui_mainwidget.h"
 #include "world.h"
 #include <QTimer>
+#include "QKeyEvent"
+
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -15,6 +17,10 @@ MainWidget::MainWidget(QWidget *parent) :
     timer->setInterval(17);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
     LoadLevel("easy.lv");
+    right = false;
+    left = false;
+    ui->setupUi(this);
+
 }
 
 void MainWidget::LoadLevel(string filename)
@@ -65,4 +71,24 @@ void MainWidget::timerHit(){
 MainWidget::~MainWidget()
 {
 	delete ui;
+}
+
+void MainWidget::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Left) {
+        this->left = true;
+    } else if (event->key() == Qt::Key_Right) {
+        this->right = true;
+    } else if (event->key() == Qt::Key_Space) {
+        //World::instance().getPlayer()->jump();
+    }
+}
+
+void MainWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Left) {
+        this->left = false;
+    } else if (event->key() == Qt::Key_Right) {
+        this->right = false;
+    }
 }

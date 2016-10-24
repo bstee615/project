@@ -12,11 +12,14 @@
 #include "movingplatform.h"
 #include "player.h"
 #include "platform.h"
+#include "enemy.h"
 
 using namespace std;
 
 class World {
     vector<Object*> objects;
+    Player* player;
+    vector<Enemy*> enemies;
 
     // singleton instance
     static World world;
@@ -48,6 +51,8 @@ public:
     Object *getById(int id);
 
     vector<Object*>& getObjects() { return objects; }
+    vector<Enemy*>& getEnemies() { return enemies; }
+    Player* getPlayer() { return player; }
 
     // Removes object with <id> from objects and returns it, or returns NULL if not found
     Object *destroy(int id);
