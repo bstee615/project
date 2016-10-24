@@ -13,7 +13,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 	QLabel* lblPlayer = NULL;
 
-	World::instance().loadLevel("easy.lv");
+    //World::instance().loadLevel("easy.lv");
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
