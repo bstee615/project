@@ -35,7 +35,7 @@ public:
 	virtual int getWidth() {return width;}
 	virtual int getHeight() {return height;}
     virtual int getRightPoint() {return (x + width);}
-    virtual int getTopPoint() {return (y+height);}
+    virtual int getTopPoint() {return (y - height);}
 	virtual QString getImage() {return image;}
 	int getId() {return id;}
 

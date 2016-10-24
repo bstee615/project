@@ -15,7 +15,7 @@ void Enemy::move()
         // ELSE move right.
 
 }
-bool Enemy::somethingisBelow()
+bool Enemy::isAbovePlatform()
 {
     vector<Object*> objects = World::instance().getObjects();
 
@@ -23,12 +23,9 @@ bool Enemy::somethingisBelow()
     {
         Platform* plat = dynamic_cast<Platform*>(i);
 
-        if (plat->getX() >= this->getX() && plat->getX() <= this->getX() + this->getWidth())
+        if (this->getRightPoint() >= plat->getX() && this->getX() <= plat->getRightPoint())
         {
-            if (plat->getX() + plat->getWidth()  >= this->getX() && plat->getX() + plat->getWidth() <= this->getX() + this->getWidth())
-            {
 
-            }
         }
     }
 }

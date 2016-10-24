@@ -14,9 +14,7 @@ public:
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 
     void move();
-    bool somethingisBelow();
-
-
+    bool isAbovePlatform();
 };
 
 #endif // ENEMY_H
