@@ -21,7 +21,6 @@ class World {
     Player* player;
     vector<Enemy*> enemies;
 
-
     // singleton instance
     static World world;
 
