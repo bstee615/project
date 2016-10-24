@@ -15,8 +15,6 @@ public:
 
     void move();
     bool somethingisBelow();
-
-
 };
 
 #endif // ENEMY_H
