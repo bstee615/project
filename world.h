@@ -53,6 +53,7 @@ public:
     vector<Object*>& getObjects() { return objects; }
     vector<Enemy*>& getEnemies() { return enemies; }
 	Player* getPlayer() { return player; }
+    void setPlayer(Player* initPlayer) { player = initPlayer;}
 
     // Removes object with <id> from objects and returns it, or returns NULL if not found
     Object *destroy(int id);

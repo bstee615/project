@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     MainWidget w;
-    w.loadLevel("easy.lv");
     w.show();
 
     return a.exec();

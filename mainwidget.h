@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QLabel>
+#include"object.h"
+#include <QKeyEvent>
 
 namespace Ui {
 class MainWidget;
@@ -31,16 +33,23 @@ private slots:
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
+    Object* object;
 	QWidget * widget;
     int id;
 
     public:
 	explicit ObjectLabel(QWidget * parent): QLabel(parent) {
         widget = parent;
+        object = NULL;
     }
 
     int getId() { return id; }
     void setId(int newId) { id = newId; }
+    void setObject(Object* initObject) { object = initObject; }
+    Object* getObject(){ return object; }
+
+    // Updates the lable possistion to the position recoreded in the model
+    void updateLabelPosition() {setGeometry(object->getX(),object->getY(),object->getWidth(),object->getHeight());}
 
     signals:
         void clicked();

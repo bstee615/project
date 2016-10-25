@@ -7,12 +7,14 @@
 #include "ui_mainwidget.h"
 #include "world.h"
 #include "titlescreen.h"
+#include <iostream>
 
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
+    setFocus();
     ui->setupUi(this);
     timer = new QTimer(this);
     timer->setInterval(17);
@@ -23,6 +25,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	TitleScreen* titleScn = new TitleScreen(ui->worldWidget);
 	titleScn->show();
 	titleScn->raise();
+    timer->start();
 }
 
 void MainWidget::loadLevel(string filename)
@@ -30,19 +33,20 @@ void MainWidget::loadLevel(string filename)
     ObjectLabel* lblPlayer = NULL;
 
     World::instance().loadLevel(filename);
+    World& world = World::instance();
+
+    Player* player = world.getPlayer();
+    lblPlayer = new ObjectLabel(ui->worldWidget);
+    lblPlayer->setParent(ui->lblBackground);
+    lblPlayer->show();
+    lblPlayer->setGeometry(player->getX(), player->getY(), player->getWidth(), player->getHeight());
+    lblPlayer->setPixmap(QPixmap(player->getImage()));
+    lblPlayer->setObject(player);
 
     for (Object* worldObj : World::instance().getObjects())
     {
-        if (dynamic_cast<Player*>(worldObj) != NULL)
-        {
-            Player* player = dynamic_cast<Player*>(worldObj);
-			lblPlayer = new ObjectLabel(ui->worldWidget);
-            lblPlayer->setParent(ui->lblBackground);
-            lblPlayer->show();
-            lblPlayer->setGeometry(player->getX(), player->getY(), player->getWidth(), player->getHeight());
-            lblPlayer->setPixmap(QPixmap(player->getImage()));
-        }
-        else if (dynamic_cast<Platform*>(worldObj) != NULL)
+
+        if (dynamic_cast<Platform*>(worldObj) != NULL)
         {
             Platform* platform = dynamic_cast<Platform*>(worldObj);
 			ObjectLabel* lblPlatform = new ObjectLabel(ui->worldWidget);
@@ -50,6 +54,7 @@ void MainWidget::loadLevel(string filename)
             lblPlatform->setGeometry(platform->getX(), platform->getY(), platform->getWidth(), platform->getHeight());
             lblPlatform->setStyleSheet(QStringLiteral("background-color: gray;"));
             lblPlatform->show();
+            lblPlatform->setObject(platform);
         }
     }
     if (lblPlayer != NULL)
@@ -59,13 +64,25 @@ void MainWidget::loadLevel(string filename)
 void MainWidget::timerHit(){
 
     //program 4 code below (for reference)
-    ObjectLabel * guiObject;
-    Object * modelObject;
+    World& world = World::instance();
+    Player* player = world.getPlayer();
+    if ((right && left) || (!right && !left)) {
+        player->slowToStop();
+    } else if (right) {
+        player->moveRight();
+    } else if (left) {
+        player->moveLeft();
+    }
+
+    player->move();
+
+    cout << player->getX() << endl;
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
-         guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
-         int id = guiObject->getId();
-         modelObject = World::instance().getById(id);
-         //update position of each object in GUI and in the model
+         ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
+         if (guiObject != NULL) {
+            guiObject->updateLabelPosition();
+
+         }
 
     }
 
@@ -81,10 +98,12 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Left) {
         this->left = true;
+        cout << "left" << endl;
     } else if (event->key() == Qt::Key_Right) {
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
-        //World::instance().getPlayer()->jump();
+        Player* player = World::instance().getPlayer();
+        player->jump();
     }
 }
 

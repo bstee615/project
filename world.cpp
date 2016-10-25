@@ -126,7 +126,7 @@ void World::loadLevel(string filename)
 		int pX = stoi(playerCoord.at(0));
 		int pY = stoi(playerCoord.at(1));
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/maincharacterstand.png");
-		World::instance().add(player);
+        World::instance().setPlayer(player);
 
 		while (getline(file, line))
 		{

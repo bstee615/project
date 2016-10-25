@@ -1,5 +1,10 @@
 #include "player.h"
 
+void Player::jump()
+{
+    ySpeed -= 10;
+}
+
 void Player::moveRight()
 {
     if (xSpeed < 5) {
@@ -14,4 +19,22 @@ void Player::moveLeft()
         xSpeed += -1;
     }
     x += xSpeed;
+}
+
+void Player::slowToStop()
+{
+    if (xSpeed == 0) {
+        return;
+    } else if(xSpeed > 0) {
+        --xSpeed;
+        return;
+    } else {
+        ++xSpeed;
+    }
+}
+
+void Player::move()
+{
+    x += xSpeed;
+    y += ySpeed;
 }
