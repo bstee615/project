@@ -52,7 +52,7 @@ public:
 
     vector<Object*>& getObjects() { return objects; }
     vector<Enemy*>& getEnemies() { return enemies; }
-    Player* getPlayer() { return player; }
+	Player* getPlayer() { return player; }
 
     // Removes object with <id> from objects and returns it, or returns NULL if not found
     Object *destroy(int id);

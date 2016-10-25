@@ -16,7 +16,7 @@ public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
 
-    void LoadLevel(std::string filename);
+    void loadLevel(std::string filename);
 
 private:
     Ui::MainWidget *ui;
@@ -31,11 +31,11 @@ private slots:
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
-    MainWidget * widget;
+	QWidget * widget;
     int id;
 
     public:
-    explicit ObjectLabel(MainWidget * parent): QLabel(parent) {
+	explicit ObjectLabel(QWidget * parent): QLabel(parent) {
         widget = parent;
     }
 
