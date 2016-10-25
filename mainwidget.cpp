@@ -14,10 +14,9 @@ MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
-    setFocus();
     ui->setupUi(this);
     timer = new QTimer(this);
-    timer->setInterval(17);
+    timer->setInterval(33);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 	loadLevel("easy.lv");
     right = false;
@@ -75,9 +74,10 @@ void MainWidget::timerHit(){
     }
 
     player->move();
-
     cout << player->getX() << endl;
+
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
+         QCoreApplication::processEvents();
          ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
          if (guiObject != NULL) {
             guiObject->updateLabelPosition();
@@ -98,7 +98,6 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Left) {
         this->left = true;
-        cout << "left" << endl;
     } else if (event->key() == Qt::Key_Right) {
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
@@ -115,3 +114,4 @@ void MainWidget::keyReleaseEvent(QKeyEvent *event)
         this->right = false;
     }
 }
+

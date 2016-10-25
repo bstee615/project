@@ -35,6 +35,7 @@ void Player::slowToStop()
 
 void Player::move()
 {
+    //++ySpeed;
     x += xSpeed;
     y += ySpeed;
 }

@@ -26,8 +26,8 @@ private:
     bool right;
     bool left;
 private slots:
-    void keyPressEvent(QKeyEvent * event);
-    void keyReleaseEvent(QKeyEvent * event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
 };
 

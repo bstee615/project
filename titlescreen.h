@@ -13,13 +13,14 @@ class TitleScreen : public QWidget
 
 public:
 	explicit TitleScreen(QWidget *parent = 0);
-	~TitleScreen();
+    ~TitleScreen();
 
 private slots:
 	void on_btnStart_clicked();
 
 private:
 	Ui::TitleScreen *ui;
+    QWidget* widgetParent;
 };
 
 #endif // TITLESCREEN_H
