@@ -1,11 +1,12 @@
 #include <QLabel>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QTimer>
+#include "QKeyEvent"
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "world.h"
-#include <QTimer>
-#include "QKeyEvent"
+#include "titlescreen.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -16,14 +17,15 @@ MainWidget::MainWidget(QWidget *parent) :
     timer = new QTimer(this);
     timer->setInterval(17);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-    LoadLevel("easy.lv");
+	loadLevel("easy.lv");
     right = false;
     left = false;
-    ui->setupUi(this);
-
+	TitleScreen* titleScn = new TitleScreen(ui->worldWidget);
+	titleScn->show();
+	titleScn->raise();
 }
 
-void MainWidget::LoadLevel(string filename)
+void MainWidget::loadLevel(string filename)
 {
     ObjectLabel* lblPlayer = NULL;
 
@@ -34,7 +36,7 @@ void MainWidget::LoadLevel(string filename)
         if (dynamic_cast<Player*>(worldObj) != NULL)
         {
             Player* player = dynamic_cast<Player*>(worldObj);
-            lblPlayer = new ObjectLabel(this);
+			lblPlayer = new ObjectLabel(ui->worldWidget);
             lblPlayer->setParent(ui->lblBackground);
             lblPlayer->show();
             lblPlayer->setGeometry(player->getX(), player->getY(), player->getWidth(), player->getHeight());
@@ -43,7 +45,7 @@ void MainWidget::LoadLevel(string filename)
         else if (dynamic_cast<Platform*>(worldObj) != NULL)
         {
             Platform* platform = dynamic_cast<Platform*>(worldObj);
-            ObjectLabel* lblPlatform = new ObjectLabel(this);
+			ObjectLabel* lblPlatform = new ObjectLabel(ui->worldWidget);
             lblPlatform->setParent(ui->lblBackground);
             lblPlatform->setGeometry(platform->getX(), platform->getY(), platform->getWidth(), platform->getHeight());
             lblPlatform->setStyleSheet(QStringLiteral("background-color: gray;"));
