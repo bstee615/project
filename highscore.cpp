@@ -1,21 +1,21 @@
 	#include "highscore.h"
 
-	HighScore* HighScore::highscore =  nullptr;
+	HighScore* HighScore::instance_ =  nullptr;
 	
 	HighScore& HighScore::instance() {
-		if (highscore == nullptr) {
-			highscore = new HighScore();
+		if (instance_== nullptr) {
+			instance_ = new HighScore();
 		}
-		return *highscore;
+		return *instance_;
 		
 	}
 	//read in the high scores numbers and users from a file into two vectors
 	//or exits if there is no file with the specified name
-	void HighScore::LoadScore () {
+	void HighScore::LoadScore (string filename) {
 			string name;
 			int score;
 			ifstream file;
-			file.open ("highscores.txt");
+			file.open (filename);
 		
 		if (file.is_open()) {
 			while (file >> name >> score) {
@@ -23,8 +23,9 @@
 				names.push_back(name);
 			}
 		} else {
-			cout << "The file couldn't be opened" << endl;
+			throw string ("The file couldn't be opened");
 		}
+		
 		file.close();
 	}
 	
@@ -46,7 +47,7 @@
 	}
 	
 	//writes the scores and names in the vector to the file
-	void HighScore::SaveScores() {
+	void HighScore::SaveScores(string filename) {
 		ofstream file;
 		file.open ("highscores.txt");
 			if (file.is_open()) {
@@ -54,25 +55,39 @@
 					file << names.at(i)  <<" " << scores.at(i) << endl;
 				}
 		} else {
-			cout << "The file couldn't be opened" << endl;
+			throw string ("The file couldn't be opened");
 		}
 		file.close();
 	}
 	
 
 	void HighScore::UnitTests() {
+		
 			//unit tests
 			HighScore h;
-			h.LoadScore();
+			try {
+			h.LoadScore("thiswon'twork.txt");
+			} catch (string& str) {}
+			h.LoadScore("highscores.txt");
 			assert(h.getScore(0) == 1200);
 			assert(h.getName(0) == "Jill");
+		
+			assert(h.getScore(9) == 50);
+			assert(h.getName(9) == "Billy");
+		
 			h.NewHighScore("Joe", 500);
+		
 			assert(h.getScore(5) == 500);
 			assert(h.getName(5) == "Joe");
-			h.SaveScores();
 			
+			assert(h.getScore(9) == 100);
+			assert(h.getName(9) == "Jake");
+			
+			h.SaveScores("thisalsowon'twork.txt");
+			h.SaveScores("highscores.txt");
+					
 	}
 	
 	void HighScore::teardown() {
-		delete highscore;
+		delete instance_;
 	}

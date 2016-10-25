@@ -11,10 +11,10 @@ using namespace std;
 
 class HighScore {
 private:
-    vector<int> scores;
-    vector <string> names;
-	static HighScore* highscore;
-    HighScore() {}
+     vector<int> scores;
+     vector <string> names;
+     static HighScore* instance_;
+     HighScore() {}
      HighScore(const HighScore& that) = delete; //prevent copying
 	    
 public: 
@@ -22,13 +22,13 @@ public:
 
 	//loads the top 10 high scores from a file into the vector
 	//or creates a new one
-	void LoadScore();
+	void LoadScore(string filename);
 
 	//inserts a new score and name into the corresponding vectors
 	void NewHighScore(string name, int score);
 
 	//saves the current scores in the vector to a file
-	void SaveScores();
+	void SaveScores(string filename);
 
 	//returns the score at the specified place in the vector
 	int getScore(int i) { return scores.at(i); };
