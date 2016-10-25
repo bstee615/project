@@ -25,7 +25,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::LoadLevel(string filename)
 {
-    QLabel* lblPlayer = NULL;
+    ObjectLabel* lblPlayer = NULL;
 
     World::instance().loadLevel(filename);
 
@@ -34,7 +34,8 @@ void MainWidget::LoadLevel(string filename)
         if (dynamic_cast<Player*>(worldObj) != NULL)
         {
             Player* player = dynamic_cast<Player*>(worldObj);
-            lblPlayer = new QLabel(ui->worldWidget);
+            lblPlayer = new ObjectLabel(this);
+            lblPlayer->setParent(ui->lblBackground);
             lblPlayer->show();
             lblPlayer->setGeometry(player->getX(), player->getY(), player->getWidth(), player->getHeight());
             lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -42,7 +43,8 @@ void MainWidget::LoadLevel(string filename)
         else if (dynamic_cast<Platform*>(worldObj) != NULL)
         {
             Platform* platform = dynamic_cast<Platform*>(worldObj);
-            QLabel* lblPlatform = new QLabel(ui->worldWidget);
+            ObjectLabel* lblPlatform = new ObjectLabel(this);
+            lblPlatform->setParent(ui->lblBackground);
             lblPlatform->setGeometry(platform->getX(), platform->getY(), platform->getWidth(), platform->getHeight());
             lblPlatform->setStyleSheet(QStringLiteral("background-color: gray;"));
             lblPlatform->show();
