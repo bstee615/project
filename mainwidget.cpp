@@ -121,7 +121,7 @@ void MainWidget::timerHit(){
             delete collision;
         }
     }
-    //cout << player->getY() << endl; // enable for testing purposes.
+    //cout << player->getX() << "," << player->getY() << endl; // enable for testing purposes.
 
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();
@@ -168,7 +168,7 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        player->jump();
+        //player->jump();
         player->setJumpOnMove(true);
     }
 }
