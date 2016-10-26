@@ -1,9 +1,52 @@
 #include "object.h"
 #include <QRect>
+#include <cassert>
+#include <iostream>
 
 int Object::nextID = 0;
 
 void Object::resetNextId() {nextID = 0;}
+
+void Object::unitTest()
+{
+    Object* one = new Object(10,10,10,10,"one");
+    Object* two = new Object(5,15,20,20,"two");
+    CollisionDetails* collision = one->checkCollision(two);
+
+    assert(collision->getXStopCollide() == 0);
+    assert(collision->getYStopCollide() == -5);
+
+    delete two;
+    delete collision;
+
+    two = new Object(5,5,20,10,"two");
+    collision = one->checkCollision(two);
+
+    assert(collision->getXStopCollide() == 0);
+    assert(collision->getYStopCollide() == 5);
+
+    delete two;
+    delete collision;
+
+    two = new Object(15,5,20,20,"two");
+    collision = one->checkCollision(two);
+
+    assert(collision->getXStopCollide() == -5);
+    assert(collision->getYStopCollide() == 0);
+
+    delete two;
+    delete collision;
+
+    two = new Object(5,5,10,20,"two");
+    collision = one->checkCollision(two);
+
+    assert(collision->getXStopCollide() == 5);
+    assert(collision->getYStopCollide() == 0);
+
+    delete one;
+    delete two;
+    delete collision;
+}
 
 Object::Object()
 {

@@ -50,6 +50,8 @@ public:
 
     bool isOnObject(Object* that);
 
+    static void unitTest();
+
 };
 
 #endif // OBJECT_H

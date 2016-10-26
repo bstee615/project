@@ -4,17 +4,16 @@
 #include <object.h>
 
 void UnitTest() {
-	Object(10,10,10,10,"face").checkCollision(new Object(11,11,10,10,"notFace"));
-	World::instance().reset();
+    Object::unitTest();
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc == 2){
-        if (argv[1] == "-test"){
+    //if (argc == 2){
+    //    if (argv[1] == "-test"){
             UnitTest();
-        }
-    }
+    //    }
+    //}
 
     QApplication a(argc, argv);
     MainWidget w;
