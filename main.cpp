@@ -9,11 +9,11 @@ void UnitTest() {
 
 int main(int argc, char *argv[])
 {
-    //if (argc == 2){
-    //    if (argv[1] == "-test"){
+    if (argc == 2){
+        if (argv[1] == "-test"){
             UnitTest();
-    //    }
-    //}
+        }
+    }
 
     QApplication a(argc, argv);
     MainWidget w;
