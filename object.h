@@ -35,7 +35,7 @@ public:
 	virtual int getWidth() {return width;}
 	virtual int getHeight() {return height;}
     virtual int getRightPoint() {return (x + width);}
-    virtual int getTopPoint() {return (y - height);}
+    virtual int getBottomPoint() {return (y + height);}
 	virtual QString getImage() {return image;}
 	int getId() {return id;}
 
@@ -47,6 +47,18 @@ public:
 	void setId(int newId) { id = newId; }
 
     virtual void collide(CollisionDetails* details) {}
+
+    bool isOnObject(Object* that)
+    {
+        if (this->getRightPoint() >= that->getX() && this->getX() <= that->getRightPoint())
+        {
+            if (this->getBottomPoint() >= that->getY() - 5)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 };
 

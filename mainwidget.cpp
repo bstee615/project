@@ -74,7 +74,7 @@ void MainWidget::timerHit(){
     }
 
     player->move();
-    for(int i = 0; i < world.getObjects().size() ; ++i) {
+    for(size_t i = 0; i < world.getObjects().size() ; ++i) {
         QCoreApplication::processEvents();
         CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
         if (collision != NULL) {
@@ -110,7 +110,20 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        player->jump();
+        checkJump(player);
+    }
+}
+void MainWidget::checkJump(Player* player)
+{
+    World& world = World::instance();
+
+    for(size_t i = 0; i < world.getObjects().size() ; ++i) {
+        QCoreApplication::processEvents();
+
+        if (player->isOnObject(world.getObjects().at(i)))
+        {
+            player->jump();
+        }
     }
 }
 

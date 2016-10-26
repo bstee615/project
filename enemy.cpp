@@ -9,11 +9,36 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage
 }
 void Enemy::move()
 {
-    // TO DO: add checkCollision if statement.
-        // IF this were about to collide with another object,
-        // THEN switch directions.
-        // ELSE move right.
+    if (right)
+    {
+        x += speed;
+    }
+    else
+    {
+        x -= speed;
+    }
 
+    World& world = World::instance();
+    for (int i = 0; i < world.getObjects().size(); i ++)
+    {
+        CollisionDetails* col = this->checkCollision(world.getObjects().at(i));
+        if (col != NULL)
+        {
+            this->collide(col);
+            delete col;
+        }
+    }
+}
+void Enemy::collide(CollisionDetails *details)
+{
+    if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
+        if (details->getXStopCollide() != 0) {
+            x += details->getXStopCollide();
+        }
+        if (details->getYStopCollide() != 0) {
+            y += details->getYStopCollide();
+        }
+    }
 }
 bool Enemy::isOnPlatform()
 {

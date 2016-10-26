@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include"object.h"
+#include "player.h"
 #include <QKeyEvent>
 
 namespace Ui {
@@ -29,6 +30,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
+    void checkJump(Player* player);
 };
 
 class ObjectLabel : public QLabel {
