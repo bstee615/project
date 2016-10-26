@@ -1,4 +1,5 @@
 #include "object.h"
+#include <QRect>
 
 int Object::nextID = 0;
 
@@ -20,11 +21,41 @@ CollisionDetails* Object::checkCollision(Object *that)
     int thisY2 = this->y + this->height;
     int thatX2 = that->x + that->width;
     int thatY2 = that->y + that->height;
-	CollisionDetails* collision = NULL;
 
-    if ((this->x <= that->x && thatX2 >= thisX2) &&
-            (this->y <= that->y && thisY2 <= thatY2)) {
-		//collision = new CollisionDetails();
+    QRect thatRec = QRect(that->x,that->y,that->width,that->height);
+    QRect thisRec = QRect(this->x,this->y,this->width,this->height);
+
+    if (thisRec.intersects(thatRec)) {
+        QRect thatRec = QRect(that->x,that->y,that->width,that->height);
+        bool topLeft = thatRec.contains(thisRec.topLeft());
+        bool topRight = thatRec.contains(thisRec.topRight());
+        bool bottomLeft = thatRec.contains(thisRec.bottomLeft());
+        bool bottomRight = thatRec.contains(thisRec.bottomRight());
+
+        // distances that would stop the collision
+        int xStopCollide = 0;
+        int yStopCollide = 0;
+
+        if ((topLeft && topRight && bottomLeft && bottomRight) || (!topLeft && !topRight && bottomLeft && bottomRight)) {
+            yStopCollide = that->y - thisY2;
+        } else if (!topLeft && topRight && bottomLeft && bottomRight) {
+            xStopCollide = that->x - thisX2;
+            yStopCollide = that->y - thisY2;
+        } else if (topLeft && !topRight && bottomLeft && bottomRight) {
+            xStopCollide = thatX2 - this->x;
+            yStopCollide = that->y - thisY2;
+        } else if (topLeft && topRight && !bottomLeft && !bottomRight) {
+            yStopCollide = thatY2 - this->y;
+        } else if (!topLeft && topRight && !bottomLeft && bottomRight) {
+            xStopCollide = that->x - thisX2;
+        } else if (topLeft && !topRight && bottomLeft && !bottomRight) {
+            xStopCollide = thatX2 - this->x;
+        } else {
+            yStopCollide = that->y - thisY2;
+        }
+
+        return new CollisionDetails(xStopCollide, yStopCollide, that);
+
     }
     return NULL;
 }

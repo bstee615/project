@@ -74,7 +74,15 @@ void MainWidget::timerHit(){
     }
 
     player->move();
-    cout << player->getX() << endl;
+    for(int i = 0; i < world.getObjects().size() ; ++i) {
+        QCoreApplication::processEvents();
+        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
+        if (collision != NULL) {
+            player->collide(collision);
+            delete collision;
+        }
+    }
+    cout << player->getY() << endl;
 
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "platform.h"
 
 void Player::jump()
 {
@@ -35,7 +36,21 @@ void Player::slowToStop()
 
 void Player::move()
 {
-    //++ySpeed;
+    ++ySpeed;
     x += xSpeed;
     y += ySpeed;
+}
+
+void Player::collide(CollisionDetails *details)
+{
+    if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
+        if (details->getXStopCollide() != 0) {
+            xSpeed = 0;
+            x += details->getXStopCollide();
+        }
+        if (details->getYStopCollide() != 0) {
+            ySpeed = 0;
+            y += details->getYStopCollide();
+        }
+    }
 }

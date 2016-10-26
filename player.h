@@ -17,6 +17,7 @@ public:
     void moveLeft();
     void slowToStop();
     void move();
+    virtual void collide(CollisionDetails *details);
 };
 
 #endif // PLAYER_H

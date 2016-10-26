@@ -46,6 +46,8 @@ public:
 	virtual void setImage(QString image_) {image = image_;}
 	void setId(int newId) { id = newId; }
 
+    virtual void collide(CollisionDetails* details) {}
+
 };
 
 #endif // OBJECT_H
