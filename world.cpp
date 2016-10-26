@@ -112,8 +112,8 @@ void World::loadLevel(string filename)
 		int time = stoi(line);
 		getline(file, line);
 		vector<string> levelDim = split(line, ",");
-		int levelWidth = stoi(levelDim.at(0));
-		int levelHeight = stoi(levelDim.at(1));
+        width = stoi(levelDim.at(0));
+        height = stoi(levelDim.at(1));
 		getline(file, line);
 		vector<string> screenCoord = split(line, ",");
 		int screenX = stoi(screenCoord.at(0));
