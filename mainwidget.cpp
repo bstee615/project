@@ -110,7 +110,8 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        checkJump(player);
+        player->setJumpOnMove(true);
+        //checkJump(player);
     }
 }
 void MainWidget::checkJump(Player* player)

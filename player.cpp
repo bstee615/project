@@ -36,9 +36,15 @@ void Player::slowToStop()
 
 void Player::move()
 {
+    if (jumpOnMove && onPlatform) {
+        jump();
+    }
     ++ySpeed;
     x += xSpeed;
     y += ySpeed;
+
+    jumpOnMove = false;
+    onPlatform = false;
 }
 
 void Player::collide(CollisionDetails *details)
@@ -51,6 +57,9 @@ void Player::collide(CollisionDetails *details)
         if (details->getYStopCollide() != 0) {
             ySpeed = 0;
             y += details->getYStopCollide();
+            if (details->getYStopCollide() < 0) {
+                onPlatform = true;
+            }
         }
     }
 }
