@@ -62,6 +62,8 @@ CollisionDetails* Object::checkCollision(Object *that)
             xStopCollide = that->x - thisX2;
         } else if (topLeft && !topRight && bottomLeft && !bottomRight) {
             xStopCollide = thatX2 - this->x;
+        } else if ((!topLeft && topRight && !bottomLeft && !bottomRight) || (topLeft && !topRight && !bottomLeft && !bottomRight)) {
+            yStopCollide = thatY2 - this->y;
         } else {
             yStopCollide = that->y - thisY2;
         }
