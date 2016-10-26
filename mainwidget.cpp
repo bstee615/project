@@ -82,7 +82,7 @@ void MainWidget::timerHit(){
             delete collision;
         }
     }
-    cout << player->getY() << endl;
+    //cout << player->getY() << endl; // enable for testing purposes.
 
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();
@@ -94,6 +94,25 @@ void MainWidget::timerHit(){
 
     }
 
+    resetOnDeath(player);
+}
+
+// PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
+void MainWidget::resetOnDeath(Player* player)
+{
+    if (player->getBottomPoint() > World::instance().getHeight())
+    {
+        player->setX(29);
+        player->setY(212);
+    }
+    if (player->getX() < ui->lblBackground->x())
+    {
+        player->setX(ui->lblBackground->width() - player->getWidth());
+    }
+    if (player->getRightPoint() > ui->lblBackground->width())
+    {
+        player->setX(ui->lblBackground->x());
+    }
 }
 
 

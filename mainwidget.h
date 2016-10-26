@@ -31,6 +31,7 @@ private slots:
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
     void checkJump(Player* player);
+    void resetOnDeath(Player* player);
 };
 
 class ObjectLabel : public QLabel {

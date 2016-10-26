@@ -26,7 +26,10 @@ class World {
 
     // singleton: private ctors
     World() { }
-    World(const World& that) = delete;  // don't allow copying    
+    World(const World& that) = delete;  // don't allow copying
+
+    int height;
+    int width;
 
 public:
 
@@ -69,6 +72,9 @@ public:
 
 	// Load level stored in "<filename>.lv"
 	void loadLevel(string filename);
+
+    int getHeight() { return height; }
+    int getWidth() { return width; }
 };
 
 #endif // WORLD_H
