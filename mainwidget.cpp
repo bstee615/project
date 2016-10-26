@@ -2,12 +2,13 @@
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QTimer>
-#include "QKeyEvent"
+#include <QKeyEvent>
+#include <iostream>
+
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include "world.h"
 #include "titlescreen.h"
-#include <iostream>
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -99,7 +100,6 @@ void MainWidget::timerHit(){
 
     if ((right && left) || (!right && !left)) {
         player->slowToStop();
-        player->setImage(":/images/maincharacter/stand.png");
         labelPlayer->setPixmap(player->getImage());
         countWalk = 0;
     } else if (right) {
@@ -168,34 +168,20 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        if (canJump(player))
-            player->jump();
+        player->jump();
         player->setJumpOnMove(true);
     }
 }
 
-// returns true if the player can jump (read:is on an object), false if not.
-bool MainWidget::canJump(Player* player)
-{
-    World& world = World::instance();
-
-    for(size_t i = 0; i < world.getObjects().size() ; ++i) {
-        QCoreApplication::processEvents();
-
-        if (player->isOnObject(world.getObjects().at(i)))
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
 {
+    Player* player = World::instance().getPlayer();
     if (event->key() == Qt::Key_Left) {
         this->left = false;
+        player->setImage(":/images/maincharacter/standleft.png");
     } else if (event->key() == Qt::Key_Right) {
         this->right = false;
+        player->setImage(":/images/maincharacter/stand.png");
     }
 }
 

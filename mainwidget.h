@@ -3,10 +3,12 @@
 
 #include <QWidget>
 #include <QLabel>
-#include"object.h"
-#include "player.h"
 #include <QKeyEvent>
 #include <QImage>
+#include <QObject>
+
+#include"object.h"
+#include "player.h"
 
 class ObjectLabel : public QLabel {
     Q_OBJECT

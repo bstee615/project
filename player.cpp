@@ -3,7 +3,8 @@
 
 void Player::jump()
 {
-    ySpeed -= 10;
+    if (jumpOnMove)
+        ySpeed -= 10;
 }
 
 void Player::moveRight()
@@ -25,11 +26,9 @@ void Player::moveLeft()
 void Player::slowToStop()
 {
     if (xSpeed == 0) {
-        image = ":/images/maincharacter/stand.png";
         return;
     } else if(xSpeed > 0) {
         --xSpeed;
-        image = ":/images/maincharacter/jump4.png";
         return;
     } else {
         ++xSpeed;
