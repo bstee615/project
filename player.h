@@ -7,10 +7,12 @@ class Player : public Object
 {
     int xSpeed;
     int ySpeed;
+    bool jumpOnMove;
+    bool onPlatform;
 public:
-    Player() : Object(), xSpeed(0),ySpeed(0) {}
+    Player() : Object(), xSpeed(0),ySpeed(0),jumpOnMove(false),onPlatform(false) {}
 	Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), xSpeed(0), ySpeed(0) {}
+        Object(x_, y_, width_, height_, image_), xSpeed(0), ySpeed(0), jumpOnMove(false), onPlatform(false) {}
 
     void jump();
     void moveRight();
@@ -18,6 +20,8 @@ public:
     void slowToStop();
     void move();
     virtual void collide(CollisionDetails *details);
+
+    void setJumpOnMove(bool initJump) { jumpOnMove = initJump; }
 };
 
 #endif // PLAYER_H

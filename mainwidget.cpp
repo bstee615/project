@@ -170,6 +170,7 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         Player* player = World::instance().getPlayer();
         if (canJump(player))
             player->jump();
+        player->setJumpOnMove(true);
     }
 }
 
