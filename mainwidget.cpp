@@ -25,6 +25,8 @@ MainWidget::MainWidget(QWidget *parent) :
 	titleScn->show();
 	titleScn->raise();
     timer->start();
+
+    countWalk = 0;
 }
 
 void MainWidget::loadLevel(string filename)
@@ -42,6 +44,7 @@ void MainWidget::loadLevel(string filename)
     lblPlayer->setPixmap(QPixmap(player->getImage()));
     lblPlayer->setObject(player);
 
+
     for (Object* worldObj : World::instance().getObjects())
     {
 
@@ -57,7 +60,33 @@ void MainWidget::loadLevel(string filename)
         }
     }
     if (lblPlayer != NULL)
+    {
         lblPlayer->raise();
+        labelPlayer = lblPlayer;
+    }
+}
+
+void MainWidget::setWalkImage(Player* player)
+{
+    QString imagename = ":/images/maincharacter/walk";
+    if (countWalk < 7)
+    {
+        imagename += "1";
+    }
+    else if (countWalk < 15)
+    {
+        imagename += "2";
+    }
+    else if (countWalk == 15)
+    {
+        countWalk = 0;
+        imagename += "1";
+    }
+
+    if (left)
+        imagename += "left";
+    imagename += ".png";
+    player->setImage(imagename);
 }
 
 void MainWidget::timerHit(){
@@ -65,12 +94,22 @@ void MainWidget::timerHit(){
     //program 4 code below (for reference)
     World& world = World::instance();
     Player* player = world.getPlayer();
+
+    countWalk++;
+
     if ((right && left) || (!right && !left)) {
         player->slowToStop();
+        player->setImage(":/images/maincharacter/stand.png");
+        labelPlayer->setPixmap(player->getImage());
+        countWalk = 0;
     } else if (right) {
         player->moveRight();
+        setWalkImage(player);
+        labelPlayer->setPixmap(player->getImage());
     } else if (left) {
         player->moveLeft();
+        setWalkImage(player);
+        labelPlayer->setPixmap(player->getImage());
     }
 
     player->move();
@@ -129,10 +168,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        checkJump(player);
+        if (canJump(player))
+            player->jump();
     }
 }
-void MainWidget::checkJump(Player* player)
+
+// returns true if the player can jump (read:is on an object), false if not.
+bool MainWidget::canJump(Player* player)
 {
     World& world = World::instance();
 
@@ -141,9 +183,10 @@ void MainWidget::checkJump(Player* player)
 
         if (player->isOnObject(world.getObjects().at(i)))
         {
-            player->jump();
+            return true;
         }
     }
+    return false;
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)

@@ -125,7 +125,7 @@ void World::loadLevel(string filename)
 		vector<string> playerCoord = split(line, ",");
 		int pX = stoi(playerCoord.at(0));
 		int pY = stoi(playerCoord.at(1));
-		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/maincharacterstand.png");
+        Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
         World::instance().setPlayer(player);
 
 		while (getline(file, line))

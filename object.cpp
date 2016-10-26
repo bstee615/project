@@ -15,6 +15,18 @@ Object::~Object()
 
 }
 
+bool Object::isOnObject(Object* that)
+{
+    if (this->getRightPoint() >= that->getX() && this->getX() <= that->getRightPoint())
+    {
+        if (this->getBottomPoint() >= that->getY() - 5)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 CollisionDetails* Object::checkCollision(Object *that)
 {
     int thisX2 = this->x + this->width;

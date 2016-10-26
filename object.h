@@ -48,17 +48,7 @@ public:
 
     virtual void collide(CollisionDetails* details) {}
 
-    bool isOnObject(Object* that)
-    {
-        if (this->getRightPoint() >= that->getX() && this->getX() <= that->getRightPoint())
-        {
-            if (this->getBottomPoint() >= that->getY() - 5)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    bool isOnObject(Object* that);
 
 };
 
