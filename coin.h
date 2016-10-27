@@ -9,6 +9,8 @@ class Coin : public Collectible
 	private:
 		int amount;
 	public:
+        Coin () : Collectible() {}
+        Coin(int x_, int y_, int width_, int height_, QString image_, string type_, bool visibility_, int newAmount);
 		int getAmount() { return amount; }
 		void setAmount(int newAmount) { amount = newAmount; }
 };

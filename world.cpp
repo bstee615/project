@@ -174,6 +174,26 @@ void World::loadLevel(string filename)
 
 				continue;
 			}
+            Coin* coin = dynamic_cast<Coin*>(obj);
+            if (coin != NULL)
+            {
+                int x = stoi(params.at(1));
+                int y = stoi(params.at(2));
+                int width = stoi(params.at(3));
+                int height = stoi(params.at(4));
+                int value = stoi(params.at(5));
+
+                coin->setX(x);
+                coin->setY(y);
+                coin->setHeight(height);
+                coin->setWidth(width);
+                coin->setImage(":/images/goldCoin/goldCoin1.png");
+                coin->setAmount(value);
+                coin->setVisibility(true);
+                World::instance().add(coin);
+
+                continue;
+            }
 		}
 		file.close();
 	}

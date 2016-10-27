@@ -80,10 +80,24 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="lblHighScores">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>270</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>High Scores</string>
+   </property>
+  </widget>
   <zorder>lblBackground</zorder>
   <zorder>label</zorder>
   <zorder>btnStart</zorder>
   <zorder>label_2</zorder>
+  <zorder>lblHighScores</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>

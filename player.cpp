@@ -1,7 +1,8 @@
 #include "player.h"
 #include "platform.h"
 #include "enemy.h"
-#include "collectible.h"
+#include "coin.h"
+#include "world.h"
 
 void Player::jump()
 {
@@ -75,7 +76,11 @@ void Player::collide(CollisionDetails *details)
                 onPlatform = true;
             }
         }
-    } else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL) {
-        // if the player collides with a Collectable collect it
+    } else if (dynamic_cast<Coin*>(details->getCollided()) != NULL) {
+        //set coin visibility to false and add to high score in world
+        Coin * c = dynamic_cast<Coin*>(details->getCollided());
+        c->setVisibility(false);
+        World::instance().incScore(c->getAmount());
+
     }
 }

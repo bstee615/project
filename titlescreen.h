@@ -18,6 +18,8 @@ public:
 private slots:
 	void on_btnStart_clicked();
 
+    void on_lblHighScores_clicked();
+
 private:
 	Ui::TitleScreen *ui;
     QWidget* widgetParent;

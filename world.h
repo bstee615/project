@@ -30,6 +30,7 @@ class World {
 
     int height;
     int width;
+    int score;
 
 public:
 
@@ -75,6 +76,9 @@ public:
 
     int getHeight() { return height; }
     int getWidth() { return width; }
+    int getScore() {return score;}
+    void incScore(int addAmount) {score += addAmount; }
+    void setScore(int newAmount) {score = newAmount; }
 };
 
 #endif // WORLD_H

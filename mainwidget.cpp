@@ -58,6 +58,16 @@ void MainWidget::loadLevel(string filename)
             lblPlatform->setStyleSheet(QStringLiteral("background-color: gray;"));
             lblPlatform->show();
             lblPlatform->setObject(platform);
+            lblPlatform->setId(platform->getId());
+        } else if (dynamic_cast<Coin*>(worldObj) != NULL)
+        {
+            Coin* coin = dynamic_cast<Coin*>(worldObj);
+            ObjectLabel* lblCoin = new ObjectLabel(ui->worldWidget);
+            lblCoin->setParent(ui->lblBackground);
+            lblCoin->setGeometry(coin->getX(), coin->getY(), coin->getWidth(), coin->getHeight());
+            lblCoin->setPixmap(coin->getImage());
+            lblCoin->setObject(coin);
+            lblCoin->setId(coin->getId());
         }
     }
     if (lblPlayer != NULL)
@@ -137,7 +147,26 @@ void MainWidget::timerHit(){
          }
 
     }
+    for (Object* worldObj : World::instance().getObjects()) {
 
+        if (dynamic_cast<Coin*>(worldObj) != NULL) {
+
+            int coinId = worldObj->getId();
+            Coin * c = dynamic_cast<Coin*>(worldObj);
+            ObjectLabel * m;
+
+            for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
+               m = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
+               if (m->getId() == coinId){
+                  if (c->getVisibility() == true) {
+                      m->show();
+                  } else {
+                      m->hide();
+                  }
+            }
+        }
+    }
+    }
     resetOnDeath(player);
 }
 
@@ -157,6 +186,7 @@ void MainWidget::resetOnDeath(Player* player)
     {
         player->setX(ui->lblBackground->x());
     }
+
 }
 
 

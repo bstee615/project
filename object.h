@@ -5,6 +5,8 @@
 #include <QDebug>
 #include "collisiondetails.h"
 
+using namespace std;
+
 class CollisionDetails;
 
 class Object

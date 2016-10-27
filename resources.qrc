@@ -23,5 +23,6 @@
         <file>images/maincharacter/walk1left.png</file>
         <file>images/maincharacter/walk2.png</file>
         <file>images/maincharacter/standleft.png</file>
+        <file>images/higscores.gif</file>
     </qresource>
 </RCC>
