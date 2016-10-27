@@ -77,11 +77,13 @@ CollisionDetails* Object::checkCollision(Object *that)
     int thatX2 = that->x + that->width;
     int thatY2 = that->y + that->height;
 
+    // The geometry of both this and that objects to be used for collision testing
     QRect thatRec = QRect(that->x,that->y,that->width,that->height);
     QRect thisRec = QRect(this->x,this->y,this->width,this->height);
 
+    // Checks to see if Objects intersect
     if (thisRec.intersects(thatRec)) {
-        QRect thatRec = QRect(that->x,that->y,that->width,that->height);
+        // Checks to see which corners of <this> are within the boundaries of <that>
         bool topLeft = thatRec.contains(thisRec.topLeft());
         bool topRight = thatRec.contains(thisRec.topRight());
         bool bottomLeft = thatRec.contains(thisRec.bottomLeft());
@@ -91,6 +93,8 @@ CollisionDetails* Object::checkCollision(Object *that)
         int xStopCollide = 0;
         int yStopCollide = 0;
 
+        // Different cases of corner comonations of corners that collide with <that> object
+        // and what to set the xStopCollide and yStopCollide depending on the exact details of the collision
         if ((topLeft && topRight && bottomLeft && bottomRight) || (!topLeft && !topRight && bottomLeft && bottomRight)) {
             yStopCollide = that->y - thisY2;
         } else if (!topLeft && topRight && bottomLeft && bottomRight) {
@@ -136,6 +140,7 @@ CollisionDetails* Object::checkCollision(Object *that)
         return new CollisionDetails(xStopCollide, yStopCollide, that);
 
     }
+    // returns nulll if there is no collision
     return NULL;
 }
 

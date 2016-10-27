@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     coin.cpp  \
     enemy.cpp \
     mainwidget.cpp \
-    objectlabel.cpp \
     titlescreen.cpp
 
 HEADERS  += mainwidget.h \
@@ -42,7 +41,6 @@ HEADERS  += mainwidget.h \
     item.h \
     coin.h \
     enemy.h \
-    objectlabel.h \
     titlescreen.h
 
 FORMS    += mainwidget.ui \

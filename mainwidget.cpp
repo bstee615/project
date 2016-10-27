@@ -99,22 +99,26 @@ void MainWidget::timerHit(){
     countWalk++;
 
     if ((right && left) || (!right && !left)) {
+        // if both right and left arrows are held down or both are released slow the player to a stop
         player->slowToStop();
         labelPlayer->setPixmap(player->getImage());
         countWalk = 0;
     } else if (right) {
+        // if the right arrow is pressed the player goes right
         player->moveRight();
         setWalkImage(player);
         labelPlayer->setPixmap(player->getImage());
     } else if (left) {
+        // if the left arrow is pressed the player goes left
         player->moveLeft();
         setWalkImage(player);
         labelPlayer->setPixmap(player->getImage());
     }
-
+    // updates player's position in the model
     player->move();
     for(size_t i = 0; i < world.getObjects().size() ; ++i) {
         QCoreApplication::processEvents();
+        // checks to see if player the player collides with each object
         CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
         if (collision != NULL) {
             player->collide(collision);
@@ -127,7 +131,8 @@ void MainWidget::timerHit(){
          QCoreApplication::processEvents();
          ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
          if (guiObject != NULL) {
-            guiObject->updateLabelPosition();
+             // updates the position of each lable to the position of its object in the model
+             guiObject->updateLabelPosition();
 
          }
 
@@ -168,7 +173,6 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         this->right = true;
     } else if (event->key() == Qt::Key_Space) {
         Player* player = World::instance().getPlayer();
-        //player->jump();
         player->setJumpOnMove(true);
     }
 }
