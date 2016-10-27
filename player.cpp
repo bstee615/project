@@ -1,5 +1,7 @@
 #include "player.h"
 #include "platform.h"
+#include "enemy.h"
+#include "collectible.h"
 
 void Player::jump()
 {
@@ -62,5 +64,7 @@ void Player::collide(CollisionDetails *details)
                 onPlatform = true;
             }
         }
+    } else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL) {
+
     }
 }

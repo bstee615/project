@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include <exception>
 
 using namespace std;
 
@@ -31,13 +32,13 @@ public:
 	void SaveScores(string filename);
 
 	//returns the score at the specified place in the vector
-	int getScore(int i) { return scores.at(i); };
+    int getScore(int i) { return scores.at(i); }
 	
 	//returns the name at the specified place in the vector
-	string getName(int i) {return names.at(i); };
+    string getName(int i) {return names.at(i); }
 	
 	//unit tests for the program
-        void UnitTests();
+     static void UnitTests();
 	
 	//delete the singleton class
 	static void teardown();
