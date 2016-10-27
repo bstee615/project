@@ -6,6 +6,8 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage
 {
     damage = damage_;
     speed = speed_;
+    right = true;
+    onPlatform = true;
 }
 void Enemy::move()
 {
@@ -19,7 +21,7 @@ void Enemy::move()
     }
 
     World& world = World::instance();
-    for (int i = 0; i < world.getObjects().size(); i ++)
+    for (size_t i = 0; i < world.getObjects().size(); i ++)
     {
         CollisionDetails* col = this->checkCollision(world.getObjects().at(i));
         if (col != NULL)
@@ -34,23 +36,13 @@ void Enemy::collide(CollisionDetails *details)
     if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
         if (details->getXStopCollide() != 0) {
             x += details->getXStopCollide();
+            right = !right;
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
-        }
-    }
-}
-bool Enemy::isOnPlatform()
-{
-    vector<Object*> objects = World::instance().getObjects();
-
-    for (auto i: objects)
-    {
-        Platform* plat = dynamic_cast<Platform*>(i);
-
-        if (this->getRightPoint() >= plat->getX() && this->getX() <= plat->getRightPoint())
-        {
-
+            if (details->getYStopCollide() < 0) {
+                onPlatform = true;
+            }
         }
     }
 }
