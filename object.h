@@ -20,6 +20,7 @@ protected:
     QString image;
     static int nextID;
     bool onPlatform;
+    bool  visibility;
 
 public:
     Object();
@@ -49,11 +50,14 @@ public:
 	virtual void setImage(QString image_) {image = image_;}
 	void setId(int newId) { id = newId; }
 
-    virtual void collide(CollisionDetails* details) {}
+    virtual void collide(CollisionDetails*) {}
 
     bool isOnObject(Object* that);
 
     static void unitTest();
+
+    virtual void setAmount(int) { }
+    void setVisibility(bool newVisibility) { visibility = newVisibility; }
 
 };
 
