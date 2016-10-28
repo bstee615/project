@@ -200,7 +200,7 @@ void World::loadObjects(ifstream& file, string filename)
             {
                 obj->setImage(QString::fromStdString(params.at(5)));
 
-                if (dynamic_cast<Coin*>(obj) != NULL)
+                if (dynamic_cast<Coin*>(obj) != NULL && params.size() == 7)
                 {
                     obj->setAmount(stoi(params.at(6)));
                 }
