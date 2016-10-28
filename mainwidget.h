@@ -61,8 +61,6 @@ private:
 
     ObjectLabel* labelPlayer;
 
-    int countWalk;// used for animating labels.
-
 private slots:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);

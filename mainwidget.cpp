@@ -26,8 +26,6 @@ MainWidget::MainWidget(QWidget *parent) :
 	titleScn->show();
 	titleScn->raise();
     timer->start();
-
-    countWalk = 0;
 }
 
 void MainWidget::loadLevel(string filename)
@@ -80,17 +78,17 @@ void MainWidget::loadLevel(string filename)
 void MainWidget::setWalkImage(Player* player)
 {
     QString imagename = ":/images/maincharacter/walk";
-    if (countWalk < 7)
+    if (player->getCount() < 7)
     {
         imagename += "1";
     }
-    else if (countWalk < 15)
+    else if (player->getCount() < 15)
     {
         imagename += "2";
     }
-    else if (countWalk == 15)
+    else if (player->getCount() == 15)
     {
-        countWalk = 0;
+        player->setCount(0);
         imagename += "1";
     }
 
@@ -106,13 +104,13 @@ void MainWidget::timerHit(){
     World& world = World::instance();
     Player* player = world.getPlayer();
 
-    countWalk++;
+    player->advanceCount();
 
     if ((right && left) || (!right && !left)) {
         // if both right and left arrows are held down or both are released slow the player to a stop
         player->slowToStop();
         labelPlayer->setPixmap(player->getImage());
-        countWalk = 0;
+        player->setCount(0);
     } else if (right) {
         // if the right arrow is pressed the player goes right
         player->moveRight();
@@ -149,19 +147,19 @@ void MainWidget::timerHit(){
     }
     for (Object* worldObj : World::instance().getObjects()) {
 
-        if (dynamic_cast<Coin*>(worldObj) != NULL) {
+        Coin * coin = dynamic_cast<Coin*>(worldObj);
+        if (coin != NULL) {
 
             int coinId = worldObj->getId();
-            Coin * c = dynamic_cast<Coin*>(worldObj);
-            ObjectLabel * m;
+            ObjectLabel * lbl;
 
             for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
-               m = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
-               if (m->getId() == coinId){
-                  if (c->getVisibility() == true) {
-                      m->show();
+               lbl = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
+               if (lbl->getId() == coinId){
+                  if (coin->getVisibility() == true) {
+                      lbl->show();
                   } else {
-                      m->hide();
+                      lbl->hide();
                   }
             }
         }

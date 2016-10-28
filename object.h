@@ -20,10 +20,13 @@ protected:
     QString image;
     static int nextID;
     bool onPlatform;
+    bool  visibility;
+
+    int count;// used to animate images. thought it'd be better to move it here from mainwindow.
 
 public:
     Object();
-    Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_), onPlatform(false) {
+    Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_), onPlatform(false), count(0) {
 		id = nextID++;
     }
 
@@ -49,12 +52,18 @@ public:
 	virtual void setImage(QString image_) {image = image_;}
 	void setId(int newId) { id = newId; }
 
-    virtual void collide(CollisionDetails* details) {}
+    virtual void collide(CollisionDetails*) {}
 
     bool isOnObject(Object* that);
 
     static void unitTest();
 
+    virtual void setAmount(int) { }
+    void setVisibility(bool newVisibility) { visibility = newVisibility; }
+
+    int getCount() { return count; }
+    void advanceCount() { count++; }
+    void setCount(int num) { count = num; }
 };
 
 #endif // OBJECT_H
