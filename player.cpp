@@ -62,6 +62,9 @@ void Player::move()
 void Player::collide(CollisionDetails *details)
 {
     if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
+        //BUG: when the player jumps into the right side of a platform, he pops back on top instead of getting blocked.
+        //^Small issue, but something to fix pre-production.^
+
         // if it the Object from the collision is a Platform update the position of the
         // player based on the xStopCollide and yStopCollide values
         if (details->getXStopCollide() != 0) {

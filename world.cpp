@@ -93,6 +93,8 @@ Object *World::createObject(const string& type) {
 		return new Player;
 	else if (type.find("plat") == 0)
 		return new Platform;
+    else if (type.find("enemy") == 0)
+        return new Enemy;
 	else
 		return NULL;
 }
@@ -125,8 +127,8 @@ void World::loadLevel(string filename)
 		vector<string> playerCoord = split(line, ",");
 		int pX = stoi(playerCoord.at(0));
 		int pY = stoi(playerCoord.at(1));
-        Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
-        World::instance().setPlayer(player);
+                Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
+                World::instance().setPlayer(player);
 
 		while (getline(file, line))
 		{
@@ -173,32 +175,91 @@ void World::loadLevel(string filename)
 				World::instance().add(plat);
 
 				continue;
-			}
-            Coin* coin = dynamic_cast<Coin*>(obj);
-            if (coin != NULL)
-            {
-                int x = stoi(params.at(1));
-                int y = stoi(params.at(2));
-                int width = stoi(params.at(3));
-                int height = stoi(params.at(4));
-                int value = stoi(params.at(5));
+	} 
+	Coin* coin = dynamic_cast<Coin*>(obj);
+		if (coin != NULL) {
+			
+			int x = stoi(params.at(1));
+			int y = stoi(params.at(2));
+			int width = stoi(params.at(3));
+			int height = stoi(params.at(4));
+			int value = stoi(params.at(5));
 
-                coin->setX(x);
-                coin->setY(y);
-                coin->setHeight(height);
-                coin->setWidth(width);
-                coin->setImage(":/images/goldCoin/goldCoin1.png");
-                coin->setAmount(value);
-                coin->setVisibility(true);
-                World::instance().add(coin);
+			coin->setX(x);
+			coin->setY(y);
+			coin->setHeight(height);
+			coin->setWidth(width);
+			coin->setImage(":/images/goldCoin/goldCoin1.png");
+			coin->setAmount(value);
+			coin->setVisibility(true);
+			World::instance().add(coin);
 
                 continue;
             }
-		}
+   }
+
+        // loop to get platforms.
+        loadObjects(file, filename);
 		file.close();
 	}
 	else
 	{
 		throw runtime_error("Failure to open level file");
 	}
+}
+void World::loadObjects(ifstream& file, string filename)
+{
+    string line;
+    Object* obj;
+    while (getline(file, line))
+    {
+        vector<string> params = split(line, ",");
+        obj = World::instance().createObject(params.at(0));
+        if (params.at(0).find("plat") == 0)
+            obj = dynamic_cast<Platform*>(obj);
+        else if (params.at(0).find("enemy") == 0)
+            obj = dynamic_cast<Enemy*>(obj);
+
+        if (obj != NULL)
+        {
+            // get object properties
+            size_t valid = 0;
+            int x = stoi(params.at(1), &valid);
+//                if (valid != params.at(1).length())
+//                {
+//                    file.close();
+//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
+//                }
+            valid = 0;
+            int y = stoi(params.at(2), &valid);
+//                if (valid != params.at(2).length())
+//                {
+//                    file.close();
+//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
+//                }
+            valid = 0;
+            int width = stoi(params.at(3), &valid);
+//                if (valid != params.at(3).length())
+//                {
+//                    file.close();
+//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
+//                }
+            valid = 0;
+            int height = stoi(params.at(4), &valid);
+//                if (valid != params.at(4).length())
+//                {
+//                    file.close();
+//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
+//                }
+
+            // set up platform
+            obj->setX(x);
+            obj->setY(y);
+            obj->setWidth(width);
+            obj->setHeight(height);
+            World::instance().add(obj);
+
+            continue;
+        }
+    }
 }

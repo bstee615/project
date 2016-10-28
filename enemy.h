@@ -9,7 +9,8 @@ class Enemy : public Object
 {
     int damage;
     int speed;
-    bool right;
+    bool right;// if false, then enemy is facing left.
+    bool flying;
 
 public:
     Enemy(): Object() { }
@@ -18,6 +19,9 @@ public:
     void move();
     bool isOnPlatform();
     void collide(CollisionDetails* details);
+
+    bool isRight() { return right; }
+    bool isFlying() { return flying; }
 };
 
 #endif // ENEMY_H

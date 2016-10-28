@@ -33,7 +33,7 @@
     </font>
    </property>
    <property name="text">
-    <string>High Scores</string>
+    <string/>
    </property>
    <property name="pixmap">
     <pixmap>images/higscores.gif</pixmap>
@@ -295,8 +295,8 @@
   <widget class="QPushButton" name="btnReturnHome">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>310</y>
+     <x>190</x>
+     <y>270</y>
      <width>85</width>
      <height>27</height>
     </rect>
