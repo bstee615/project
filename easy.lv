@@ -20,4 +20,4 @@ platform,1565,55,59,15,:/images/pavement9.png
 platform,1665,55,114,15,:/images/pavement9.png
 platform,1830,-30,25,150,:/images/pavement9.png
 collectible,160,160,32,32,_,coin,10
-enemy,50,212,42,48,_
+enemy,50,212,42,48,:/images/groundenemy.png,10,2

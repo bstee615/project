@@ -56,6 +56,10 @@ void MainWidget::loadLevel(string filename)
 		{
 			label->setPixmap(QPixmap(":/images/goldCoin/goldCoin1.png"));
 		}
+        else if (dynamic_cast<Enemy*>(worldObj) != NULL)
+        {
+            label->setPixmap(QPixmap(worldObj->getImage()).scaled(42,48));
+        }
 		label->show();
 	}
 	if (lblPlayer != NULL)
@@ -127,6 +131,25 @@ void MainWidget::timerHit(){
         }
     }
 	//qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
+
+    for (size_t i = 0; i < world.getObjects().size() ; ++i)
+    {
+        Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
+        if (enemy != NULL)
+        {
+            enemy->move();
+        }
+    }
+
+    for (int i = 0; i < ui->worldWidget->children().length(); i++)
+    {
+        QCoreApplication::processEvents();
+        ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+        if (guiObject != NULL) {
+            // updates the position of each label to the position of its object in the model
+            guiObject->updateLabelPosition();
+        }
+    }
 
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();

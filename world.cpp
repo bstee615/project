@@ -165,6 +165,13 @@ void World::loadObjects(ifstream& file)
 				// set collectible type
 				obj->setAmount(stoi(params.at(7)));
 			}
+
+            if (dynamic_cast<Enemy*>(obj) != NULL)
+            {
+                obj->setDamage(stoi(params.at(6)));
+                obj->setSpeed(stoi(params.at(7)));
+                obj->setRight(true);
+            }
 			World::instance().add(obj);
 			obj->setVisibility(true);
             continue;
