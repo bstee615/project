@@ -42,6 +42,7 @@ void MainWidget::loadLevel(string filename)
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
 	lblPlayer->setScaledContents(true);
 	lblPlayer->setObject(player);
+    lblPlayer->setId(player->getId());
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -49,12 +50,13 @@ void MainWidget::loadLevel(string filename)
 		label->setGeometry(worldObj->getX(), worldObj->getY(), worldObj->getWidth(), worldObj->getHeight());
 		label->setObject(worldObj);
 		label->setScaledContents(true);
+        label->setId(worldObj->getId());
 		if (dynamic_cast<Platform*>(worldObj) != NULL)
 		{
 			label->setPixmap(QPixmap(worldObj->getImage()));
-		} else if (dynamic_cast<Collectible*>(worldObj) != NULL)
+        } else if (dynamic_cast<Coin*>(worldObj) != NULL)
 		{
-			label->setPixmap(QPixmap(":/images/goldCoin/goldCoin1.png"));
+            label->setPixmap(QPixmap(worldObj->getImage()));
 		}
         else if (dynamic_cast<Enemy*>(worldObj) != NULL)
         {
@@ -204,8 +206,9 @@ void MainWidget::showCoin() {
             int coinId = worldObj->getId();
             ObjectLabel * lbl;
 
-            for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
-               lbl = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
+            for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
+               lbl = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+
                if (lbl->getId() == coinId){
                   if (coin->getVisibility() == true) {
                       lbl->show();

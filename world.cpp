@@ -118,8 +118,6 @@ void World::loadLevel(string filename)
         height = stoi(levelDim.at(1));
 		getline(file, line);
 		vector<string> screenCoord = split(line, ",");
-//		screen->setX(stoi(screenCoord.at(0)));
-//		screen->setY(stoi(screenCoord.at(1)));
 		qDebug() << QString::fromStdString(screenCoord.at(0)) << " " << QString::fromStdString(screenCoord.at(1));
 
 		// player
@@ -159,11 +157,11 @@ void World::loadObjects(ifstream& file)
 			obj->setWidth(stoi(params.at(3)));
 			obj->setHeight(stoi(params.at(4)));
 			obj->setImage(QString::fromStdString(params.at(5)));
-
-			if (dynamic_cast<Collectible*>(obj) != NULL)
+            //DO NOT CHANGE THIS TO COLLECTIBLE. thanks haha
+            if (dynamic_cast<Coin*>(obj) != NULL)
 			{
 				// set collectible type
-				obj->setAmount(stoi(params.at(7)));
+                obj->setAmount(stoi(params.at(6)));
 			}
 
             if (dynamic_cast<Enemy*>(obj) != NULL)
