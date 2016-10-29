@@ -145,6 +145,43 @@ void MainWidget::timerHit(){
          }
 
     }
+    showCoin();
+    ui->lblScore->setText(QString::number(World::instance().getScore()));
+    resetOnDeath(player);
+}
+
+// PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
+void MainWidget::resetOnDeath(Player* player)
+{
+    if (player->getBottomPoint() > World::instance().getHeight())
+    {
+        player->setX(29);
+        player->setY(212);
+        ui->lblScore->setText("0");
+        World::instance().setScore(0);
+        for (Object* worldObj : World::instance().getObjects()) {
+
+            Coin * coin = dynamic_cast<Coin*>(worldObj);
+            if (coin != NULL) {
+                coin->setVisibility(true);
+                coin->setisCollectible(true);
+            }
+        }
+       showCoin();
+
+    }
+    if (player->getX() < ui->lblBackground->x())
+    {
+        player->setX(ui->lblBackground->width() - player->getWidth());
+    }
+    if (player->getRightPoint() > ui->lblBackground->width())
+    {
+        player->setX(ui->lblBackground->x());
+    }
+
+}
+
+void MainWidget::showCoin() {
     for (Object* worldObj : World::instance().getObjects()) {
 
         Coin * coin = dynamic_cast<Coin*>(worldObj);
@@ -161,32 +198,11 @@ void MainWidget::timerHit(){
                   } else {
                       lbl->hide();
                   }
+              }
             }
         }
     }
-    }
-    resetOnDeath(player);
 }
-
-// PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
-void MainWidget::resetOnDeath(Player* player)
-{
-    if (player->getBottomPoint() > World::instance().getHeight())
-    {
-        player->setX(29);
-        player->setY(212);
-    }
-    if (player->getX() < ui->lblBackground->x())
-    {
-        player->setX(ui->lblBackground->width() - player->getWidth());
-    }
-    if (player->getRightPoint() > ui->lblBackground->width())
-    {
-        player->setX(ui->lblBackground->x());
-    }
-
-}
-
 
 MainWidget::~MainWidget()
 {

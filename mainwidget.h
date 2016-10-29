@@ -52,7 +52,7 @@ public:
     void resetOnDeath(Player* player);
     void setWalkImage(Player* player);
     void setJumpImage(Player* player);
-
+    void showCoin();
 private:
     Ui::MainWidget *ui;
     QTimer * timer; 

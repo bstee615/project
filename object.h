@@ -44,6 +44,8 @@ public:
     virtual int getBottomPoint() {return (y + height);}
 	virtual QString getImage() {return image;}
 	int getId() {return id;}
+    bool getVisibility() { return visibility; }
+    void setVisibility(bool newVisibility) { visibility = newVisibility; }
 
 	virtual void setX(int x_) {x = x_;}
 	virtual void setY(int y_) {y = y_;}
@@ -59,7 +61,7 @@ public:
     static void unitTest();
 
     virtual void setAmount(int) { }
-    void setVisibility(bool newVisibility) { visibility = newVisibility; }
+
 
     int getCount() { return count; }
     void advanceCount() { count++; }

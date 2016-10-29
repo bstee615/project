@@ -83,7 +83,10 @@ void Player::collide(CollisionDetails *details)
         //set coin visibility to false and add to high score in world
         Coin * c = dynamic_cast<Coin*>(details->getCollided());
         c->setVisibility(false);
+        if(c->getisCollectible() == true) {
         World::instance().incScore(c->getAmount());
+        }
+        c->setisCollectible(false);
 
     }
 }
