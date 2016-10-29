@@ -24,5 +24,6 @@
         <file>images/maincharacter/walk2.png</file>
         <file>images/maincharacter/standleft.png</file>
         <file>images/higscores.gif</file>
+        <file>images/pavement9.png</file>
     </qresource>
 </RCC>
