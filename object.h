@@ -20,7 +20,7 @@ protected:
     QString image;
     static int nextID;
     bool onPlatform;
-    bool  visibility;
+	bool visibility;
 
     int count;// used to animate images. thought it'd be better to move it here from mainwindow.
 

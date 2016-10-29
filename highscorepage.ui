@@ -36,7 +36,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>images/higscores.gif</pixmap>
+    <pixmap resource="resources.qrc">:/images/higscores.gif</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -306,6 +306,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

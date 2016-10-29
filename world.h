@@ -74,7 +74,7 @@ public:
 	// Load level stored in "<filename>.lv"
 	void loadLevel(string filename);
 
-    void loadObjects(ifstream& file, string filename);
+	void loadObjects(ifstream& file);
 
     int getHeight() { return height; }
     int getWidth() { return width; }

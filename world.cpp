@@ -24,7 +24,7 @@ vector<string> split(string toSplit, string delim)
 		pos = toSplit.find(delim, pos);
 		if (pos == string::npos)
 		{
-			items.push_back(toSplit.substr(oldPos));
+			items.push_back(toSplit.substr(oldPos, toSplit.find_last_not_of("\n") - oldPos));
 			break;
 		}
 	}
@@ -127,12 +127,11 @@ void World::loadLevel(string filename)
 		vector<string> playerCoord = split(line, ",");
 		int pX = stoi(playerCoord.at(0));
 		int pY = stoi(playerCoord.at(1));
-                Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
-                World::instance().setPlayer(player);
-
+		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
+		World::instance().setPlayer(player);
 
         // loop to get platforms.
-        loadObjects(file, filename);
+		loadObjects(file);
 		file.close();
 	}
 	else
@@ -142,73 +141,32 @@ void World::loadLevel(string filename)
 }
 
 // loop to setup platforms, enemies, and coins
-void World::loadObjects(ifstream& file, string filename)
+void World::loadObjects(ifstream& file)
 {
     string line;
     Object* obj;
     while (getline(file, line))
     {
         vector<string> params = split(line, ",");
-        obj = World::instance().createObject(params.at(0));
-        if (params.at(0).find("plat") == 0)
-            obj = dynamic_cast<Platform*>(obj);
-        else if (params.at(0).find("en") == 0)
-            obj = dynamic_cast<Enemy*>(obj);
-        else if (params.at(0).find("coi") == 0)
-            obj = dynamic_cast<Coin*>(obj);
+		obj = World::instance().createObject(params.at(0));
 
-        if (obj != NULL)
+		// get type of object and configure accordingly
+		if (obj != NULL)
         {
-            // get object properties
-            size_t valid = 0;
-            int x = stoi(params.at(1), &valid);
-//                if (valid != params.at(1).length())
-//                {
-//                    file.close();
-//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
-//                }
-            valid = 0;
-            int y = stoi(params.at(2), &valid);
-//                if (valid != params.at(2).length())
-//                {
-//                    file.close();
-//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
-//                }
-            valid = 0;
-            int width = stoi(params.at(3), &valid);
-//                if (valid != params.at(3).length())
-//                {
-//                    file.close();
-//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
-//                }
-            valid = 0;
-            int height = stoi(params.at(4), &valid);
-//                if (valid != params.at(4).length())
-//                {
-//                    file.close();
-//                    throw invalid_argument(filename + " is not configured properly (contains illegal int value)");
-//                }
+			// get and set object properties
+			obj->setX(stoi(params.at(1)));
+			obj->setY(stoi(params.at(2)));
+			obj->setWidth(stoi(params.at(3)));
+			obj->setHeight(stoi(params.at(4)));
+			obj->setImage(QString::fromStdString(params.at(5)));
 
-            // set up platform
-            obj->setX(x);
-            obj->setY(y);
-            obj->setWidth(width);
-            obj->setHeight(height);
-            World::instance().add(obj);
-
-            if (params.size() >= 6)
-            {
-                obj->setImage(QString::fromStdString(params.at(5)));
-
-                if (dynamic_cast<Coin*>(obj) != NULL && params.size() == 7)
-                {
-                    obj->setAmount(stoi(params.at(6)));
-                }
-            }
-
-
-            obj->setVisibility(true);
-
+			if (dynamic_cast<Collectible*>(obj) != NULL)
+			{
+				// set collectible type
+				obj->setAmount(stoi(params.at(7)));
+			}
+			World::instance().add(obj);
+			obj->setVisibility(true);
             continue;
         }
     }

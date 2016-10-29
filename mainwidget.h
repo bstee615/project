@@ -24,7 +24,11 @@ class ObjectLabel : public QLabel {
 
     int getId() { return id; }
     void setId(int newId) { id = newId; }
-    void setObject(Object* initObject) { object = initObject; }
+	void setObject(Object* initObject)
+	{
+		object = initObject;
+		this->id = initObject->getId();
+	}
     Object* getObject(){ return object; }
 
     // Updates the lable possistion to the position recoreded in the model
