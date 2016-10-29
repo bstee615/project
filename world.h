@@ -13,6 +13,7 @@
 #include "player.h"
 #include "platform.h"
 #include "enemy.h"
+#include "playingscreen.h"
 
 using namespace std;
 
@@ -20,12 +21,13 @@ class World {
     vector<Object*> objects;
     Player* player;
     vector<Enemy*> enemies;
+	PlayingScreen* screen;
 
     // singleton instance
     static World world;
 
     // singleton: private ctors
-    World() { }
+	World() {}
     World(const World& that) = delete;  // don't allow copying
 
     int height;
@@ -33,8 +35,6 @@ class World {
     int score;
 
 public:
-
-
     Object *createObject(const string& type);
 
     // adds <obj> to objects in world

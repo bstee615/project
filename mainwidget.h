@@ -7,14 +7,15 @@
 #include <QImage>
 #include <QObject>
 
-#include"object.h"
+#include "object.h"
 #include "player.h"
+#include "playingscreen.h"
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
     Object* object;
     QWidget * widget;
-    int id;
+	int id;
 
     public:
     explicit ObjectLabel(QWidget * parent): QLabel(parent) {
@@ -31,8 +32,8 @@ class ObjectLabel : public QLabel {
 	}
     Object* getObject(){ return object; }
 
-    // Updates the lable possistion to the position recoreded in the model
-    void updateLabelPosition() {setGeometry(object->getX(),object->getY(),object->getWidth(),object->getHeight());}
+	// Updates the label position to the position recorded in the model
+	void updateLabelPosition() {setGeometry(object->getX(), object->getY(), object->getWidth(), object->getHeight());}
 
     signals:
         void clicked();
@@ -61,9 +62,10 @@ private:
     Ui::MainWidget *ui;
     QTimer * timer; 
     bool right;
-    bool left;
+	bool left;
 
     ObjectLabel* labelPlayer;
+	PlayingScreen* screen;
 
 private slots:
     void keyPressEvent(QKeyEvent *event);

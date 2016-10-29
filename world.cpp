@@ -107,30 +107,30 @@ void World::loadLevel(string filename)
 	{
 		// read lines and configure objects
 		string line = "";
-		size_t valid = 0;
 
 		// not used yet -->
 		getline(file, line);
 		int time = stoi(line);
+		// --> end not used yet
 		getline(file, line);
 		vector<string> levelDim = split(line, ",");
         width = stoi(levelDim.at(0));
         height = stoi(levelDim.at(1));
 		getline(file, line);
 		vector<string> screenCoord = split(line, ",");
-		int screenX = stoi(screenCoord.at(0));
-		int screenY = stoi(screenCoord.at(1));
-		getline(file, line);
-		// --> end not used yet
+//		screen->setX(stoi(screenCoord.at(0)));
+//		screen->setY(stoi(screenCoord.at(1)));
+		qDebug() << QString::fromStdString(screenCoord.at(0)) << " " << QString::fromStdString(screenCoord.at(1));
 
 		// player
+		getline(file, line);
 		vector<string> playerCoord = split(line, ",");
 		int pX = stoi(playerCoord.at(0));
 		int pY = stoi(playerCoord.at(1));
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
 		World::instance().setPlayer(player);
 
-        // loop to get platforms.
+		// loop to get platforms
 		loadObjects(file);
 		file.close();
 	}

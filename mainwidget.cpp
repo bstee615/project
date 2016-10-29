@@ -33,9 +33,8 @@ void MainWidget::loadLevel(string filename)
 	ObjectLabel* lblPlayer = NULL;
 
 	World::instance().loadLevel(filename);
-	World& world = World::instance();
 
-	Player* player = world.getPlayer();
+	Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setParent(ui->lblBackground);
 	lblPlayer->show();
@@ -115,6 +114,9 @@ void MainWidget::timerHit(){
     }
     // updates player's position in the model
     player->move();
+	// update screen location based on player location
+	;
+
     for(size_t i = 0; i < world.getObjects().size() ; ++i) {
         QCoreApplication::processEvents();
         // checks to see if player the player collides with each object
@@ -124,17 +126,15 @@ void MainWidget::timerHit(){
             delete collision;
         }
     }
-    //cout << player->getX() << "," << player->getY() << endl; // enable for testing purposes.
+	//qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
     for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();
          ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
          if (guiObject != NULL) {
-             // updates the position of each lable to the position of its object in the model
+			 // updates the position of each label to the position of its object in the model
              guiObject->updateLabelPosition();
-
          }
-
     }
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));

@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     enemy.cpp \
     mainwidget.cpp \
     titlescreen.cpp \
-    highscorepage.cpp
+    highscorepage.cpp \
+    playingscreen.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwidget.h \
     coin.h \
     enemy.h \
     titlescreen.h \
-    highscorepage.h
+    highscorepage.h \
+    playingscreen.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \
