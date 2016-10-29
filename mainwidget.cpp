@@ -136,7 +136,7 @@ void MainWidget::timerHit(){
 
     for (size_t i = 0; i < world.getObjects().size() ; ++i)
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
+        Enemy* enemy = dynamic_cast<Enemy*>(world.getById(i));
         if (enemy != NULL)
         {
             enemy->move();
@@ -203,20 +203,22 @@ void MainWidget::showCoin() {
         Coin * coin = dynamic_cast<Coin*>(worldObj);
         if (coin != NULL) {
 
-            int coinId = worldObj->getId();
-            ObjectLabel * lbl;
+           int coinId = worldObj->getId();
+           ObjectLabel * lbl;
 
             for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
                lbl = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
 
-               if (lbl->getId() == coinId){
+        if (lbl != NULL) {
+              if (lbl->getId() == coinId){
                   if (coin->getVisibility() == true) {
                       lbl->show();
                   } else {
                       lbl->hide();
                   }
               }
-            }
+        }
+           }
         }
     }
 }

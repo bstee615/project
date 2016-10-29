@@ -28,7 +28,7 @@ class ObjectLabel : public QLabel {
 	void setObject(Object* initObject)
 	{
 		object = initObject;
-		this->id = initObject->getId();
+        this->id = initObject->getId();
 	}
     Object* getObject(){ return object; }
 
