@@ -5,21 +5,34 @@
 Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_): Object(x_,y_,width_,height_,image_)
 {
     damage = damage_;
-    speed = speed_;
+    xSpeed = speed_;
     facingRight = true;
-    onPlatform = true;
 }
 void Enemy::move()
 {
     if (facingRight)
     {
-        x += speed;
+        x += xSpeed;
     }
     else
     {
-        x -= speed;
+        x -= xSpeed;
     }
+
+    if (ySpeed < 5)
+    {
+        if (count < 10)
+            count ++;
+        if (count == 10)
+        {
+            count = 0;
+            ySpeed ++;
+        }
+    }
+
     y += ySpeed;
+
+
 
     World& world = World::instance();
     for (size_t i = 0; i < world.getObjects().size(); i ++)
@@ -31,17 +44,8 @@ void Enemy::move()
             delete col;
         }
     }
-
-    if (ySpeed < 5)
-    {
-        ySpeed ++;
-    }
-
-    if (onPlatform)
-    {
-        ySpeed = 0;
-    }
 }
+
 void Enemy::collide(CollisionDetails *details)
 {
     if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
@@ -51,8 +55,6 @@ void Enemy::collide(CollisionDetails *details)
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
-
-            // TODO: fix onPlatform system.
         }
     }
 }
