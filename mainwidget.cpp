@@ -23,7 +23,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 
 	timer = new QTimer(this);
-	timer->setInterval(33);
+    timer->setInterval(33);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 	loadLevel(":/easy.lv");
 	right = false;
@@ -192,14 +192,15 @@ void MainWidget::timerHit(){
         }
     }
 
-    for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
+    // This code was repetitive and taking up more CPU time
+    /*for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();
          ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
          if (guiObject != NULL) {
 			 // updates the position of each label to the position of its object in the model
              guiObject->updateLabelPosition();
          }
-    }
+    }*/
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
     resetOnDeath(player);
@@ -224,7 +225,7 @@ void MainWidget::resetOnDeath(Player* player)
 			World::instance().setScore(0);
 			World::instance().getScreen()->setLocation(0, 0);
 			for (Object* worldObj : World::instance().getObjects()) {
-
+                QCoreApplication::processEvents();
 				Coin * coin = dynamic_cast<Coin*>(worldObj);
 				if (coin != NULL) {
 					coin->setVisibility(true);
@@ -252,6 +253,7 @@ void MainWidget::showCoin() {
 			ObjectLabel * lbl;
 
 			for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
+                QCoreApplication::processEvents();
 				lbl = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
 
 				if (lbl != NULL) {
