@@ -167,7 +167,7 @@ void World::loadObjects(ifstream& file)
             if (dynamic_cast<Enemy*>(obj) != NULL)
             {
                 obj->setDamage(stoi(params.at(6)));
-                obj->setSpeed(stoi(params.at(7)));
+                obj->setXSpeed(stoi(params.at(7)));
                 obj->setRight(true);
             }
 			World::instance().add(obj);

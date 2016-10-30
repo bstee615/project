@@ -133,11 +133,11 @@ void MainWidget::timerHit(){
             delete collision;
         }
     }
-	//qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
+    //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
     for (size_t i = 0; i < world.getObjects().size() ; ++i)
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(world.getById(i));
+        Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
         if (enemy != NULL)
         {
             enemy->move();
