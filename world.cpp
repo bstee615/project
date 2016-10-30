@@ -131,12 +131,12 @@ void World::loadLevel(QString filename)
 		// player
 		line = in.readLine();
 		QList<QString> playerCoord = line.split(",");
-		int pX = playerCoord.at(0).toInt();
-		int pY = playerCoord.at(1).toInt();
+        int pX = playerCoord.at(1).toInt();
+        int pY = playerCoord.at(2).toInt();
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
 		World::instance().setPlayer(player);
 
-		// loop to get platforms
+        // loop to get platforms and other objects.
 		loadObjects(in);
 		file.close();
 	}

@@ -70,13 +70,13 @@ void Object::load(QString config)
 	this->setImage(params.at(5));
 	if (dynamic_cast<Coin*>(this) != NULL)
 	{
-		this->setAmount(params.at(6).toInt());
+        this->setAmount(10);
 	}
 
 	if (dynamic_cast<Enemy*>(this) != NULL)
 	{
-		this->setDamage(params.at(6).toInt());
-		this->setXSpeed(params.at(7).toInt());
+        this->setDamage(10);
+        this->setXSpeed(2);
 		this->setRight(true);
 	}
 }
