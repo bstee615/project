@@ -50,7 +50,7 @@ class MainWidget;
 
 class MainWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
     explicit MainWidget(QWidget *parent = 0);
@@ -62,14 +62,17 @@ public:
     void resetOnDeath(Player* player);
     void setWalkImage(Player* player);
     void setJumpImage(Player* player);
-    void showCoin();
+	void showCoin();
+
+	QTimer* getTimer() {return timer;}
+
 private:
-    Ui::MainWidget *ui;
-    QTimer * timer; 
-    bool right;
+	Ui::MainWidget *ui;
+	QTimer * timer;
+	bool right;
 	bool left;
 
-    ObjectLabel* labelPlayer;
+	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
 
 private slots:

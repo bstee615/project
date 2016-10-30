@@ -1,3 +1,4 @@
+#include <QTimer>
 #include "titlescreen.h"
 #include "ui_titlescreen.h"
 #include "mainwidget.h"
@@ -19,7 +20,7 @@ TitleScreen::~TitleScreen()
 void TitleScreen::on_btnStart_clicked()
 {
 	this->hide();
-    this->widgetParent->setFocus();
+	this->widgetParent->setFocus();
 }
 
 void TitleScreen::on_lblHighScores_clicked()

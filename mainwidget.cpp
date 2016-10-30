@@ -17,6 +17,11 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui(new Ui::MainWidget)
 {
 	ui->setupUi(this);
+	ui->lblLife1->raise();
+	ui->lblLife2->raise();
+	ui->lblLife3->raise();
+	ui->lblScore->raise(); // these components should not be under the world objects
+
 	timer = new QTimer(this);
 	timer->setInterval(33);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
@@ -201,34 +206,34 @@ void MainWidget::resetOnDeath(Player* player)
 {
 
     if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
-    {
-        player->setNumLives(player->getNumLives() - 1);
-        if (player->getNumLives() > 0) {
-            if (player->getNumLives() == 2){
-                ui->lblLife3->hide();
-            } else if (player->getNumLives() == 1){
-                ui->lblLife2->hide();
-            }
-        player->setX(29);
-        player->setY(212);
-        ui->lblScore->setText("0");
-        World::instance().setScore(0);
-	World::instance().getScreen()->setLocation(0, 0);
-        for (Object* worldObj : World::instance().getObjects()) {
+	{
+		player->setNumLives(player->getNumLives() - 1);
+		if (player->getNumLives() > 0) {
+			if (player->getNumLives() == 2){
+				ui->lblLife3->hide();
+			} else if (player->getNumLives() == 1){
+				ui->lblLife2->hide();
+			}
+			player->setX(29);
+			player->setY(212);
+			ui->lblScore->setText("0");
+			World::instance().setScore(0);
+			World::instance().getScreen()->setLocation(0, 0);
+			for (Object* worldObj : World::instance().getObjects()) {
 
-            Coin * coin = dynamic_cast<Coin*>(worldObj);
-            if (coin != NULL) {
-                coin->setVisibility(true);
-                coin->setisCollectible(true);
-            }
-        }
-       showCoin();
-        } else {
-            ui->lblLife1->hide();
-            EndGame * e = new EndGame(ui->worldWidget);
-            e->show();
-            timer->stop();
-        }
+				Coin * coin = dynamic_cast<Coin*>(worldObj);
+				if (coin != NULL) {
+					coin->setVisibility(true);
+					coin->setisCollectible(true);
+				}
+			}
+			showCoin();
+		} else {
+			ui->lblLife1->hide();
+			EndGame * e = new EndGame(ui->worldWidget);
+			e->show();
+			timer->stop();
+		}
     }
 }
 

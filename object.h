@@ -32,11 +32,15 @@ public:
 	Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_), onPlatform(false), xSpeed(0), ySpeed(0), count(0) {
 		id = nextID++;
     }
+	Object(QString config);
 
 	virtual ~Object();
 
 	CollisionDetails* checkCollision(Object * that);
 	static void resetNextId();
+
+	virtual void load(QString config);
+	virtual QString save();
 
 	// accessors & mutators
 	virtual int getX() {return x;}

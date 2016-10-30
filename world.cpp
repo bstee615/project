@@ -152,36 +152,14 @@ void World::loadObjects(QTextStream& in)
 	QString line = "";
 	Object* obj = NULL;
 	while (!in.atEnd())
-    {
+	{
 		line = in.readLine();
-		QList<QString> params = line.split(",");
-		obj = World::instance().createObject(params.at(0).toStdString());
-
-		// get type of object and configure accordingly
+		obj = World::instance().createObject(line.split(",").at(0).toStdString());
 		if (obj != NULL)
-        {
-			// get and set object properties
-			obj->setX(params.at(1).toInt());
-			obj->setY(params.at(2).toInt());
-			obj->setWidth(params.at(3).toInt());
-			obj->setHeight(params.at(4).toInt());
-			obj->setImage(params.at(5));
-            //DO NOT CHANGE THIS TO COLLECTIBLE. thanks haha
-            if (dynamic_cast<Coin*>(obj) != NULL)
-			{
-				// set collectible type
-				obj->setAmount(params.at(6).toInt());
-			}
-
-            if (dynamic_cast<Enemy*>(obj) != NULL)
-            {
-				obj->setDamage(params.at(6).toInt());
-				obj->setXSpeed(params.at(7).toInt());
-                obj->setRight(true);
-            }
+		{
+			obj->load(line);
 			World::instance().add(obj);
 			obj->setVisibility(true);
-            continue;
-        }
+		}
     }
 }

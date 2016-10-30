@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include "object.h"
+#include "world.h"
 
 int Object::nextID = 0;
 
@@ -52,6 +53,35 @@ Object::Object()
 {
 	id = nextID++;
 }
+
+Object::Object(QString config) : Object()
+{
+	this->load(config);
+}
+
+void Object::load(QString config)
+{
+	QList<QString> params = config.split(",");
+	// get and set object properties
+	this->setX(params.at(1).toInt());
+	this->setY(params.at(2).toInt());
+	this->setWidth(params.at(3).toInt());
+	this->setHeight(params.at(4).toInt());
+	this->setImage(params.at(5));
+	if (dynamic_cast<Coin*>(this) != NULL)
+	{
+		this->setAmount(params.at(6).toInt());
+	}
+
+	if (dynamic_cast<Enemy*>(this) != NULL)
+	{
+		this->setDamage(params.at(6).toInt());
+		this->setXSpeed(params.at(7).toInt());
+		this->setRight(true);
+	}
+}
+
+QString Object::save() {}
 
 Object::~Object()
 {
