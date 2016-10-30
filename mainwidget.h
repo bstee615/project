@@ -10,6 +10,7 @@
 #include "object.h"
 #include "player.h"
 #include "playingscreen.h"
+#include "world.h"
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
@@ -32,8 +33,12 @@ class ObjectLabel : public QLabel {
 	}
     Object* getObject(){ return object; }
 
-	// Updates the label position to the position recorded in the model
-	void updateLabelPosition() {setGeometry(object->getX(), object->getY(), object->getWidth(), object->getHeight());}
+	// Updates the label position to the position recorded in the model, minus the location of the screen
+	void updateLabelPosition()
+	{
+		PlayingScreen* screen = World::instance().getScreen();
+		setGeometry(object->getX() - screen->getX(), object->getY() - screen->getY(), object->getWidth(), object->getHeight());
+	}
 
     signals:
         void clicked();
