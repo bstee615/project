@@ -69,9 +69,6 @@ public:
 
 	virtual void setAmount(int) { }
 
-    virtual void setXSpeed(int speed) { xSpeed = speed; }
-    virtual void setYSpeed(int speed) { ySpeed = speed; }
-
 
     // virtual setter methods for enemies.
     virtual void setDamage(int) { }
