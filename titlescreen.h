@@ -15,6 +15,8 @@ public:
 	explicit TitleScreen(QWidget *parent = 0);
     ~TitleScreen();
 
+    bool isPlaying() { return playing; }
+
 private slots:
 	void on_btnStart_clicked();
 
@@ -23,6 +25,8 @@ private slots:
 private:
 	Ui::TitleScreen *ui;
     QWidget* widgetParent;
+
+    bool playing;
 };
 
 #endif // TITLESCREEN_H
