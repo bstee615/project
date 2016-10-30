@@ -9,6 +9,7 @@
 #include "ui_mainwidget.h"
 #include "world.h"
 #include "titlescreen.h"
+#include "endgame.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -171,6 +172,13 @@ void MainWidget::resetOnDeath(Player* player)
 {
     if (player->getBottomPoint() > World::instance().getHeight())
     {
+        player->setNumLives(player->getNumLives() - 1);
+        if (player->getNumLives() > 0) {
+            if (player->getNumLives() == 2){
+                ui->lblLife3->hide();
+            } else if (player->getNumLives() == 1){
+                ui->lblLife2->hide();
+            }
         player->setX(29);
         player->setY(212);
         ui->lblScore->setText("0");
@@ -184,7 +192,12 @@ void MainWidget::resetOnDeath(Player* player)
             }
         }
        showCoin();
-
+        } else {
+            ui->lblLife1->hide();
+            EndGame * e = new EndGame(ui->worldWidget);
+            e->show();
+            timer->stop();
+        }
     }
     if (player->getX() < ui->lblBackground->x())
     {
@@ -197,6 +210,7 @@ void MainWidget::resetOnDeath(Player* player)
 
 }
 
+//displays all the coins in the world if the player has lives left
 void MainWidget::showCoin() {
     for (Object* worldObj : World::instance().getObjects()) {
 
