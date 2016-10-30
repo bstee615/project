@@ -9,6 +9,7 @@
 #include "ui_mainwidget.h"
 #include "world.h"
 #include "titlescreen.h"
+#include "endgame.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -198,25 +199,40 @@ void MainWidget::timerHit(){
 // PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
 void MainWidget::resetOnDeath(Player* player)
 {
-	if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
-	{
-		player->setX(29);
-		player->setY(212);
-		World::instance().getScreen()->setLocation(0, 0);
-		ui->lblScore->setText("0");
-		World::instance().setScore(0);
-		for (Object* worldObj : World::instance().getObjects()) {
 
-			Coin * coin = dynamic_cast<Coin*>(worldObj);
-			if (coin != NULL) {
-				coin->setVisibility(true);
-				coin->setisCollectible(true);
-			}
-		}
-		showCoin();
-	}
+    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
+    {
+        player->setNumLives(player->getNumLives() - 1);
+        if (player->getNumLives() > 0) {
+            if (player->getNumLives() == 2){
+                ui->lblLife3->hide();
+            } else if (player->getNumLives() == 1){
+                ui->lblLife2->hide();
+            }
+        player->setX(29);
+        player->setY(212);
+        ui->lblScore->setText("0");
+        World::instance().setScore(0);
+	World::instance().getScreen()->setLocation(0, 0);
+        for (Object* worldObj : World::instance().getObjects()) {
+
+            Coin * coin = dynamic_cast<Coin*>(worldObj);
+            if (coin != NULL) {
+                coin->setVisibility(true);
+                coin->setisCollectible(true);
+            }
+        }
+       showCoin();
+        } else {
+            ui->lblLife1->hide();
+            EndGame * e = new EndGame(ui->worldWidget);
+            e->show();
+            timer->stop();
+        }
+    }
 }
 
+//displays all the coins in the world if the player has lives left
 void MainWidget::showCoin() {
 	for (Object* worldObj : World::instance().getObjects()) {
 
