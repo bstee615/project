@@ -4,6 +4,10 @@
 #include <QWidget>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QScrollArea>
+#include <string>
+
+using namespace std;
 
 class MovableLabel;
 
@@ -16,6 +20,12 @@ class MovableLabel;
 class MainWindow : public QWidget
 {
     Q_OBJECT
+
+    QScrollArea * scrollArea;
+
+    int startX;
+    int startY;
+    int time;
     
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -31,6 +41,12 @@ private slots:
 
     void on_PBresize_clicked();
 
+    void on_PBsetStart_clicked();
+
+    void on_PBsetTime_clicked();
+
+    void on_Save_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
@@ -44,8 +60,8 @@ class MovableLabel : public QLabel
     QPoint offset;
 
 public:
-    QString type;
-    QString file;
+    string type;
+    string file;
     int xRange;
     int yRange;
     int xSpeed;
