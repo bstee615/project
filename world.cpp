@@ -69,6 +69,7 @@ void World::reset() {
     }
     objects.clear();
     Object::resetNextId();
+	delete screen;
 }
 
 //World destructor
@@ -113,12 +114,20 @@ void World::loadLevel(string filename)
 		int time = stoi(line);
 		// --> end not used yet
 		getline(file, line);
+
+		// set up screen object
 		vector<string> levelDim = split(line, ",");
-        width = stoi(levelDim.at(0));
-        height = stoi(levelDim.at(1));
+		stoi(levelDim.at(0));
+		stoi(levelDim.at(1));
 		getline(file, line);
 		vector<string> screenCoord = split(line, ",");
-		qDebug() << QString::fromStdString(screenCoord.at(0)) << " " << QString::fromStdString(screenCoord.at(1));
+		World::instance().setScreen(new PlayingScreen(
+										stoi(screenCoord.at(0)),
+										stoi(screenCoord.at(1)),
+										0, // don't know the dimensions of the screen here
+										0, // will set that in mainwidget.cpp
+										stoi(levelDim.at(0)),
+										stoi(levelDim.at(1))));
 
 		// player
 		getline(file, line);

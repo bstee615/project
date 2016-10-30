@@ -8,7 +8,7 @@ void Player::jump()
 {
     // player jumps if jumpOnMove is true
     if (jumpOnMove) {
-        ySpeed -= 10;
+		ySpeed -= 13;
     }
 }
 

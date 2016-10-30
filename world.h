@@ -18,69 +18,68 @@
 using namespace std;
 
 class World {
-    vector<Object*> objects;
-    Player* player;
-    vector<Enemy*> enemies;
+	vector<Object*> objects;
+	Player* player;
+	vector<Enemy*> enemies;
 	PlayingScreen* screen;
 
-    // singleton instance
-    static World world;
+	// singleton instance
+	static World world;
 
-    // singleton: private ctors
+	// singleton: private ctors
 	World() {}
-    World(const World& that) = delete;  // don't allow copying
+	World(const World& that) = delete;  // don't allow copying
 
-    int height;
-    int width;
-    int score;
+	int score;
 
 public:
-    Object *createObject(const string& type);
+	Object *createObject(const string& type);
 
-    // adds <obj> to objects in world
-    void add(Object *obj) {
-        auto it = objects.begin();
-        for (; it != objects.end(); ++it) {
-            if (obj->getId() < (*it)->getId()) {
-                objects.insert(it, obj);
-                break;
-            }
-        }
-        if (it == objects.end()) {
-            objects.push_back(obj);
-        }
-    }
+	// adds <obj> to objects in world
+	void add(Object *obj) {
+		auto it = objects.begin();
+		for (; it != objects.end(); ++it) {
+			if (obj->getId() < (*it)->getId()) {
+				objects.insert(it, obj);
+				break;
+			}
+		}
+		if (it == objects.end()) {
+			objects.push_back(obj);
+		}
+	}
 
-    // returns object with <id>, or NULL if none
-    Object *getById(int id);
+	// returns object with <id>, or NULL if none
+	Object *getById(int id);
 
-    vector<Object*>& getObjects() { return objects; }
-    vector<Enemy*>& getEnemies() { return enemies; }
+	vector<Object*>& getObjects() { return objects; }
+	vector<Enemy*>& getEnemies() { return enemies; }
 	Player* getPlayer() { return player; }
-    void setPlayer(Player* initPlayer) { player = initPlayer;}
+	void setPlayer(Player* initPlayer) { player = initPlayer;}
 
-    // Removes object with <id> from objects and returns it, or returns NULL if not found
-    Object *destroy(int id);
+	// Removes object with <id> from objects and returns it, or returns NULL if not found
+	Object *destroy(int id);
 
-    // Resets world
-    void reset();
+	// Resets world
+	void reset();
 
-    // Destroy objects
-    ~World();
+	// Destroy objects
+	~World();
 
-    // Get singleton
-    static World& instance() { return world; }
+	// Get singleton
+	static World& instance() { return world; }
 
 	// Load level stored in "<filename>.lv"
 	void loadLevel(string filename);
 
 	void loadObjects(ifstream& file);
 
-    int getHeight() { return height; }
-    int getWidth() { return width; }
-    int getScore() {return score;}
-    void incScore(int addAmount) {score += addAmount; }
-    void setScore(int newAmount) {score = newAmount; }
+	PlayingScreen* getScreen() {return screen;}
+	void setScreen(PlayingScreen* scr) {screen = scr;}
+
+	int getScore() {return score;}
+	void incScore(int addAmount) {score += addAmount; }
+	void setScore(int newAmount) {score = newAmount; }
 };
 
 #endif // WORLD_H
