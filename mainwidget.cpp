@@ -3,7 +3,7 @@
 #include <QDesktopWidget>
 #include <QTimer>
 #include <QKeyEvent>
-#include <iostream>
+#include <cmath>
 
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
@@ -33,24 +33,22 @@ void MainWidget::loadLevel(string filename)
 	ObjectLabel* lblPlayer = NULL;
 
 	World::instance().loadLevel(filename);
+	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
-	lblPlayer->setParent(ui->lblBackground);
-	lblPlayer->show();
-	lblPlayer->setGeometry(player->getX(), player->getY(), player->getWidth(), player->getHeight());
+	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
 	lblPlayer->setScaledContents(true);
-	lblPlayer->setObject(player);
-    lblPlayer->setId(player->getId());
+	lblPlayer->show();
+	lblPlayer->updateLabelPosition();
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
 		ObjectLabel* label = new ObjectLabel(ui->worldWidget);
-		label->setGeometry(worldObj->getX(), worldObj->getY(), worldObj->getWidth(), worldObj->getHeight());
 		label->setObject(worldObj);
+		label->updateLabelPosition();
 		label->setScaledContents(true);
-        label->setId(worldObj->getId());
 		if (dynamic_cast<Platform*>(worldObj) != NULL)
 		{
 			label->setPixmap(QPixmap(worldObj->getImage()));
@@ -120,10 +118,30 @@ void MainWidget::timerHit(){
     }
     // updates player's position in the model
     player->move();
+	if (player->getX() < 0)
+	{
+		player->setX(0);
+		player->setXSpeed(0);
+	}
+	if (player->getRightPoint() > World::instance().getScreen()->getLevelWidth())
+	{
+		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
+		player->setXSpeed(0);
+	}
 	// update screen location based on player location
-	;
+	PlayingScreen* screen = World::instance().getScreen();
+	if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
+		&& (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
+	{
+		screen->setX(min(player->getX() - screen->getCenterX((player->getWidth())), screen->getLevelWidth() - screen->getScreenWidth()));
+	}
+	else if (player->getX() - screen->getX() < screen->getCenterX(player->getWidth())
+		&& screen->getX() > 0)
+	{
+		screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
+	}
 
-    for(size_t i = 0; i < world.getObjects().size() ; ++i) {
+	for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
         // checks to see if player the player collides with each object
         CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
@@ -134,7 +152,7 @@ void MainWidget::timerHit(){
     }
 	//qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
-    for (size_t i = 0; i < world.getObjects().size() ; ++i)
+	for (size_t i = 0; i < world.getObjects().size(); ++i)
     {
         Enemy* enemy = dynamic_cast<Enemy*>(world.getById(i));
         if (enemy != NULL)
@@ -169,58 +187,49 @@ void MainWidget::timerHit(){
 // PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
 void MainWidget::resetOnDeath(Player* player)
 {
-    if (player->getBottomPoint() > World::instance().getHeight())
-    {
-        player->setX(29);
-        player->setY(212);
-        ui->lblScore->setText("0");
-        World::instance().setScore(0);
-        for (Object* worldObj : World::instance().getObjects()) {
+	if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
+	{
+		player->setX(29);
+		player->setY(212);
+		World::instance().getScreen()->setLocation(0, 0);
+		ui->lblScore->setText("0");
+		World::instance().setScore(0);
+		for (Object* worldObj : World::instance().getObjects()) {
 
-            Coin * coin = dynamic_cast<Coin*>(worldObj);
-            if (coin != NULL) {
-                coin->setVisibility(true);
-                coin->setisCollectible(true);
-            }
-        }
-       showCoin();
-
-    }
-    if (player->getX() < ui->lblBackground->x())
-    {
-        player->setX(ui->lblBackground->width() - player->getWidth());
-    }
-    if (player->getRightPoint() > ui->lblBackground->width())
-    {
-        player->setX(ui->lblBackground->x());
-    }
-
+			Coin * coin = dynamic_cast<Coin*>(worldObj);
+			if (coin != NULL) {
+				coin->setVisibility(true);
+				coin->setisCollectible(true);
+			}
+		}
+		showCoin();
+	}
 }
 
 void MainWidget::showCoin() {
-    for (Object* worldObj : World::instance().getObjects()) {
+	for (Object* worldObj : World::instance().getObjects()) {
 
-        Coin * coin = dynamic_cast<Coin*>(worldObj);
-        if (coin != NULL) {
+		Coin * coin = dynamic_cast<Coin*>(worldObj);
+		if (coin != NULL) {
 
-           int coinId = worldObj->getId();
-           ObjectLabel * lbl;
+			int coinId = worldObj->getId();
+			ObjectLabel * lbl;
 
-            for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
-               lbl = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+			for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
+				lbl = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
 
-        if (lbl != NULL) {
-              if (lbl->getId() == coinId){
-                  if (coin->getVisibility() == true) {
-                      lbl->show();
-                  } else {
-                      lbl->hide();
-                  }
-              }
-        }
-           }
-        }
-    }
+				if (lbl != NULL) {
+					if (lbl->getId() == coinId){
+						if (coin->getVisibility() == true) {
+							lbl->show();
+						} else {
+							lbl->hide();
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 MainWidget::~MainWidget()

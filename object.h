@@ -29,7 +29,7 @@ protected:
 
 public:
     Object();
-    Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_), onPlatform(false), count(0), xSpeed(0), ySpeed(0) {
+	Object(int x_, int y_, int width_, int height_, QString image_): x(x_), y(y_), width(width_), height(height_), image(image_), onPlatform(false), xSpeed(0), ySpeed(0), count(0) {
 		id = nextID++;
     }
 
@@ -46,6 +46,8 @@ public:
     virtual int getRightPoint() {return (x + width);}
     virtual int getBottomPoint() {return (y + height);}
 	virtual QString getImage() {return image;}
+	virtual int getXSpeed() { return xSpeed; }
+	virtual int getYSpeed() { return ySpeed; }
 	int getId() {return id;}
     bool getVisibility() { return visibility; }
     void setVisibility(bool newVisibility) { visibility = newVisibility; }
@@ -55,6 +57,8 @@ public:
 	virtual void setWidth(int w_) {width = w_;}
 	virtual void setHeight(int h_) {height = h_;}
 	virtual void setImage(QString image_) {image = image_;}
+	virtual void setXSpeed(int speed) {xSpeed = speed;}
+	virtual void setYSpeed(int speed) {ySpeed = speed;}
 	void setId(int newId) { id = newId; }
 
     virtual void collide(CollisionDetails*) {}
@@ -63,10 +67,7 @@ public:
 
     static void unitTest();
 
-    virtual void setAmount(int) { }
-
-    virtual int getXSpeed() { return xSpeed; }
-    virtual int getYSpeed() { return ySpeed; }
+	virtual void setAmount(int) { }
 
     // virtual setter methods for enemies.
     virtual void setDamage(int) { }
