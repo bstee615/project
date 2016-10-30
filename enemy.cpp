@@ -6,11 +6,23 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage
 {
     damage = damage_;
     xSpeed = speed_;
-    facingRight = true;
+    right = true;
 }
 void Enemy::move()
 {
-    if (facingRight)
+    vector<Object*> objects = World::instance().getObjects();
+    for (size_t i = 0; i < objects.size(); i ++)
+    {
+        if (dynamic_cast<Platform*>(objects.at(i)) != NULL)
+        {
+            if (x == objects.at(i)->getX() || x + width == objects.at(i)->getRightPoint())
+            {
+                right = !right;
+            }
+        }
+    }
+
+    if (right)
     {
         x += xSpeed;
     }
@@ -48,34 +60,38 @@ void Enemy::move()
 
 void Enemy::collide(CollisionDetails *details)
 {
-    if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
+    if (dynamic_cast<Platform*>(details->getCollided()) != NULL || dynamic_cast<Player*>(details->getCollided()) != NULL) {
         if (details->getXStopCollide() != 0) {
             x += details->getXStopCollide();
-            facingRight = !facingRight;
+            if (details->getXStopCollide() > 0)
+                right = true;
+            if (details->getXStopCollide() < 0)
+                right = false;
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
         }
     }
 }
-/*
+
+
 void FlyingEnemy::move()
 {
     if (this->isRight())
     {
-        x += speed;
+        x += xSpeed;
     }
     else
     {
-        x -= speed;
+        x -= xSpeed;
     }
     if (movingUp)
     {
-        y += speed;
+        y += xSpeed;
     }
     else
     {
-        y -= speed;
+        y -= xSpeed;
     }
 
     World& world = World::instance();
@@ -94,7 +110,6 @@ void FlyingEnemy::collide(CollisionDetails *details)
     if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
         if (details->getXStopCollide() != 0) {
             x += details->getXStopCollide();
-            facingRight = !facingRight;
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
@@ -108,4 +123,3 @@ void FlyingEnemy::collide(CollisionDetails *details)
         }
     }
 }
-*/

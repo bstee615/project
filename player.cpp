@@ -14,6 +14,12 @@ void Player::jump()
 
 void Player::moveRight()
 {
+    if (!movable)
+    {
+        slowToStop();
+        return;
+    }
+
     // player accelerates up to a speed of 8 pixels per timer hit
     if (xSpeed < 9) {
         xSpeed += 1;
@@ -22,6 +28,12 @@ void Player::moveRight()
 
 void Player::moveLeft()
 {
+    if (!movable)
+    {
+        slowToStop();
+        return;
+    }
+
     // player accelerates up to a speed of 8 pixels per timer hit
     if (xSpeed > -9) {
         xSpeed += -1;
@@ -87,6 +99,24 @@ void Player::collide(CollisionDetails *details)
         World::instance().incScore(c->getAmount());
         }
         c->setisCollectible(false);
+
+    }
+    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
+    {
+        if (details->getXStopCollide() > 0)
+        {
+            x += 5;
+            xSpeed += 15;
+            ySpeed -= 10;
+            movable = false;
+        }
+        else if (details->getXStopCollide() < 0)
+        {
+            x -= 5;
+            xSpeed -= 15;
+            ySpeed -= 10;
+            movable = false;
+        }
 
     }
 }

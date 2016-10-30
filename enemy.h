@@ -8,7 +8,7 @@
 class Enemy : public Object
 {
     int damage;
-    bool facingRight;// if false, then enemy is facing left.
+    bool right;// if false, then enemy is facing left.
 
 public:
     Enemy(): Object()
@@ -16,21 +16,20 @@ public:
         damage = 0;
         xSpeed = 3;
         ySpeed = 0;
-        facingRight = true;
+        right = true;
         onPlatform = true;
     }
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 
     virtual void move();
-    bool isOnPlatform();
     virtual void collide(CollisionDetails* details);
 
     virtual int getSpeed() { return xSpeed; }
-    virtual bool isRight() { return facingRight; }
+    virtual bool isRight() { return right; }
     virtual bool isFlying() { return false; }
 
     void setDamage(int newDamage) { damage = newDamage; }
-    void setRight(bool newRight) { facingRight = newRight; }
+    void switchRight() { right = !right; }
 };
 
 class FlyingEnemy:public Enemy

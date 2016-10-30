@@ -60,12 +60,14 @@ public:
 	void loadLevel(QString filename);
 
     bool canJump(Player* player);
-    void resetOnDeath(Player* player);
+    void death(Player* player);
+    void resetPlayer(Player* player);
     void setWalkImage(Player* player);
     void setJumpImage(Player* player);
 	void showCoin();
 
 	QTimer* getTimer() {return timer;}
+    void delay(int);
 
 private:
 	Ui::MainWidget *ui;
@@ -81,6 +83,8 @@ private slots:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
+    void normalMove();
+    void normalImage();
 };
 
 #endif // MAINWIDGET_H

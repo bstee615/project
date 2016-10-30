@@ -96,6 +96,8 @@ Object *World::createObject(const string& type) {
 		return new Platform;
     else if (type.find("en") == 0)
         return new Enemy;
+    else if (type.find("flyingen") == 0)
+        return new FlyingEnemy;
 	else
 		return NULL;
 }

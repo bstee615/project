@@ -29,5 +29,8 @@
         <file>images/cooltext212993929389269.gif</file>
         <file>images/dirt.png</file>
         <file>easy.lv</file>
+        <file>images/maincharacter/hurtleft.png</file>
+        <file>images/maincharacter/jump3left.png</file>
+        <file>images/groundrobotleft.png</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <cmath>
+#include <QTime>
 
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
@@ -55,18 +56,7 @@ void MainWidget::loadLevel(QString filename)
 		label->setObject(worldObj);
 		label->updateLabelPosition();
 		label->setScaledContents(true);
-		label->setPixmap(QPixmap(worldObj->getImage()));
-		if (dynamic_cast<Platform*>(worldObj) != NULL)
-		{
-//			label->setPixmap(QPixmap(worldObj->getImage()));
-        } else if (dynamic_cast<Coin*>(worldObj) != NULL)
-		{
-//            label->setPixmap(QPixmap(worldObj->getImage()));
-		}
-        else if (dynamic_cast<Enemy*>(worldObj) != NULL)
-        {
-
-        }
+        label->setPixmap(QPixmap(worldObj->getImage()));
 		label->show();
 	}
 	if (lblPlayer != NULL)
@@ -78,6 +68,8 @@ void MainWidget::loadLevel(QString filename)
 
 void MainWidget::setWalkImage(Player* player)
 {
+    if (!player->canMove())
+        return;
 	QString imagename = ":/images/maincharacter/walk";
 	if (player->getCount() < 7)
 	{
@@ -101,27 +93,28 @@ void MainWidget::setWalkImage(Player* player)
 
 void MainWidget::timerHit(){
 
+
+
     //program 4 code below (for reference)
     World& world = World::instance();
     Player* player = world.getPlayer();
 
+    labelPlayer->setPixmap(player->getImage());
     player->advanceCount();
 
     if ((right && left) || (!right && !left)) {
         // if both right and left arrows are held down or both are released slow the player to a stop
         player->slowToStop();
-        labelPlayer->setPixmap(player->getImage());
         player->setCount(0);
+        normalImage();
     } else if (right) {
         // if the right arrow is pressed the player goes right
         player->moveRight();
         setWalkImage(player);
-        labelPlayer->setPixmap(player->getImage());
     } else if (left) {
         // if the left arrow is pressed the player goes left
         player->moveLeft();
         setWalkImage(player);
-        labelPlayer->setPixmap(player->getImage());
     }
     // updates player's position in the model
     player->move();
@@ -134,7 +127,8 @@ void MainWidget::timerHit(){
 	{
 		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
 		player->setXSpeed(0);
-	}
+    }
+
 	// update screen location based on player location
 	PlayingScreen* screen = World::instance().getScreen();
 	if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
@@ -165,9 +159,22 @@ void MainWidget::timerHit(){
         CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
         if (collision != NULL) {
             player->collide(collision);
+            if (dynamic_cast<Enemy*>(collision->getCollided()))
+                death(player);
             delete collision;
         }
     }
+
+    if (!player->canMove())
+    {
+        player->setImage(":/images/maincharacter/hurt.png");
+        if (player->isLeft())
+            player->setImage(":/images/maincharacter/hurtleft.png");
+
+        QTimer::singleShot(10, this, SLOT(normalMove()));
+        QTimer::singleShot(500, this, SLOT(normalImage()));
+    }
+
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
     if (titleScrn->isPlaying())
@@ -178,7 +185,31 @@ void MainWidget::timerHit(){
             if (enemy != NULL)
             {
                 enemy->move();
+                if (dynamic_cast<FlyingEnemy*>(enemy) != NULL)
+                {
+                    if (enemy->isRight())
+                        enemy->setImage(":/images/flyingrobot.png");
+                    else
+                        enemy->setImage(":/images/flyingrobotleft.png");
+                }
+                else
+                {
+                    if (enemy->isRight())
+                        enemy->setImage(":/images/groundrobot.png");
+                    else
+                        enemy->setImage(":/images/groundrobotleft.png");
+                }
             }
+            /*
+            FlyingEnemy* flyenemy = dynamic_cast<FlyingEnemy*>(world.getObjects().at(i));
+            if (flyenemy != NULL)
+            {
+                flyenemy->move();
+                if (flyenemy->isRight())
+                    flyenemy->setImage(":/images/flyingrobot.png");
+                else
+                    flyenemy->setImage(":/images/flyingrobotleft.png");
+            }*/
         }
     }
 
@@ -189,6 +220,7 @@ void MainWidget::timerHit(){
         if (guiObject != NULL) {
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
+            guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
         }
     }
 
@@ -198,47 +230,54 @@ void MainWidget::timerHit(){
          if (guiObject != NULL) {
 			 // updates the position of each label to the position of its object in the model
              guiObject->updateLabelPosition();
+             guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
          }
     }
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
-    resetOnDeath(player);
-}
-
-// PoC ONLY! needs serious revamping when we implement scrolling/moving screen.
-void MainWidget::resetOnDeath(Player* player)
-{
 
     if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
-	{
-		player->setNumLives(player->getNumLives() - 1);
-		if (player->getNumLives() > 0) {
-			if (player->getNumLives() == 2){
-				ui->lblLife3->hide();
-			} else if (player->getNumLives() == 1){
-				ui->lblLife2->hide();
-			}
-			player->setX(29);
-			player->setY(212);
-			ui->lblScore->setText("0");
-			World::instance().setScore(0);
-			World::instance().getScreen()->setLocation(0, 0);
-			for (Object* worldObj : World::instance().getObjects()) {
-
-				Coin * coin = dynamic_cast<Coin*>(worldObj);
-				if (coin != NULL) {
-					coin->setVisibility(true);
-					coin->setisCollectible(true);
-				}
-			}
-			showCoin();
-		} else {
-			ui->lblLife1->hide();
-			EndGame * e = new EndGame(ui->worldWidget);
-			e->show();
-			timer->stop();
-		}
+    {
+        death(player);
+        resetPlayer(player);
     }
+
+}
+
+void MainWidget::resetPlayer(Player* player)
+{
+    player->setX(29);
+    player->setY(212);
+    World::instance().setScore(0);
+    ui->lblScore->setText("0");
+    World::instance().getScreen()->setLocation(0, 0);
+}
+
+void MainWidget::death(Player* player)
+{
+
+    player->setNumLives(player->getNumLives() - 1);
+        if (player->getNumLives() > 0) {
+            if (player->getNumLives() == 2){
+                ui->lblLife3->hide();
+            } else if (player->getNumLives() == 1){
+                ui->lblLife2->hide();
+            }
+            for (Object* worldObj : World::instance().getObjects()) {
+
+                Coin * coin = dynamic_cast<Coin*>(worldObj);
+                if (coin != NULL) {
+                    coin->setVisibility(true);
+                    coin->setisCollectible(true);
+                }
+            }
+            showCoin();
+        } else {
+            ui->lblLife1->hide();
+            EndGame * e = new EndGame(ui->worldWidget);
+            e->show();
+            timer->stop();
+        }
 }
 
 //displays all the coins in the world if the player has lives left
@@ -275,10 +314,14 @@ MainWidget::~MainWidget()
 
 void MainWidget::keyPressEvent(QKeyEvent *event)
 {
+    Player* player = World::instance().getPlayer();
+
 	if (event->key() == Qt::Key_Left) {
-		this->left = true;
+        this->left = true;
+        player->setLeft(true);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
+        player->setLeft(false);
 	} else if (event->key() == Qt::Key_Space) {
 		Player* player = World::instance().getPlayer();
 		player->setJumpOnMove(true);
@@ -287,13 +330,27 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
 {
-	Player* player = World::instance().getPlayer();
 	if (event->key() == Qt::Key_Left) {
-		this->left = false;
-		player->setImage(":/images/maincharacter/standleft.png");
+        this->left = false;
 	} else if (event->key() == Qt::Key_Right) {
-		this->right = false;
-		player->setImage(":/images/maincharacter/stand.png");
+        this->right = false;
 	}
 }
 
+void MainWidget::normalMove()
+{
+    Player* player = World::instance().getPlayer();
+    player->toggleCanMove();
+
+}
+
+void MainWidget::normalImage()
+{
+    Player* player = World::instance().getPlayer();
+    if (player->canMove())
+    {
+        player->setImage(":/images/maincharacter/stand.png");
+        if (player->isLeft())
+            player->setImage(":/images/maincharacter/standleft.png");
+    }
+}
