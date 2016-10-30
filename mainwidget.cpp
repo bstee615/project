@@ -141,6 +141,17 @@ void MainWidget::timerHit(){
 		screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
 	}
 
+	if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
+		&& (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
+	{
+		screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
+	}
+	else if (player->getY() - screen->getY() < screen->getCenterY(player->getHeight())
+		&& screen->getY() > 0)
+	{
+		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
+	}
+
 	for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
         // checks to see if player the player collides with each object
