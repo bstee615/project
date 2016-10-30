@@ -8,23 +8,28 @@
 class Enemy : public Object
 {
     int damage;
-    int speed;
     bool facingRight;// if false, then enemy is facing left.
 
 public:
-    Enemy(): Object() { }
+    Enemy(): Object()
+    {
+        damage = 0;
+        xSpeed = 3;
+        ySpeed = 0;
+        facingRight = true;
+        onPlatform = true;
+    }
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 
     virtual void move();
     bool isOnPlatform();
     virtual void collide(CollisionDetails* details);
 
-    virtual int getSpeed() { return speed; }
+    virtual int getSpeed() { return xSpeed; }
     virtual bool isRight() { return facingRight; }
     virtual bool isFlying() { return false; }
 
     void setDamage(int newDamage) { damage = newDamage; }
-    void setSpeed(int newSpeed) { speed = newSpeed; }
     void setRight(bool newRight) { facingRight = newRight; }
 };
 

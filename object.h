@@ -68,9 +68,12 @@ public:
     virtual int getXSpeed() { return xSpeed; }
     virtual int getYSpeed() { return ySpeed; }
 
+    virtual void setXSpeed(int speed) { xSpeed = speed; }
+    virtual void setYSpeed(int speed) { ySpeed = speed; }
+
+
     // virtual setter methods for enemies.
     virtual void setDamage(int) { }
-    virtual void setSpeed(int) { }
     virtual void setRight(bool) { }
 
     int getCount() { return count; }
