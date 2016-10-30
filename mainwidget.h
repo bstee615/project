@@ -56,7 +56,7 @@ public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
 
-    void loadLevel(std::string filename);
+	void loadLevel(QString filename);
 
     bool canJump(Player* player);
     void resetOnDeath(Player* player);

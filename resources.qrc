@@ -1,4 +1,3 @@
-
 <RCC>
     <qresource prefix="/">
         <file>images/goldCoin/goldCoin9.png</file>
@@ -29,5 +28,6 @@
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
+        <file>easy.lv</file>
     </qresource>
 </RCC>

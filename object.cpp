@@ -1,7 +1,7 @@
-#include "object.h"
 #include <QRect>
 #include <cassert>
 #include <iostream>
+#include "object.h"
 
 int Object::nextID = 0;
 

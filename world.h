@@ -70,9 +70,9 @@ public:
 	static World& instance() { return world; }
 
 	// Load level stored in "<filename>.lv"
-	void loadLevel(string filename);
+	void loadLevel(QString filename);
 
-	void loadObjects(ifstream& file);
+	void loadObjects(QTextStream &in);
 
 	PlayingScreen* getScreen() {return screen;}
 	void setScreen(PlayingScreen* scr) {screen = scr;}

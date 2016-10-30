@@ -19,10 +19,10 @@ public:
 	static LoadSave& instance();
 
 	// loads a save state and configures objects
-	void load(string filename);
+	void load(QString filename);
 
 	// reads object data and saves a save state file
-	void save(string filename);
+	void save(QString filename);
 
 	static void teardown();
 };

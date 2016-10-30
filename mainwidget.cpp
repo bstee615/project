@@ -20,7 +20,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	timer = new QTimer(this);
 	timer->setInterval(33);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-	loadLevel("easy.lv");
+	loadLevel(":/easy.lv");
 	right = false;
 	left = false;
 	TitleScreen* titleScn = new TitleScreen(ui->worldWidget);
@@ -29,7 +29,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	timer->start();
 }
 
-void MainWidget::loadLevel(string filename)
+void MainWidget::loadLevel(QString filename)
 {
 	ObjectLabel* lblPlayer = NULL;
 

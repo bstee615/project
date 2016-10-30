@@ -2,7 +2,7 @@
  * loadsave.cpp
  */
 
-#include <fstream>
+#include <QFile>
 #include "loadsave.h"
 #include "object.h"
 
@@ -16,15 +16,16 @@ LoadSave& LoadSave::instance()
 }
 
 // loads a save state and configures objects
-void LoadSave::load(string filename)
+void LoadSave::load(QString filename)
 {
-	ifstream file(filename);
-	if (file.is_open())
+	QFile file(filename);
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 		// read lines and configure objects
-		string line = "";
-		while (getline(file, line))
+		QTextStream in(&file);
+		while (!in.atEnd())
 		{
+			QString line = in.readLine();
 			// -- something like this --
 //			 Object* obj(line); -- we should let objects have a constructor that takes a string,
 //									so we can pass the string in and set up the object
@@ -36,15 +37,16 @@ void LoadSave::load(string filename)
 }
 
 // reads object data and saves a save state file
-void LoadSave::save(string filename)
+void LoadSave::save(QString filename)
 {
-	ofstream file(filename);
-	if (file.is_open())
+	QFile file(filename);
+	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
+		QTextStream out(&file);
 		// write lines from Object.save() method
 //		for (Object* obj : [the world].objects())
 //		{
-//			file << obj.save() << endl; -- Object::save() method should return a string, a line for the file
+//			out << obj.save() << "\n"; -- Object::save() method should return a string, a line for the file
 //		}
 		file.close();
 	}

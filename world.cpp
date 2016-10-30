@@ -1,4 +1,4 @@
-#include <fstream>
+#include <QFile>
 #include "world.h"
 
 World World::world;
@@ -101,44 +101,43 @@ Object *World::createObject(const string& type) {
 }
 
 // Load level stored in <filename>
-void World::loadLevel(string filename)
+void World::loadLevel(QString filename)
 {
-	ifstream file(filename);
-	if (file.is_open())
+	QFile file(filename);
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 		// read lines and configure objects
-		string line = "";
+		QString line = "";
+		QTextStream in(&file);
 
 		// not used yet -->
-		getline(file, line);
-		int time = stoi(line);
+		line = in.readLine();
+		int time = line.toInt();
 		// --> end not used yet
-		getline(file, line);
 
 		// set up screen object
-		vector<string> levelDim = split(line, ",");
-		stoi(levelDim.at(0));
-		stoi(levelDim.at(1));
-		getline(file, line);
-		vector<string> screenCoord = split(line, ",");
+		line = in.readLine();
+		QList<QString> levelDim = line.split(",");
+		line = in.readLine();
+		QList<QString> screenCoord = line.split(",");
 		World::instance().setScreen(new PlayingScreen(
-										stoi(screenCoord.at(0)),
-										stoi(screenCoord.at(1)),
+										screenCoord.at(0).toInt(),
+										screenCoord.at(1).toInt(),
 										0, // don't know the dimensions of the screen here
 										0, // will set that in mainwidget.cpp
-										stoi(levelDim.at(0)),
-										stoi(levelDim.at(1))));
+										levelDim.at(0).toInt(),
+										levelDim.at(1).toInt()));
 
 		// player
-		getline(file, line);
-		vector<string> playerCoord = split(line, ",");
-		int pX = stoi(playerCoord.at(0));
-		int pY = stoi(playerCoord.at(1));
+		line = in.readLine();
+		QList<QString> playerCoord = line.split(",");
+		int pX = playerCoord.at(0).toInt();
+		int pY = playerCoord.at(1).toInt();
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
 		World::instance().setPlayer(player);
 
 		// loop to get platforms
-		loadObjects(file);
+		loadObjects(in);
 		file.close();
 	}
 	else
@@ -148,35 +147,36 @@ void World::loadLevel(string filename)
 }
 
 // loop to setup platforms, enemies, and coins
-void World::loadObjects(ifstream& file)
+void World::loadObjects(QTextStream& in)
 {
-    string line;
-    Object* obj;
-    while (getline(file, line))
+	QString line = "";
+	Object* obj = NULL;
+	while (!in.atEnd())
     {
-        vector<string> params = split(line, ",");
-		obj = World::instance().createObject(params.at(0));
+		line = in.readLine();
+		QList<QString> params = line.split(",");
+		obj = World::instance().createObject(params.at(0).toStdString());
 
 		// get type of object and configure accordingly
 		if (obj != NULL)
         {
 			// get and set object properties
-			obj->setX(stoi(params.at(1)));
-			obj->setY(stoi(params.at(2)));
-			obj->setWidth(stoi(params.at(3)));
-			obj->setHeight(stoi(params.at(4)));
-			obj->setImage(QString::fromStdString(params.at(5)));
+			obj->setX(params.at(1).toInt());
+			obj->setY(params.at(2).toInt());
+			obj->setWidth(params.at(3).toInt());
+			obj->setHeight(params.at(4).toInt());
+			obj->setImage(params.at(5));
             //DO NOT CHANGE THIS TO COLLECTIBLE. thanks haha
             if (dynamic_cast<Coin*>(obj) != NULL)
 			{
 				// set collectible type
-                obj->setAmount(stoi(params.at(6)));
+				obj->setAmount(params.at(6).toInt());
 			}
 
             if (dynamic_cast<Enemy*>(obj) != NULL)
             {
-                obj->setDamage(stoi(params.at(6)));
-                obj->setXSpeed(stoi(params.at(7)));
+				obj->setDamage(params.at(6).toInt());
+				obj->setXSpeed(params.at(7).toInt());
                 obj->setRight(true);
             }
 			World::instance().add(obj);
