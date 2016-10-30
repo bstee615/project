@@ -1,4 +1,3 @@
-
 <RCC>
     <qresource prefix="/">
         <file>images/goldCoin/goldCoin9.png</file>
@@ -25,9 +24,13 @@
         <file>images/maincharacter/walk2.png</file>
         <file>images/maincharacter/standleft.png</file>
         <file>images/higscores.gif</file>
-        <file>images/pavement9.png</file>
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
+        <file>images/castle.png</file>
+        <file>images/dirt.png</file>
+        <file>images/grass.png</file>
+        <file>images/sand.png</file>
+        <file>images/snow.png</file>
     </qresource>
 </RCC>

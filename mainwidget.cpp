@@ -23,9 +23,9 @@ MainWidget::MainWidget(QWidget *parent) :
 	loadLevel("easy.lv");
 	right = false;
 	left = false;
-	TitleScreen* titleScn = new TitleScreen(ui->worldWidget);
-	titleScn->show();
-	titleScn->raise();
+    titleScrn = new TitleScreen(ui->worldWidget);
+    titleScrn->show();
+    titleScrn->raise();
 	timer->start();
 }
 
@@ -153,12 +153,15 @@ void MainWidget::timerHit(){
     }
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
-	for (size_t i = 0; i < world.getObjects().size(); ++i)
+    if (titleScrn->isPlaying())
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
-        if (enemy != NULL)
+        for (size_t i = 0; i < world.getObjects().size(); ++i)
         {
-            enemy->move();
+            Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
+            if (enemy != NULL)
+            {
+                enemy->move();
+            }
         }
     }
 
