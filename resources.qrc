@@ -24,10 +24,10 @@
         <file>images/maincharacter/walk2.png</file>
         <file>images/maincharacter/standleft.png</file>
         <file>images/higscores.gif</file>
-        <file>images/pavement9.png</file>
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
         <file>easy.lv</file>
+        <file>images/dirt.png</file>
     </qresource>
 </RCC>

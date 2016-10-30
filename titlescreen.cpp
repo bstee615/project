@@ -10,6 +10,7 @@ TitleScreen::TitleScreen(QWidget *parent) :
 {
     widgetParent = parent;
 	ui->setupUi(this);
+    playing = false;
 }
 
 TitleScreen::~TitleScreen()
@@ -20,7 +21,9 @@ TitleScreen::~TitleScreen()
 void TitleScreen::on_btnStart_clicked()
 {
 	this->hide();
-	this->widgetParent->setFocus();
+    this->widgetParent->setFocus();
+
+	playing = true;
 }
 
 void TitleScreen::on_lblHighScores_clicked()

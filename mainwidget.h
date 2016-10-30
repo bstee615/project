@@ -11,6 +11,7 @@
 #include "player.h"
 #include "playingscreen.h"
 #include "world.h"
+#include "titlescreen.h"
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
@@ -71,6 +72,7 @@ private:
 	QTimer * timer;
 	bool right;
 	bool left;
+    TitleScreen* titleScrn;
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;

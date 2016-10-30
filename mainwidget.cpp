@@ -28,9 +28,9 @@ MainWidget::MainWidget(QWidget *parent) :
 	loadLevel(":/easy.lv");
 	right = false;
 	left = false;
-	TitleScreen* titleScn = new TitleScreen(ui->worldWidget);
-	titleScn->show();
-	titleScn->raise();
+    titleScrn = new TitleScreen(ui->worldWidget);
+    titleScrn->show();
+    titleScrn->raise();
 	timer->start();
 }
 
@@ -55,16 +55,17 @@ void MainWidget::loadLevel(QString filename)
 		label->setObject(worldObj);
 		label->updateLabelPosition();
 		label->setScaledContents(true);
+		label->setPixmap(QPixmap(worldObj->getImage()));
 		if (dynamic_cast<Platform*>(worldObj) != NULL)
 		{
-			label->setPixmap(QPixmap(worldObj->getImage()));
+//			label->setPixmap(QPixmap(worldObj->getImage()));
         } else if (dynamic_cast<Coin*>(worldObj) != NULL)
 		{
-            label->setPixmap(QPixmap(worldObj->getImage()));
+//            label->setPixmap(QPixmap(worldObj->getImage()));
 		}
         else if (dynamic_cast<Enemy*>(worldObj) != NULL)
         {
-            label->setPixmap(QPixmap(worldObj->getImage()).scaled(42,48));
+
         }
 		label->show();
 	}
@@ -72,7 +73,7 @@ void MainWidget::loadLevel(QString filename)
 	{
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
-	}
+    }
 }
 
 void MainWidget::setWalkImage(Player* player)
@@ -169,12 +170,15 @@ void MainWidget::timerHit(){
     }
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
-	for (size_t i = 0; i < world.getObjects().size(); ++i)
+    if (titleScrn->isPlaying())
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
-        if (enemy != NULL)
+        for (size_t i = 0; i < world.getObjects().size(); ++i)
         {
-            enemy->move();
+            Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
+            if (enemy != NULL)
+            {
+                enemy->move();
+            }
         }
     }
 
