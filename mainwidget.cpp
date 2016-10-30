@@ -68,7 +68,7 @@ void MainWidget::loadLevel(string filename)
 	{
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
-	}
+    }
 }
 
 void MainWidget::setWalkImage(Player* player)
