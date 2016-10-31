@@ -8,31 +8,13 @@ void Enemy::load(QString config)
 	Object::load(config);
 	this->setDamage(10);
 	this->setXSpeed(2);
-	this->setRight(true);
-    if (params.at(6) == "flying")
-        flying = true;
+    this->setRight(true);
 }
 
 QString Enemy::save() {return Object::save();}
 
 void Enemy::move()
 {
-    vector<Object*> objects = World::instance().getObjects();
-
-    if (!flying)
-    {
-    for (size_t i = 0; i < objects.size(); i ++)
-    {
-        if (dynamic_cast<Platform*>(objects.at(i)) != NULL)
-            {
-                if (x == objects.at(i)->getX() || x + width == objects.at(i)->getRightPoint())
-                {
-                    right = !right;
-                }
-            }
-        }
-    }
-
     if (right)
     {
         x += xSpeed;
@@ -42,38 +24,15 @@ void Enemy::move()
         x -= xSpeed;
     }
 
-    if (flying)
+    for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
-        if (up)
-            y -= ySpeed;
-        else
-            y += ySpeed;
-        if (y == initY + 40 || y == initY)
-            up = !up;
-    }
-
-    if (count < 80)
-    {
-        count++;
-    }
-    if (count  == 80)
-    {
-        up = !up;
-    }
-
-
-
-    World& world = World::instance();
-    for (size_t i = 0; i < world.getObjects().size(); i ++)
-    {
-        CollisionDetails* col = this->checkCollision(world.getObjects().at(i));
+        CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
-            this->collide(col);
+            collide(col);
             delete col;
         }
     }
-
 }
 
 void Enemy::collide(CollisionDetails *details)
@@ -85,6 +44,60 @@ void Enemy::collide(CollisionDetails *details)
                 right = true;
             if (details->getXStopCollide() < 0)
                 right = false;
+        }
+        if (details->getYStopCollide() != 0) {
+            y += details->getYStopCollide();
+        }
+    }
+}
+
+void FlyingEnemy::move()
+{
+    if (isRight())
+    {
+        x += xSpeed;
+    }
+    else
+    {
+        x -= xSpeed;
+    }
+
+    if (up)
+        y -= ySpeed;
+    else
+        y += ySpeed;
+    if (y == initY + 40 || y == initY)
+        up = !up;
+
+    if (count < 80)
+    {
+        count++;
+    }
+    if (count  == 80)
+    {
+        up = !up;
+    }
+
+    for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
+    {
+        CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
+        if (col != NULL)
+        {
+            collide(col);
+            delete col;
+        }
+    }
+}
+
+void FlyingEnemy::collide(CollisionDetails *details)
+{
+    if (dynamic_cast<Platform*>(details->getCollided()) != NULL || dynamic_cast<Player*>(details->getCollided()) != NULL) {
+        if (details->getXStopCollide() != 0) {
+            x += details->getXStopCollide();
+            if (details->getXStopCollide() > 0)
+                setRight(true);
+            if (details->getXStopCollide() < 0)
+                setRight(false);
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();

@@ -9,12 +9,6 @@ class Enemy : public Object
 {
     int damage;
     bool right;// if false, then enemy is facing left.
-    bool up;
-
-    int initX;
-    int initY;
-
-    bool flying;
 
 public:
     Enemy(): Object()
@@ -22,7 +16,6 @@ public:
         damage = 0;
         right = true;
         onPlatform = true;
-        up = false;
         xSpeed = 3;
         ySpeed = 0;
     }
@@ -35,19 +28,24 @@ public:
 
     virtual int getSpeed() { return xSpeed; }
     virtual bool isRight() { return right; }
-    virtual bool isUp() { return up; }
-
-	virtual void setInitX(int newX) { initX = newX; }
-	virtual void setInitY(int newY) { initY = newY; }
-    virtual int getInitX() { return initX; }
-    virtual int getInitY() { return initY; }
+    virtual void setRight(bool newRight) { right = newRight; }
 
     void setDamage(int newDamage) { damage = newDamage; }
+};
 
-    virtual void toggleMovingRight() { right = !right; }
-    virtual void toggleMovingUp() { up = !up; }
-    virtual bool isFlying() { return flying; }
-    virtual void setFlying(bool fly) { flying = fly; }
+class FlyingEnemy: public Enemy
+{
+    bool up;
+    int initY;
+
+public:
+    FlyingEnemy(): Enemy(), up(true) { }
+
+    void move();
+    void collide(CollisionDetails*);
+
+    virtual void setInitY(int newY) { initY = newY; }
+    virtual int getInitY() { return initY; }
 };
 
 #endif // ENEMY_H
