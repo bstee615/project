@@ -24,7 +24,7 @@ class ObjectLabel : public QLabel {
         widget = parent;
         object = NULL;
     }
-    ~ObjectLabel() { }
+    ~ObjectLabel() { /*do not delete object here. Objects are deleted in the world class*/ }
 
     int getId() { return id; }
     void setId(int newId) { id = newId; }
