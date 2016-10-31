@@ -126,6 +126,7 @@ void Player::collide(CollisionDetails *details)
             xSpeed += 15;
             ySpeed -= 10;
             movable = false;
+            details->getCollided()->setRight(false);
         }
         else if (details->getXStopCollide() < 0)
         {
@@ -133,6 +134,7 @@ void Player::collide(CollisionDetails *details)
             xSpeed -= 15;
             ySpeed -= 10;
             movable = false;
+            details->getCollided()->setRight(true);
         }
 
    } else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){

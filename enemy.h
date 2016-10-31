@@ -7,8 +7,7 @@
 
 class Enemy : public Object
 {
-    int damage;
-    bool right;// if false, then enemy is facing left.
+    int damage;// if false, then enemy is facing left.
 
 public:
     Enemy(): Object()
@@ -27,8 +26,6 @@ public:
     virtual void collide(CollisionDetails* details);
 
     virtual int getSpeed() { return xSpeed; }
-    virtual bool isRight() { return right; }
-    virtual void setRight(bool newRight) { right = newRight; }
 
     void setDamage(int newDamage) { damage = newDamage; }
 };

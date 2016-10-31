@@ -67,9 +67,6 @@ void World::reset() {
     for (size_t i = 0; i < objects.size(); ++i) {
         delete objects.at(i);
     }
-    for (size_t i = 0; i < enemies.size(); ++i) {
-        delete enemies.at(i);
-    }
     delete player;
     score = 0;
     seconds = 0;

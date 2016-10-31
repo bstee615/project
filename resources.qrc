@@ -12,11 +12,7 @@
         <file>P&amp;Plogo_composite.png</file>
         <file>images/maincharacter/walk2left.png</file>
         <file>images/maincharacter/hurt.png</file>
-        <file>images/maincharacter/jump1.png</file>
-        <file>images/maincharacter/jump2.png</file>
         <file>images/maincharacter/jump3.png</file>
-        <file>images/maincharacter/jump4.png</file>
-        <file>images/maincharacter/kick.png</file>
         <file>images/maincharacter/maincharacter1.png</file>
         <file>images/maincharacter/stand.png</file>
         <file>images/maincharacter/walk1.png</file>
@@ -27,7 +23,6 @@
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
-        <file>images/dirt.png</file>
         <file>easy.lv</file>
         <file>images/maincharacter/hurtleft.png</file>
         <file>images/maincharacter/jump3left.png</file>
@@ -35,5 +30,21 @@
         <file>images/flag.png</file>
         <file>images/flyingrobot.png</file>
         <file>images/flyingrobotleft.png</file>
+        <file>images/bridgelogs.png</file>
+        <file>images/bridgeplanks.png</file>
+        <file>images/lava.png</file>
+        <file>images/objectarrowsign.png</file>
+        <file>images/objectexitsign.png</file>
+        <file>images/objecthill.png</file>
+        <file>images/objecttorch.png</file>
+        <file>images/objectwindow.png</file>
+        <file>images/platformbox.png</file>
+        <file>images/platformcastle.png</file>
+        <file>images/platformdirt.png</file>
+        <file>images/platformearth.png</file>
+        <file>images/platformsand.png</file>
+        <file>images/platformsnow.png</file>
+        <file>images/platformstone.png</file>
+        <file>images/water.png</file>
     </qresource>
 </RCC>

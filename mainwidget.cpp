@@ -86,15 +86,6 @@ void MainWidget::loadLevel(QString filename)
 		label->setScaledContents(true);
         label->setPixmap(QPixmap(worldObj->getImage()));
 		label->show();
-	}
-    for (Enemy* enemy: World::instance().getEnemies())
-    {
-        ObjectLabel* label = new ObjectLabel(ui->worldWidget);
-        label->setObject(enemy);
-        label->updateLabelPosition();
-        label->setScaledContents(true);
-        label->setPixmap(QPixmap(enemy->getImage()));
-        label->show();
     }
 
 	if (lblPlayer != NULL)
@@ -203,10 +194,16 @@ void MainWidget::timerHit(){
             delete collision;
         }
     }
-    for(size_t i = 0; i < world.getEnemies().size(); ++i) {
+
+    for (size_t i = 0; i < world.getObjects().size(); i ++)
+    {
+        world.getObjects().at(i)->move();
+    }
+
+    for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
         // checks to see if player the player collides with each object
-        CollisionDetails* collision = player->checkCollision(world.getEnemies().at(i));
+        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
         if (collision != NULL) {
             player->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
@@ -223,11 +220,6 @@ void MainWidget::timerHit(){
 
         QTimer::singleShot(10, this, SLOT(normalMove()));
         QTimer::singleShot(500, this, SLOT(normalImage()));
-    }
-
-    for (size_t i = 0; i < world.getEnemies().size(); i ++)
-    {
-        world.getEnemies().at(i)->move();
     }
 
     for (int i = 0; i < ui->worldWidget->children().length(); i++)

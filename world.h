@@ -22,7 +22,6 @@ class World {
 	vector<Object*> objects;
 	Player* player;
     EndGameObject* endGame;
-	vector<Enemy*> enemies;
     PlayingScreen* screen;
 
 	// singleton instance
@@ -50,26 +49,12 @@ public:
 		if (it == objects.end()) {
 			objects.push_back(obj);
 		}
-	}
-    void addEnemy(Enemy* en)
-    {
-        auto it = enemies.begin();
-        for (; it != enemies.end(); ++it) {
-            if (en->getId() < (*it)->getId()) {
-                enemies.insert(it, en);
-                break;
-            }
-        }
-        if (it == enemies.end()) {
-            enemies.push_back(en);
-        }
     }
 
 	// returns object with <id>, or NULL if none
 	Object *getById(int id);
 
-	vector<Object*>& getObjects() { return objects; }
-	vector<Enemy*>& getEnemies() { return enemies; }
+    vector<Object*>& getObjects() { return objects; }
 	Player* getPlayer() { return player; }
         EndGameObject * getEndGame() { return endGame; }
 	void setPlayer(Player* initPlayer) { player = initPlayer;}

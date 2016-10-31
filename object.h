@@ -25,6 +25,8 @@ protected:
     int xSpeed;
     int ySpeed;
 
+    bool right;
+
     int count;// used to animate images. thought it'd be better to move it here from mainwindow.
 
 public:
@@ -41,6 +43,8 @@ public:
 
 	virtual void load(QString config);
 	virtual QString save();
+
+    virtual void move() { }
 
 	// accessors & mutators
 	virtual int getX() {return x;}
@@ -76,7 +80,9 @@ public:
 
     // virtual setter methods for enemies.
     virtual void setDamage(int) { }
-    virtual void setRight(bool) { }
+
+    virtual bool isRight() { return right; }
+    virtual void setRight(bool newRight) { right = newRight; }
 
     int getCount() { return count; }
     void advanceCount() { count++; }
