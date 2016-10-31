@@ -32,5 +32,7 @@
         <file>images/maincharacter/hurtleft.png</file>
         <file>images/maincharacter/jump3left.png</file>
         <file>images/groundrobotleft.png</file>
+        <file>images/flyingrobot.png</file>
+        <file>images/flyingrobotleft.png</file>
     </qresource>
 </RCC>

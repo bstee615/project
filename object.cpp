@@ -77,7 +77,11 @@ void Object::load(QString config)
 	{
         this->setDamage(10);
         this->setXSpeed(2);
-		this->setRight(true);
+        this->setYSpeed(2);
+        this->setRight(true);
+        dynamic_cast<Enemy*>(this)->setFlying(params.at(6) == "flying");
+        dynamic_cast<Enemy*>(this)->setInitX(params.at(1).toInt());
+        dynamic_cast<Enemy*>(this)->setInitY(params.at(2).toInt());
 	}
 }
 
