@@ -11,7 +11,10 @@
 #include "world.h"
 #include "titlescreen.h"
 #include "endgame.h"
+#include "highscore.h"
+#include "highscorepage.h"
 #include "loadsave.h"
+
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
@@ -22,30 +25,38 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblLife2->raise();
 	ui->lblLife3->raise();
 	ui->lblScore->raise(); // these components should not be under the world objects
+    ui->lblTimeLeft->raise();
 
 	timer = new QTimer(this);
-    timer->setInterval(60);
+      timer->setInterval(60);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-    clock = new QTimer(this);
-    clock->setInterval(1000);
-    connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
+
+      clock = new QTimer(this);
+     clock->setInterval(1000);
+     connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
+
 	right = false;
 	left = false;
     TitleScreen* titleScrn = new TitleScreen(this);
     titleScrn->show();
     titleScrn->raise();
-    World::instance().setSeconds(0);
+    World::instance().setSeconds(30);
+
 }
 
 void MainWidget::loadLevel(QString filename)
 {
-    ObjectLabel* lblPlayer = NULL;
+
+	ObjectLabel* lblPlayer = NULL;
+        ObjectLabel* lblEndLevel = NULL;
+
     //Deletes all objects from the last game
     for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
         if (dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i)) != NULL){
             ui->worldWidget->children().at(i)->deleteLater();
         }
     }
+
 
 	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
@@ -57,6 +68,15 @@ void MainWidget::loadLevel(QString filename)
 	lblPlayer->setScaledContents(true);
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
+
+    EndGameObject * endGame = World::instance().getEndGame();
+    lblEndLevel = new ObjectLabel(ui->worldWidget);
+    lblEndLevel->setObject(endGame);
+    lblEndLevel->setPixmap(QPixmap(endGame->getImage()));
+    lblEndLevel->setScaledContents(true);
+    lblEndLevel->show();
+    lblEndLevel->updateLabelPosition();
+
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -224,7 +244,7 @@ void MainWidget::timerHit(){
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
-    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
+    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || (World::instance().getSeconds() == 0 && player->getNumLives() == 1))
     {
         death(player);
         resetPlayer(player);
@@ -235,6 +255,7 @@ void MainWidget::timerHit(){
 void MainWidget::clockHit()
 {
     World::instance().setSeconds(World::instance().getSeconds() - 1);
+    ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }
 
 void MainWidget::resetPlayer(Player* player)
@@ -250,7 +271,9 @@ void MainWidget::death(Player* player)
 {
 
     player->setNumLives(player->getNumLives() - 1);
-        if (player->getNumLives() > 0) {
+
+        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && World::instance().getSeconds() != 0) {
+           World::instance().setSeconds(30);
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();
             } else if (player->getNumLives() == 1){
@@ -265,12 +288,16 @@ void MainWidget::death(Player* player)
                 }
             }
             showCoin();
+
+         //will need to split this to display different screens
         } else {
             ui->lblLife1->hide();
             EndGame * e = new EndGame(this);
             e->show();
             timer->stop();
+            //checkhighscores();
             clock->stop();
+
         }
 }
 
@@ -301,9 +328,20 @@ void MainWidget::showCoin() {
 		}
 	}
 }
+/*
+ * void MainWidget::checkHighScore(){
+ * if (World::instance.getScore() > HighScore::instance().getScore(9)) {
+ *        //write up the HighScore::instance().NewHighScore(); method to return where the new score was entered in the array
+ *        highScoreScreen = new HighScorePage(ui->worldWidget);
+          highScoreScreen->show();
+          highScoreScreen->raise();
+          //access the label on the screen based on where the score was entered
+ *        HighScore::instance().SaveScores();
+ * }
+ */
 
-MainWidget::~MainWidget()
-{
+
+MainWidget::~MainWidget() {
 	delete ui;
 }
 

@@ -15,7 +15,7 @@
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
-    Object* object;
+    Object * object;
     QWidget * widget;
 	int id;
 
@@ -67,15 +67,17 @@ public:
     void setJumpImage(Player* player);
 	void showCoin();
 
-    QTimer* getTimer() { return timer; }
-    QTimer* getClock() { return clock; }
 
+	QTimer* getTimer() {return timer;}
+    QTimer* getClock() { return clock; }
     void delay(int);
 
 private:
 	Ui::MainWidget *ui;
 	QTimer * timer;
+
     QTimer * clock;
+
 	bool right;
     bool left;
 

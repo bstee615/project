@@ -50,6 +50,8 @@ void LoadSave::load(QString filename)
 		int pY = playerCoord.at(2).toInt();
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
 		World::instance().setPlayer(player);
+        EndGameObject* endGame = new EndGameObject(2400, 220, 50, 50, ":/images/flag.png");
+        World::instance().setEndGame(endGame);
 
 		// loop to get platforms and other objects.
 		loadObjects(in);

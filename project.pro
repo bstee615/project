@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     titlescreen.cpp \
     highscorepage.cpp \
     playingscreen.cpp \
-    endgame.cpp
+    endgame.cpp \
+    endgameobject.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -47,7 +48,8 @@ HEADERS  += mainwidget.h \
     titlescreen.h \
     highscorepage.h \
     playingscreen.h \
-    endgame.h
+    endgame.h \
+    endgameobject.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \

@@ -135,5 +135,7 @@ void Player::collide(CollisionDetails *details)
             movable = false;
         }
 
+   } else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
+           setAtEndOfLevel(true);
     }
 }
