@@ -11,7 +11,7 @@
 #include "world.h"
 #include "titlescreen.h"
 #include "endgame.h"
-
+#include "loadsave.h"
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
@@ -39,7 +39,7 @@ void MainWidget::loadLevel(QString filename)
 {
 	ObjectLabel* lblPlayer = NULL;
 
-	World::instance().loadLevel(filename);
+	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();

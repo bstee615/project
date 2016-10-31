@@ -5,3 +5,11 @@ Coin::Coin(int x_, int y_, int width_, int height_, QString image_, string type,
 {
    amount = newAmount;
 }
+
+void Coin::load(QString config)
+{
+	Object::load(config);
+	this->setAmount(10);
+}
+
+QString Coin::save() {return Object::save();}
