@@ -15,7 +15,7 @@
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
-    Object* object;
+    Object * object;
     QWidget * widget;
 	int id;
 
@@ -67,11 +67,14 @@ public:
 	void showCoin();
 
 	QTimer* getTimer() {return timer;}
+    QTimer* getCountDownTimer() { return timer; }
     void delay(int);
 
 private:
 	Ui::MainWidget *ui;
 	QTimer * timer;
+    QTimer * countDownTimer;
+    double timeLeft;
 	bool right;
 	bool left;
     TitleScreen* titleScrn;
@@ -83,6 +86,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
+    void countDownTimerHit();
     void normalMove();
     void normalImage();
 };

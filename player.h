@@ -9,11 +9,12 @@ class Player : public Object
     int numLives;
     bool movable;
     bool left;
+    bool reachedEndGame;
 
 public:
-    Player() : Object(),jumpOnMove(false), numLives(3) {}
+    Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
     Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), movable(true) {}
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false) {}
 
     void jump();
     void moveRight();
@@ -32,6 +33,9 @@ public:
 
     bool canMove() { return movable; }
     void toggleCanMove() { movable = !movable; }
+
+    bool getIsAtEndOfLevel() { return reachedEndGame; }
+    void setAtEndOfLevel(bool stateOfPlayer) { reachedEndGame = stateOfPlayer; }
 };
 
 #endif // PLAYER_H

@@ -14,12 +14,14 @@
 #include "platform.h"
 #include "enemy.h"
 #include "playingscreen.h"
+#include "endgameobject.h"
 
 using namespace std;
 
 class World {
 	vector<Object*> objects;
 	Player* player;
+    EndGameObject* endGame;
 	vector<Enemy*> enemies;
 	PlayingScreen* screen;
 
@@ -38,7 +40,7 @@ public:
 	// adds <obj> to objects in world
 	void add(Object *obj) {
 		auto it = objects.begin();
-		for (; it != objects.end(); ++it) {
+        for (; it != objects.end(); ++it) {
 			if (obj->getId() < (*it)->getId()) {
 				objects.insert(it, obj);
 				break;
@@ -55,7 +57,9 @@ public:
 	vector<Object*>& getObjects() { return objects; }
 	vector<Enemy*>& getEnemies() { return enemies; }
 	Player* getPlayer() { return player; }
+    EndGameObject * getEndGame() { return endGame; }
 	void setPlayer(Player* initPlayer) { player = initPlayer;}
+    void setEndGame(EndGameObject* newEndGameObject) { endGame = newEndGameObject; }
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
 	Object *destroy(int id);

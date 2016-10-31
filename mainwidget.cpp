@@ -11,6 +11,8 @@
 #include "world.h"
 #include "titlescreen.h"
 #include "endgame.h"
+#include "highscore.h"
+#include "highscorepage.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -22,10 +24,18 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblLife2->raise();
 	ui->lblLife3->raise();
 	ui->lblScore->raise(); // these components should not be under the world objects
+    ui->lblTimeLeft->raise();
 
 	timer = new QTimer(this);
     timer->setInterval(33);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
+    countDownTimer = new QTimer(this);
+    countDownTimer->setInterval(1000);
+    connect(countDownTimer, SIGNAL(timeout()), this, SLOT(countDownTimerHit()));
+    //this should be changed based on the level difficulty (something like
+    //15 seconds for easy, 30 for medium etc.)
+    timeLeft = 30;
+
 	loadLevel(":/easy.lv");
 	right = false;
 	left = false;
@@ -33,11 +43,13 @@ MainWidget::MainWidget(QWidget *parent) :
     titleScrn->show();
     titleScrn->raise();
 	timer->start();
+    countDownTimer->start();
 }
 
 void MainWidget::loadLevel(QString filename)
 {
 	ObjectLabel* lblPlayer = NULL;
+    ObjectLabel* lblEndLevel = NULL;
 
 	World::instance().loadLevel(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
@@ -49,6 +61,15 @@ void MainWidget::loadLevel(QString filename)
 	lblPlayer->setScaledContents(true);
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
+
+    EndGameObject * endGame = World::instance().getEndGame();
+    lblEndLevel = new ObjectLabel(ui->worldWidget);
+    lblEndLevel->setObject(endGame);
+    lblEndLevel->setPixmap(QPixmap(endGame->getImage()));
+    lblEndLevel->setScaledContents(true);
+    lblEndLevel->show();
+    lblEndLevel->updateLabelPosition();
+
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -237,7 +258,7 @@ void MainWidget::timerHit(){
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
-    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
+    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || timeLeft == 0)
     {
         death(player);
         resetPlayer(player);
@@ -258,7 +279,9 @@ void MainWidget::death(Player* player)
 {
 
     player->setNumLives(player->getNumLives() - 1);
-        if (player->getNumLives() > 0) {
+
+        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && timeLeft != 0) {
+            timeLeft = 30;
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();
             } else if (player->getNumLives() == 1){
@@ -273,11 +296,15 @@ void MainWidget::death(Player* player)
                 }
             }
             showCoin();
+
+         //will need to split this to display different screens
         } else {
             ui->lblLife1->hide();
             EndGame * e = new EndGame(ui->worldWidget);
             e->show();
             timer->stop();
+            countDownTimer->stop();
+            //checkhighscores();
         }
 }
 
@@ -308,9 +335,24 @@ void MainWidget::showCoin() {
 		}
 	}
 }
+/*
+ * void MainWidget::checkHighScore(){
+ * if (World::instance.getScore() > HighScore::instance().getScore(9)) {
+ *        //write up the HighScore::instance().NewHighScore(); method to return where the new score was entered in the array
+ *        highScoreScreen = new HighScorePage(ui->worldWidget);
+          highScoreScreen->show();
+          highScoreScreen->raise();
+          //access the label on the screen based on where the score was entered
+ *        HighScore::instance().SaveScores();
+ * }
+ */
+void MainWidget::countDownTimerHit() {
+    timeLeft--;
+    ui->lblTimeLeft->setText(QString::number(timeLeft));
+   //maybe use ui->lblTimeLeft->setTextFormat(); to format to time?
+}
 
-MainWidget::~MainWidget()
-{
+MainWidget::~MainWidget() {
 	delete ui;
 }
 
