@@ -67,6 +67,16 @@ void MainWidget::loadLevel(QString filename)
         label->setPixmap(QPixmap(worldObj->getImage()));
 		label->show();
 	}
+    for (Enemy* enemy: World::instance().getEnemies())
+    {
+        ObjectLabel* label = new ObjectLabel(ui->worldWidget);
+        label->setObject(enemy);
+        label->updateLabelPosition();
+        label->setScaledContents(true);
+        label->setPixmap(QPixmap(enemy->getImage()));
+        label->show();
+    }
+
 	if (lblPlayer != NULL)
 	{
 		lblPlayer->raise();
@@ -184,44 +194,9 @@ void MainWidget::timerHit(){
         QTimer::singleShot(500, this, SLOT(normalImage()));
     }
 
-    //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
-
-    // I restructured the widgets so now the timer does not start until the start button is pressed
-    // so I set this to if (true) so I did not have to change your code. - Andrew
-    if (true)
+    for (size_t i = 0; i < world.getEnemies().size(); i ++)
     {
-        for (size_t i = 0; i < world.getObjects().size(); ++i)
-        {
-            QCoreApplication::processEvents();
-            Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
-            if (enemy != NULL)
-            {
-                enemy->move();
-                if (!enemy->isFlying())
-                {
-                    if (enemy->isRight())
-                        enemy->setImage(":/images/groundrobot.png");
-                    else
-                        enemy->setImage(":/images/groundrobotleft.png");
-                }
-                else
-                {
-                    if (enemy->isRight())
-                        enemy->setImage(":/images/flyingrobot.png");
-                    else
-                        enemy->setImage(":/images/flyingrobotleft.png");
-
-                    if (enemy->getCount() < 80)
-                    {
-                        enemy->advanceCount();
-                    }
-                    if (enemy->getCount() == 80)
-                    {
-                        enemy->toggleMovingUp();
-                    }
-                }
-            }
-        }
+        world.getEnemies().at(i)->move();
     }
 
     for (int i = 0; i < ui->worldWidget->children().length(); i++)

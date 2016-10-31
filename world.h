@@ -49,6 +49,19 @@ public:
 			objects.push_back(obj);
 		}
 	}
+    void addEnemy(Enemy* en)
+    {
+        auto it = enemies.begin();
+        for (; it != enemies.end(); ++it) {
+            if (en->getId() < (*it)->getId()) {
+                enemies.insert(it, en);
+                break;
+            }
+        }
+        if (it == enemies.end()) {
+            enemies.push_back(en);
+        }
+    }
 
 	// returns object with <id>, or NULL if none
 	Object *getById(int id);

@@ -68,13 +68,6 @@ void Object::load(QString config)
 	this->setWidth(params.at(3).toInt());
 	this->setHeight(params.at(4).toInt());
     this->setImage(params.at(5));
-
-    if (dynamic_cast<Enemy*>(this) != NULL)
-    {
-        Enemy* en = dynamic_cast<Enemy*>(this);
-        if (params.at(6) == "flying")
-            en->setFlying(true);
-    }
 }
 
 QString Object::save()

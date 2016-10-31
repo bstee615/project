@@ -74,8 +74,11 @@ void LoadSave::loadObjects(QTextStream& in)
 		if (obj != NULL)
 		{
 			obj->load(line);
-			World::instance().add(obj);
-			obj->setVisibility(true);
+            obj->setVisibility(true);
+            if (dynamic_cast<Enemy*>(obj) != NULL)
+                World::instance().addEnemy(dynamic_cast<Enemy*>(obj));
+            else
+                World::instance().add(obj);
 		}
 	}
 }

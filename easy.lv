@@ -21,4 +21,3 @@ platform,1665,55,114,15,:/images/dirt.png,0,0,0,0
 platform,1830,-30,25,150,:/images/dirt.png,0,0,0,0
 coin,160,160,32,32,:/images/goldCoin/goldCoin5.png
 enemy,400,212,42,48,:/images/groundrobot.png,ground
-enemy,300,100,32,32,:/images/flyingrobot.png,flying

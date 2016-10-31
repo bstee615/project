@@ -2,25 +2,15 @@
 #include "world.h"
 #include "platform.h"
 
-Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_): Object(x_,y_,width_,height_,image_)
-{
-    damage = damage_;
-    right = true;
-    count = 0;
-
-    xSpeed = 3;
-    ySpeed = 0;
-
-    initX = x_;
-    initY = y_;
-}
-
 void Enemy::load(QString config)
 {
+    QList<QString> params = config.split(",");
 	Object::load(config);
 	this->setDamage(10);
 	this->setXSpeed(2);
 	this->setRight(true);
+    if (params.at(6) == "flying")
+        flying = true;
 }
 
 QString Enemy::save() {return Object::save();}
@@ -60,6 +50,15 @@ void Enemy::move()
             y += ySpeed;
         if (y == initY + 40 || y == initY)
             up = !up;
+    }
+
+    if (count < 80)
+    {
+        count++;
+    }
+    if (count  == 80)
+    {
+        up = !up;
     }
 
 
