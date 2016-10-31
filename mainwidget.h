@@ -24,6 +24,7 @@ class ObjectLabel : public QLabel {
         widget = parent;
         object = NULL;
     }
+    ~ObjectLabel() { /*do not delete object here. Objects are deleted in the world class*/ }
 
     int getId() { return id; }
     void setId(int newId) { id = newId; }
@@ -66,18 +67,19 @@ public:
     void setJumpImage(Player* player);
 	void showCoin();
 
+
 	QTimer* getTimer() {return timer;}
-    QTimer* getCountDownTimer() { return timer; }
+    QTimer* getClock() { return clock; }
     void delay(int);
 
 private:
 	Ui::MainWidget *ui;
 	QTimer * timer;
-    QTimer * countDownTimer;
-    double timeLeft;
+
+    QTimer * clock;
+
 	bool right;
-	bool left;
-    TitleScreen* titleScrn;
+    bool left;
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
@@ -86,7 +88,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
-    void countDownTimerHit();
+    void clockHit();
     void normalMove();
     void normalImage();
 };

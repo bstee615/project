@@ -5,7 +5,7 @@
 #include "highscorepage.h"
 
 TitleScreen::TitleScreen(QWidget *parent) :
-	QWidget(parent),
+    QWidget(parent),
 	ui(new Ui::TitleScreen)
 {
     widgetParent = parent;
@@ -22,13 +22,17 @@ void TitleScreen::on_btnStart_clicked()
 {
 	this->hide();
     this->widgetParent->setFocus();
-
-	playing = true;
+    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+    if (prnt != NULL) {
+        prnt->loadLevel(":/easy.lv");
+        prnt->getTimer()->start();
+        prnt->getClock()->start();
+    }
+    deleteLater();
 }
 
 void TitleScreen::on_lblHighScores_clicked()
 {
-    this->hide();
     HighScorePage * scorePage = new HighScorePage(this->parentWidget());
     scorePage->show();
     scorePage->raise();

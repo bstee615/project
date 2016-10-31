@@ -23,7 +23,7 @@ class World {
 	Player* player;
     EndGameObject* endGame;
 	vector<Enemy*> enemies;
-	PlayingScreen* screen;
+    PlayingScreen* screen;
 
 	// singleton instance
 	static World world;
@@ -33,6 +33,7 @@ class World {
 	World(const World& that) = delete;  // don't allow copying
 
 	int score;
+        int seconds;
 
 public:
 	Object *createObject(const string& type);
@@ -57,9 +58,12 @@ public:
 	vector<Object*>& getObjects() { return objects; }
 	vector<Enemy*>& getEnemies() { return enemies; }
 	Player* getPlayer() { return player; }
-    EndGameObject * getEndGame() { return endGame; }
+        EndGameObject * getEndGame() { return endGame; }
 	void setPlayer(Player* initPlayer) { player = initPlayer;}
-    void setEndGame(EndGameObject* newEndGameObject) { endGame = newEndGameObject; }
+        void setEndGame(EndGameObject* newEndGameObject) { endGame = newEndGameObject; }
+       void setSeconds(int initSeconds) { seconds = initSeconds; }
+       int getSeconds() { return seconds; }
+
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
 	Object *destroy(int id);
@@ -72,11 +76,6 @@ public:
 
 	// Get singleton
 	static World& instance() { return world; }
-
-	// Load level stored in "<filename>.lv"
-	void loadLevel(QString filename);
-
-	void loadObjects(QTextStream &in);
 
 	PlayingScreen* getScreen() {return screen;}
 	void setScreen(PlayingScreen* scr) {screen = scr;}

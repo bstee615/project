@@ -4,6 +4,23 @@
 #include "coin.h"
 #include "world.h"
 
+QString Player::save()
+{
+	QString out = Object::save();
+	out += "," + QString::number(this->getXSpeed());
+	out += "," + QString::number(this->getYSpeed());
+	return out;
+}
+
+void Player::load(QString config)
+{
+	Object::load(config);
+	QList<QString> params = config.split(",");
+	// set object properties specific to Player
+	this->setXSpeed(params.at(6).toInt());
+	this->setYSpeed(params.at(7).toInt());
+}
+
 void Player::jump()
 {
     // player jumps if jumpOnMove is true

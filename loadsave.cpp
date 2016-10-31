@@ -2,7 +2,7 @@
  * loadsave.cpp
  */
 
-#include <QFile>
+#include "world.h"
 #include "loadsave.h"
 #include "object.h"
 
@@ -22,17 +22,63 @@ void LoadSave::load(QString filename)
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 		// read lines and configure objects
+		QString line = "";
 		QTextStream in(&file);
-		while (!in.atEnd())
-		{
-			QString line = in.readLine();
-			// -- something like this --
-//			 Object* obj(line); -- we should let objects have a constructor that takes a string,
-//									so we can pass the string in and set up the object
-//									should be a factory thing that returns the correct subclass
-//			 [the world].objects().add(obj);
-		}
+
+		// not used yet -->
+		line = in.readLine();
+		int time = line.toInt();
+		// --> end not used yet
+
+		// set up screen object
+		line = in.readLine();
+		QList<QString> levelDim = line.split(",");
+		line = in.readLine();
+		QList<QString> screenCoord = line.split(",");
+		World::instance().setScreen(new PlayingScreen(
+										screenCoord.at(0).toInt(),
+										screenCoord.at(1).toInt(),
+										0, // don't know the dimensions of the screen here
+										0, // will set that in mainwidget.cpp
+										levelDim.at(0).toInt(),
+										levelDim.at(1).toInt()));
+
+		// player
+		line = in.readLine();
+		QList<QString> playerCoord = line.split(",");
+		int pX = playerCoord.at(1).toInt();
+		int pY = playerCoord.at(2).toInt();
+		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
+		World::instance().setPlayer(player);
+        EndGameObject* endGame = new EndGameObject(2400, 220, 50, 50, ":/images/flag.png");
+        World::instance().setEndGame(endGame);
+
+		// loop to get platforms and other objects.
+		loadObjects(in);
 		file.close();
+	}
+	else
+	{
+		throw runtime_error("Failure to open level file");
+	}
+}
+
+// configures objects from a file <in>
+// called at beginning of series of objects in a save file
+void LoadSave::loadObjects(QTextStream& in)
+{
+	QString line = "";
+	Object* obj = NULL;
+	while (!in.atEnd())
+	{
+		line = in.readLine();
+		obj = World::instance().createObject(line.split(",").at(0).toStdString());
+		if (obj != NULL)
+		{
+			obj->load(line);
+			World::instance().add(obj);
+			obj->setVisibility(true);
+		}
 	}
 }
 

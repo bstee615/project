@@ -13,6 +13,7 @@
 #include "endgame.h"
 #include "highscore.h"
 #include "highscorepage.h"
+#include "loadsave.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -27,31 +28,37 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->lblTimeLeft->raise();
 
 	timer = new QTimer(this);
-    timer->setInterval(33);
+      timer->setInterval(60);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-    countDownTimer = new QTimer(this);
-    countDownTimer->setInterval(1000);
-    connect(countDownTimer, SIGNAL(timeout()), this, SLOT(countDownTimerHit()));
-    //this should be changed based on the level difficulty (something like
-    //15 seconds for easy, 30 for medium etc.)
-    timeLeft = 30;
 
-	loadLevel(":/easy.lv");
+      clock = new QTimer(this);
+     clock->setInterval(1000);
+     connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
+
 	right = false;
 	left = false;
-    titleScrn = new TitleScreen(ui->worldWidget);
+    TitleScreen* titleScrn = new TitleScreen(this);
     titleScrn->show();
     titleScrn->raise();
-	timer->start();
-    countDownTimer->start();
+    World::instance().setSeconds(30);
+
 }
 
 void MainWidget::loadLevel(QString filename)
 {
-	ObjectLabel* lblPlayer = NULL;
-    ObjectLabel* lblEndLevel = NULL;
 
-	World::instance().loadLevel(filename);
+	ObjectLabel* lblPlayer = NULL;
+        ObjectLabel* lblEndLevel = NULL;
+
+    //Deletes all objects from the last game
+    for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
+        if (dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i)) != NULL){
+            ui->worldWidget->children().at(i)->deleteLater();
+        }
+    }
+
+
+	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();
@@ -85,6 +92,9 @@ void MainWidget::loadLevel(QString filename)
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
     }
+    ui->lblLife1->show();
+    ui->lblLife2->show();
+    ui->lblLife3->show();
 }
 
 void MainWidget::setWalkImage(Player* player)
@@ -113,8 +123,6 @@ void MainWidget::setWalkImage(Player* player)
 }
 
 void MainWidget::timerHit(){
-
-
 
     //program 4 code below (for reference)
     World& world = World::instance();
@@ -172,7 +180,7 @@ void MainWidget::timerHit(){
 		&& screen->getY() > 0)
 	{
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
-	}
+    }
 
 	for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
@@ -198,39 +206,41 @@ void MainWidget::timerHit(){
 
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
-    if (titleScrn->isPlaying())
+    // I restructured the widgets so now the timer does not start until the start button is pressed
+    // so I set this to if (true) so I did not have to change your code. - Andrew
+    if (true)
     {
         for (size_t i = 0; i < world.getObjects().size(); ++i)
         {
+            QCoreApplication::processEvents();
             Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
             if (enemy != NULL)
             {
                 enemy->move();
-                if (dynamic_cast<FlyingEnemy*>(enemy) != NULL)
-                {
-                    if (enemy->isRight())
-                        enemy->setImage(":/images/flyingrobot.png");
-                    else
-                        enemy->setImage(":/images/flyingrobotleft.png");
-                }
-                else
+                if (!enemy->isFlying())
                 {
                     if (enemy->isRight())
                         enemy->setImage(":/images/groundrobot.png");
                     else
                         enemy->setImage(":/images/groundrobotleft.png");
                 }
-            }
-            /*
-            FlyingEnemy* flyenemy = dynamic_cast<FlyingEnemy*>(world.getObjects().at(i));
-            if (flyenemy != NULL)
-            {
-                flyenemy->move();
-                if (flyenemy->isRight())
-                    flyenemy->setImage(":/images/flyingrobot.png");
                 else
-                    flyenemy->setImage(":/images/flyingrobotleft.png");
-            }*/
+                {
+                    if (enemy->isRight())
+                        enemy->setImage(":/images/flyingrobot.png");
+                    else
+                        enemy->setImage(":/images/flyingrobotleft.png");
+
+                    if (enemy->getCount() < 80)
+                    {
+                        enemy->advanceCount();
+                    }
+                    if (enemy->getCount() == 80)
+                    {
+                        enemy->toggleMovingUp();
+                    }
+                }
+            }
         }
     }
 
@@ -241,29 +251,25 @@ void MainWidget::timerHit(){
         if (guiObject != NULL) {
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
-            guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
         }
     }
 
-    // This code was repetitive and taking up more CPU time
-    /*for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
-         QCoreApplication::processEvents();
-         ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
-         if (guiObject != NULL) {
-			 // updates the position of each label to the position of its object in the model
-             guiObject->updateLabelPosition();
-             guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
-         }
-    }*/
+
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
-    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || timeLeft == 0)
+    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || (World::instance().getSeconds() == 0 && player->getNumLives() == 1))
     {
         death(player);
         resetPlayer(player);
     }
 
+}
+
+void MainWidget::clockHit()
+{
+    World::instance().setSeconds(World::instance().getSeconds() - 1);
+    ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }
 
 void MainWidget::resetPlayer(Player* player)
@@ -280,8 +286,8 @@ void MainWidget::death(Player* player)
 
     player->setNumLives(player->getNumLives() - 1);
 
-        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && timeLeft != 0) {
-            timeLeft = 30;
+        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && World::instance().getSeconds() != 0) {
+           World::instance().setSeconds(30);
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();
             } else if (player->getNumLives() == 1){
@@ -300,11 +306,12 @@ void MainWidget::death(Player* player)
          //will need to split this to display different screens
         } else {
             ui->lblLife1->hide();
-            EndGame * e = new EndGame(ui->worldWidget);
+            EndGame * e = new EndGame(this);
             e->show();
             timer->stop();
-            countDownTimer->stop();
             //checkhighscores();
+            clock->stop();
+
         }
 }
 
@@ -346,11 +353,7 @@ void MainWidget::showCoin() {
  *        HighScore::instance().SaveScores();
  * }
  */
-void MainWidget::countDownTimerHit() {
-    timeLeft--;
-    ui->lblTimeLeft->setText(QString::number(timeLeft));
-   //maybe use ui->lblTimeLeft->setTextFormat(); to format to time?
-}
+
 
 MainWidget::~MainWidget() {
 	delete ui;

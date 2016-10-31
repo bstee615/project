@@ -67,6 +67,12 @@ void World::reset() {
     for (size_t i = 0; i < objects.size(); ++i) {
         delete objects.at(i);
     }
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        delete enemies.at(i);
+    }
+    delete player;
+    score = 0;
+    seconds = 0;
     objects.clear();
     Object::resetNextId();
 	delete screen;
@@ -88,19 +94,18 @@ Object *World::createObject(const string& type) {
 		return new Collectible;
 	else if (type.find("coi") == 0)
 		return new Coin;
-	else if (type.find("mo") == 0)
-		return new MovingPlatform;
 	else if (type.find("play") == 0)
 		return new Player;
 	else if (type.find("plat") == 0)
 		return new Platform;
     else if (type.find("en") == 0)
         return new Enemy;
-    else if (type.find("flyingen") == 0)
-        return new FlyingEnemy;
+    else if (type.find("ob") == 0)
+        return new Object;
 	else
 		return NULL;
 }
+/* <<<<<<< HEAD
 
 // Load level stored in <filename>
 void World::loadLevel(QString filename)
@@ -167,3 +172,5 @@ void World::loadObjects(QTextStream& in)
 		}
     }
 }
+======= 
+>>>>>>> de38cbec2d748ea2ce164e5f02f7136a922547e3 */
