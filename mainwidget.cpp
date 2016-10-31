@@ -93,8 +93,6 @@ void MainWidget::setWalkImage(Player* player)
 
 void MainWidget::timerHit(){
 
-
-
     //program 4 code below (for reference)
     World& world = World::instance();
     Player* player = world.getPlayer();
@@ -151,7 +149,7 @@ void MainWidget::timerHit(){
 		&& screen->getY() > 0)
 	{
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
-	}
+    }
 
 	for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
@@ -185,31 +183,30 @@ void MainWidget::timerHit(){
             if (enemy != NULL)
             {
                 enemy->move();
-                if (dynamic_cast<FlyingEnemy*>(enemy) != NULL)
-                {
-                    if (enemy->isRight())
-                        enemy->setImage(":/images/flyingrobot.png");
-                    else
-                        enemy->setImage(":/images/flyingrobotleft.png");
-                }
-                else
+                if (!enemy->isFlying())
                 {
                     if (enemy->isRight())
                         enemy->setImage(":/images/groundrobot.png");
                     else
                         enemy->setImage(":/images/groundrobotleft.png");
                 }
-            }
-            /*
-            FlyingEnemy* flyenemy = dynamic_cast<FlyingEnemy*>(world.getObjects().at(i));
-            if (flyenemy != NULL)
-            {
-                flyenemy->move();
-                if (flyenemy->isRight())
-                    flyenemy->setImage(":/images/flyingrobot.png");
                 else
-                    flyenemy->setImage(":/images/flyingrobotleft.png");
-            }*/
+                {
+                    if (enemy->isRight())
+                        enemy->setImage(":/images/flyingrobot.png");
+                    else
+                        enemy->setImage(":/images/flyingrobotleft.png");
+
+                    if (enemy->getCount() < 80)
+                    {
+                        enemy->advanceCount();
+                    }
+                    if (enemy->getCount() == 80)
+                    {
+                        enemy->toggleMovingUp();
+                    }
+                }
+            }
         }
     }
 
@@ -220,20 +217,18 @@ void MainWidget::timerHit(){
         if (guiObject != NULL) {
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
-            guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
         }
     }
 
-    // This code was repetitive and taking up more CPU time
-    /*for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
+    for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
          QCoreApplication::processEvents();
          ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
          if (guiObject != NULL) {
 			 // updates the position of each label to the position of its object in the model
              guiObject->updateLabelPosition();
-             guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
+             //guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
          }
-    }*/
+    }
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 

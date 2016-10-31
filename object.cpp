@@ -87,8 +87,6 @@ QString Object::save()
 		type = "platform";
 	else if (dynamic_cast<Enemy*>(this))
 		type = "enemy";
-	else if (dynamic_cast<FlyingEnemy*>(this))
-		type = "flyingenemy";
 	else
 		type = "object";
 

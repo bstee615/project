@@ -9,15 +9,20 @@ class Enemy : public Object
 {
     int damage;
     bool right;// if false, then enemy is facing left.
+    bool up;
+
+    int initX;
+    int initY;
+
+    bool flying;
 
 public:
     Enemy(): Object()
     {
         damage = 0;
-        xSpeed = 3;
-        ySpeed = 0;
         right = true;
         onPlatform = true;
+        up = false;
     }
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 
@@ -29,24 +34,19 @@ public:
 
     virtual int getSpeed() { return xSpeed; }
     virtual bool isRight() { return right; }
-    virtual bool isFlying() { return false; }
+    virtual bool isUp() { return up; }
+
+	virtual void setInitX(int newX) { initX = newX; }
+	virtual void setInitY(int newY) { initY = newY; }
+    virtual int getInitX() { return initX; }
+    virtual int getInitY() { return initY; }
 
     void setDamage(int newDamage) { damage = newDamage; }
-    void switchRight() { right = !right; }
-};
 
-class FlyingEnemy:public Enemy
-{
-    bool movingUp;
-public:
-    FlyingEnemy(): Enemy() { }
-    FlyingEnemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_): Enemy(x_, y_, width_, height_, image_, damage_, speed_), movingUp(true) { }
-
-    void move();
-    void collide(CollisionDetails* details);
-
-    bool isUp() { return movingUp; }
-    bool isFlying() { return true; }
+    virtual void toggleMovingRight() { right = !right; }
+    virtual void toggleMovingUp() { up = !up; }
+    virtual bool isFlying() { return flying; }
+    virtual void setFlying(bool fly) { flying = fly; }
 };
 
 #endif // ENEMY_H
