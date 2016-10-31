@@ -196,7 +196,6 @@ void MainWidget::timerHit(){
             Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
             if (enemy != NULL)
             {
-                qDebug() << enemy->getX() << "," << enemy->getY();
                 enemy->move();
                 if (!enemy->isFlying())
                 {

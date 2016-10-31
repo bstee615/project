@@ -23,6 +23,8 @@ public:
         right = true;
         onPlatform = true;
         up = false;
+        xSpeed = 3;
+        ySpeed = 0;
     }
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 

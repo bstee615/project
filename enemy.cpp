@@ -8,6 +8,9 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage
     right = true;
     count = 0;
 
+    xSpeed = 3;
+    ySpeed = 0;
+
     initX = x_;
     initY = y_;
 }
