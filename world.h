@@ -72,11 +72,6 @@ public:
 	// Get singleton
 	static World& instance() { return world; }
 
-	// Load level stored in "<filename>.lv"
-	void loadLevel(QString filename);
-
-	void loadObjects(QTextStream &in);
-
 	PlayingScreen* getScreen() {return screen;}
 	void setScreen(PlayingScreen* scr) {screen = scr;}
 

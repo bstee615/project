@@ -68,24 +68,36 @@ void Object::load(QString config)
 	this->setWidth(params.at(3).toInt());
 	this->setHeight(params.at(4).toInt());
 	this->setImage(params.at(5));
-	if (dynamic_cast<Coin*>(this) != NULL)
-	{
-        this->setAmount(10);
-	}
-
-	if (dynamic_cast<Enemy*>(this) != NULL)
-	{
-        this->setDamage(10);
-        this->setXSpeed(2);
-        this->setYSpeed(2);
-        this->setRight(true);
-        dynamic_cast<Enemy*>(this)->setFlying(params.at(6) == "flying");
-        dynamic_cast<Enemy*>(this)->setInitX(params.at(1).toInt());
-        dynamic_cast<Enemy*>(this)->setInitY(params.at(2).toInt());
-	}
 }
 
-QString Object::save() {}
+QString Object::save()
+{
+	QString out = "";
+	QString type;
+	// check and print object type
+	if (dynamic_cast<Item*>(this))
+		type = "item";
+	else if (dynamic_cast<Collectible*>(this))
+		type = "collectible";
+	else if (dynamic_cast<Coin*>(this))
+		type = "coin";
+	else if (dynamic_cast<Player*>(this))
+		type = "player";
+	else if (dynamic_cast<Platform*>(this))
+		type = "platform";
+	else if (dynamic_cast<Enemy*>(this))
+		type = "enemy";
+	else
+		type = "object";
+
+	out += type;
+	out += "," + QString::number(this->getX());
+	out += "," + QString::number(this->getY());
+	out += "," + QString::number(this->getWidth());
+	out += "," + QString::number(this->getHeight());
+	out += "," + this->getImage();
+	return out;
+}
 
 Object::~Object()
 {

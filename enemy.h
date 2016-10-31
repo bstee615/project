@@ -26,6 +26,9 @@ public:
     }
     Enemy(int x_, int y_, int width_, int height_, QString image_, int damage_, int speed_);
 
+	virtual void load(QString config);
+	virtual QString save();
+
     virtual void move();
     virtual void collide(CollisionDetails* details);
 
@@ -33,8 +36,8 @@ public:
     virtual bool isRight() { return right; }
     virtual bool isUp() { return up; }
 
-    virtual bool setInitX(int newX) { initX = newX; }
-    virtual bool setInitY(int newY) { initY = newY; }
+	virtual void setInitX(int newX) { initX = newX; }
+	virtual void setInitY(int newY) { initY = newY; }
     virtual int getInitX() { return initX; }
     virtual int getInitY() { return initY; }
 

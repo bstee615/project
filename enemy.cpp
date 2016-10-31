@@ -11,6 +11,17 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_, int damage
     initX = x_;
     initY = y_;
 }
+
+void Enemy::load(QString config)
+{
+	Object::load(config);
+	this->setDamage(10);
+	this->setXSpeed(2);
+	this->setRight(true);
+}
+
+QString Enemy::save() {return Object::save();}
+
 void Enemy::move()
 {
     vector<Object*> objects = World::instance().getObjects();
