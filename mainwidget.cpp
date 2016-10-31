@@ -24,7 +24,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 
 	timer = new QTimer(this);
-    timer->setInterval(50);
+    timer->setInterval(60);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
     clock = new QTimer(this);
     clock->setInterval(1000);
@@ -186,6 +186,8 @@ void MainWidget::timerHit(){
 
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
+    // I restructured the widgets so now the timer does not start until the start button is pressed
+    // so I set this to if (true) so I did not have to change your code. - Andrew
     if (true)
     {
         for (size_t i = 0; i < world.getObjects().size(); ++i)
