@@ -136,6 +136,15 @@ void Player::collide(CollisionDetails *details)
             movable = false;
             details->getCollided()->setRight(true);
         }
+        else if (details->getYStopCollide() < 0)
+        {
+            y -= 10;
+            ySpeed -= 20;
+        }
+        else if (details->getYStopCollide() > 0)
+        {
+            y += 5;
+        }
 
    } else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
            setAtEndOfLevel(true);
