@@ -18,6 +18,5 @@ HighScorePage::~HighScorePage()
 
 void HighScorePage::on_btnReturnHome_clicked()
 {
-   this->parentWidget()->setFocus();
-    this->hide();
+    this->close();
 }

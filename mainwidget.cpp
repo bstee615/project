@@ -24,20 +24,28 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 
 	timer = new QTimer(this);
-    timer->setInterval(33);
+    timer->setInterval(50);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-	loadLevel(":/easy.lv");
+    clock = new QTimer(this);
+    clock->setInterval(1000);
+    connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 	right = false;
 	left = false;
-    titleScrn = new TitleScreen(ui->worldWidget);
+    TitleScreen* titleScrn = new TitleScreen(this);
     titleScrn->show();
     titleScrn->raise();
-	timer->start();
+    World::instance().setSeconds(0);
 }
 
 void MainWidget::loadLevel(QString filename)
 {
-	ObjectLabel* lblPlayer = NULL;
+    ObjectLabel* lblPlayer = NULL;
+    //Deletes all objects from the last game
+    for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
+        if (dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i)) != NULL){
+            ui->worldWidget->children().at(i)->deleteLater();
+        }
+    }
 
 	World::instance().loadLevel(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
@@ -64,6 +72,9 @@ void MainWidget::loadLevel(QString filename)
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
     }
+    ui->lblLife1->show();
+    ui->lblLife2->show();
+    ui->lblLife3->show();
 }
 
 void MainWidget::setWalkImage(Player* player)
@@ -175,10 +186,11 @@ void MainWidget::timerHit(){
 
     //qDebug() << player->getX() << "," << player->getY(); // enable for testing purposes.
 
-    if (titleScrn->isPlaying())
+    if (true)
     {
         for (size_t i = 0; i < world.getObjects().size(); ++i)
         {
+            QCoreApplication::processEvents();
             Enemy* enemy = dynamic_cast<Enemy*>(world.getObjects().at(i));
             if (enemy != NULL)
             {
@@ -220,15 +232,7 @@ void MainWidget::timerHit(){
         }
     }
 
-    for (int i = 0; i < ui->lblBackground->children().length(); i++ ) {
-         QCoreApplication::processEvents();
-         ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->lblBackground->children().at(i));
-         if (guiObject != NULL) {
-			 // updates the position of each label to the position of its object in the model
-             guiObject->updateLabelPosition();
-             //guiObject->setPixmap(QPixmap(guiObject->getObject()->getImage()));
-         }
-    }
+
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
@@ -238,6 +242,11 @@ void MainWidget::timerHit(){
         resetPlayer(player);
     }
 
+}
+
+void MainWidget::clockHit()
+{
+    World::instance().setSeconds(World::instance().getSeconds() - 1);
 }
 
 void MainWidget::resetPlayer(Player* player)
@@ -270,9 +279,10 @@ void MainWidget::death(Player* player)
             showCoin();
         } else {
             ui->lblLife1->hide();
-            EndGame * e = new EndGame(ui->worldWidget);
+            EndGame * e = new EndGame(this);
             e->show();
             timer->stop();
+            clock->stop();
         }
 }
 

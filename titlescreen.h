@@ -2,6 +2,7 @@
 #define TITLESCREEN_H
 
 #include <QWidget>
+#include "mainwidget.h"
 
 namespace Ui {
 class TitleScreen;
@@ -12,7 +13,7 @@ class TitleScreen : public QWidget
 	Q_OBJECT
 
 public:
-	explicit TitleScreen(QWidget *parent = 0);
+    explicit TitleScreen(QWidget *parent = 0);
     ~TitleScreen();
 
     bool isPlaying() { return playing; }

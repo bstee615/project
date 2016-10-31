@@ -295,9 +295,9 @@
   <widget class="QPushButton" name="btnReturnHome">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>160</x>
      <y>270</y>
-     <width>85</width>
+     <width>140</width>
      <height>27</height>
     </rect>
    </property>

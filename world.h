@@ -21,7 +21,7 @@ class World {
 	vector<Object*> objects;
 	Player* player;
 	vector<Enemy*> enemies;
-	PlayingScreen* screen;
+    PlayingScreen* screen;
 
 	// singleton instance
 	static World world;
@@ -31,6 +31,7 @@ class World {
 	World(const World& that) = delete;  // don't allow copying
 
 	int score;
+    int seconds;
 
 public:
 	Object *createObject(const string& type);
@@ -56,6 +57,8 @@ public:
 	vector<Enemy*>& getEnemies() { return enemies; }
 	Player* getPlayer() { return player; }
 	void setPlayer(Player* initPlayer) { player = initPlayer;}
+    void setSeconds(int initSeconds) { seconds = initSeconds; }
+    int getSeconds() { return seconds; }
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
 	Object *destroy(int id);
