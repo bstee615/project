@@ -352,7 +352,8 @@ void MainWidget::showCoin() {
 
 
 MainWidget::~MainWidget() {
-	delete ui;
+    ui->worldWidget->deleteLater();
+    delete ui;
 }
 
 void MainWidget::keyPressEvent(QKeyEvent *event)
