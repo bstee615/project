@@ -271,38 +271,40 @@ void MainWidget::resetPlayer(Player* player)
     ui->lblScore->setText("0");
     World::instance().getScreen()->setLocation(0, 0);
     World::instance().setSeconds(World::instance().getStartSeconds());
+
+    for (Object* worldObj : World::instance().getObjects()) {
+
+        Coin * coin = dynamic_cast<Coin*>(worldObj);
+        if (coin != NULL) {
+            coin->setVisibility(true);
+            coin->setisCollectible(true);
+        }
+    }
+    showCoin();
 }
 
 void MainWidget::death(Player* player)
 {
-	player->setNumLives(player->getNumLives() - 1);
 
-	if (player->getNumLives() > 0 && !player->getIsAtEndOfLevel() && World::instance().getSeconds() != 0) {
-		World::instance().setSeconds(World::instance().getStartSeconds());
-		if (player->getNumLives() == 2){
-			ui->lblLife3->hide();
-		} else if (player->getNumLives() == 1){
-			ui->lblLife2->hide();
+    player->setNumLives(player->getNumLives() - 1);
+
+        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && World::instance().getSeconds() != 0) {
+           World::instance().setSeconds(World::instance().getStartSeconds());
+            if (player->getNumLives() == 2){
+                ui->lblLife3->hide();
+            } else if (player->getNumLives() == 1){
+                ui->lblLife2->hide();
+            }
+
+         //will need to split this to display different screens
+        } else {
+            ui->lblLife1->hide();
+            EndGame * e = new EndGame(this);
+            e->show();
+            timer->stop();
+            //checkhighscores();
+            clock->stop();
 		}
-		for (Object* worldObj : World::instance().getObjects()) {
-
-			Coin * coin = dynamic_cast<Coin*>(worldObj);
-			if (coin != NULL) {
-				coin->setVisibility(true);
-				coin->setisCollectible(true);
-			}
-		}
-		showCoin();
-
-		//will need to split this to display different screens
-	} else {
-		ui->lblLife1->hide();
-		EndGame * e = new EndGame(this);
-		e->show();
-		timer->stop();
-		//checkhighscores();
-		clock->stop();
-	}
 }
 
 //displays all the coins in the world if the player has lives left

@@ -4,10 +4,12 @@
 #include <QString>
 
 #include "object.h"
+#include "platform.h"
 
 class Enemy : public Object
 {
     int damage;// if false, then enemy is facing left.
+    Platform* currentPlatform;
 
 public:
     Enemy(): Object()
@@ -16,8 +18,9 @@ public:
         right = true;
         onPlatform = true;
         xSpeed = 3;
-        ySpeed = 0;
+        ySpeed = 1;
         count = 0;
+        currentPlatform = new Platform();
     }
 
 	virtual void load(QString config);
@@ -34,16 +37,13 @@ public:
 class FlyingEnemy: public Enemy
 {
     bool up;
-    int initY;
+    int xCount;
 
 public:
-    FlyingEnemy(): Enemy(), up(true), initY(this->getY()) { ySpeed = 2; }
+    FlyingEnemy(): Enemy(), up(true), xCount(0) { ySpeed = 2; }
 
     void move();
     void collide(CollisionDetails*);
-
-    virtual void setInitY(int newY) { initY = newY; }
-    virtual int getInitY() { return initY; }
 };
 
 #endif // ENEMY_H

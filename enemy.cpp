@@ -15,6 +15,9 @@ QString Enemy::save() {return Object::save();}
 
 void Enemy::move()
 {
+    if (x + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
+        right = !right;
+
     if (right)
     {
         x += xSpeed;
@@ -23,6 +26,8 @@ void Enemy::move()
     {
         x -= xSpeed;
     }
+
+    y += ySpeed;
 
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
@@ -47,6 +52,7 @@ void Enemy::collide(CollisionDetails *details)
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
+            currentPlatform = dynamic_cast<Platform*>(details->getCollided());
         }
     }
 }
@@ -68,10 +74,16 @@ void FlyingEnemy::move()
         y += ySpeed;
 
     count ++;
+    xCount ++;
     if (count == 10)
     {
         up = !up;
         count = 0;
+    }
+    if (xCount == 40)
+    {
+        right = !right;
+        xCount = 0;
     }
 
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
