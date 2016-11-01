@@ -272,6 +272,16 @@ void MainWidget::resetPlayer(Player* player)
     ui->lblScore->setText("0");
     World::instance().getScreen()->setLocation(0, 0);
     World::instance().setSeconds(World::instance().getStartSeconds());
+
+    for (Object* worldObj : World::instance().getObjects()) {
+
+        Coin * coin = dynamic_cast<Coin*>(worldObj);
+        if (coin != NULL) {
+            coin->setVisibility(true);
+            coin->setisCollectible(true);
+        }
+    }
+    showCoin();
 }
 
 void MainWidget::death(Player* player)
@@ -286,15 +296,6 @@ void MainWidget::death(Player* player)
             } else if (player->getNumLives() == 1){
                 ui->lblLife2->hide();
             }
-            for (Object* worldObj : World::instance().getObjects()) {
-
-                Coin * coin = dynamic_cast<Coin*>(worldObj);
-                if (coin != NULL) {
-                    coin->setVisibility(true);
-                    coin->setisCollectible(true);
-                }
-            }
-            showCoin();
 
          //will need to split this to display different screens
         } else {
