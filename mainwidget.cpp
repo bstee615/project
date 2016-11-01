@@ -39,11 +39,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	left = false;
     TitleScreen* titleScrn = new TitleScreen(this);
     titleScrn->show();
-    titleScrn->raise();
-
-    World::instance().setSeconds(World::instance().getStartSeconds());
-
-
+	titleScrn->raise();
 }
 
 void MainWidget::loadLevel(QString filename)
@@ -90,6 +86,8 @@ void MainWidget::loadLevel(QString filename)
     ui->lblLife1->show();
     ui->lblLife2->show();
     ui->lblLife3->show();
+
+	World::instance().setSeconds(World::instance().getStartSeconds());
 
     if (World::instance().getSeconds() < 10) {
         int i = World::instance().getSeconds();
@@ -260,6 +258,11 @@ void MainWidget::clockHit()
         QString timeFormated = QString("0:%1").arg(i);
         ui->lblTimeLeft->setText(timeFormated);
     }
+	if (World::instance().getSeconds() == 0)
+	{
+		death(World::instance().getPlayer());
+		resetPlayer(World::instance().getPlayer());
+	}
     //ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }
 
@@ -270,7 +273,10 @@ void MainWidget::resetPlayer(Player* player)
     World::instance().setScore(0);
     ui->lblScore->setText("0");
     World::instance().getScreen()->setLocation(0, 0);
-    World::instance().setSeconds(World::instance().getStartSeconds());
+	clock->stop();
+	World::instance().setSeconds(World::instance().getStartSeconds() + 1);
+	clockHit();
+	clock->start();
 
     for (Object* worldObj : World::instance().getObjects()) {
 
@@ -288,7 +294,7 @@ void MainWidget::death(Player* player)
 
     player->setNumLives(player->getNumLives() - 1);
 
-        if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && World::instance().getSeconds() != 0) {
+		if (player->getNumLives() > 0 && !player->getIsAtEndOfLevel()) {
            World::instance().setSeconds(World::instance().getStartSeconds());
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();

@@ -60,8 +60,8 @@ public:
     void setPlayer(Player* initPlayer) { player = initPlayer;}
     void setSeconds(int initSeconds) { seconds = initSeconds; }
     int getSeconds() { return seconds; }
-    void setStartSeconds(int initSeconds) { seconds = initSeconds; }
-    int getStartSeconds() { return seconds; }
+	void setStartSeconds(int initSeconds) { startSeconds = initSeconds; }
+	int getStartSeconds() { return startSeconds; }
 
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
