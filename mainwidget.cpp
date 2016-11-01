@@ -295,7 +295,7 @@ void MainWidget::death(Player* player)
     player->setNumLives(player->getNumLives() - 1);
 
 		if (player->getNumLives() > 0 && !player->getIsAtEndOfLevel()) {
-           World::instance().setSeconds(World::instance().getStartSeconds());
+
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();
             } else if (player->getNumLives() == 1){
