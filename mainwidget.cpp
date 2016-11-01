@@ -246,7 +246,6 @@ void MainWidget::timerHit(){
         death(player);
         resetPlayer(player);
     }
-
 }
 
 void MainWidget::clockHit()
@@ -309,8 +308,7 @@ void MainWidget::death(Player* player)
             timer->stop();
             //checkhighscores();
             clock->stop();
-
-        }
+		}
 }
 
 //displays all the coins in the world if the player has lives left

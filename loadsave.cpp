@@ -25,7 +25,6 @@ void LoadSave::load(QString filename)
 		QString line = "";
 		QTextStream in(&file);
 
-
 		line = in.readLine();
 		int time = line.toInt();
 

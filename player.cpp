@@ -23,131 +23,131 @@ void Player::load(QString config)
 
 void Player::jump()
 {
-    // player jumps if jumpOnMove is true
-    if (jumpOnMove) {
+	// player jumps if jumpOnMove is true
+	if (jumpOnMove) {
 		ySpeed -= 13;
-    }
+	}
 }
 
 void Player::moveRight()
 {
-    if (!movable)
-    {
-        slowToStop();
-        return;
-    }
+	if (!movable)
+	{
+		slowToStop();
+		return;
+	}
 
-    // player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed < 9) {
-        xSpeed += 1;
-    }
+	// player accelerates up to a speed of 8 pixels per timer hit
+	if (xSpeed < 9) {
+		xSpeed += 1;
+	}
 }
 
 void Player::moveLeft()
 {
-    if (!movable)
-    {
-        slowToStop();
-        return;
-    }
+	if (!movable)
+	{
+		slowToStop();
+		return;
+	}
 
-    // player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed > -9) {
-        xSpeed += -1;
-    }
+	// player accelerates up to a speed of 8 pixels per timer hit
+	if (xSpeed > -9) {
+		xSpeed += -1;
+	}
 }
 
 void Player::slowToStop()
 {
-    // slows the player down to an xSpeed of zero
-    if (xSpeed == 0) {
-        return;
-    } else if(xSpeed > 0) {
-        --xSpeed;
-        return;
-    } else {
-        ++xSpeed;
-    }
+	// slows the player down to an xSpeed of zero
+	if (xSpeed == 0) {
+		return;
+	} else if(xSpeed > 0) {
+		--xSpeed;
+		return;
+	} else {
+		++xSpeed;
+	}
 }
 
 void Player::move()
 {
-    // if a player is on a platform and jumpmove is true the player jumps
-    if (jumpOnMove && onPlatform) {
-        jump();
-    }
-    // gravity accelerates the player down 1 pixel per timer hit
-    ++ySpeed;
+	// if a player is on a platform and jumpmove is true the player jumps
+	if (jumpOnMove && onPlatform) {
+		jump();
+	}
+	// gravity accelerates the player down 1 pixel per timer hit
+	++ySpeed;
 
-    // updates the x and y coordinates for the player
-    x += xSpeed;
-    y += ySpeed;
+	// updates the x and y coordinates for the player
+	x += xSpeed;
+	y += ySpeed;
 
-    // sets to false so that a player cannot jump while not on a platform
-    jumpOnMove = false;
-    onPlatform = false;
+	// sets to false so that a player cannot jump while not on a platform
+	jumpOnMove = false;
+	onPlatform = false;
 }
 
 void Player::collide(CollisionDetails *details)
 {
-    if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
-        //BUG: when the player jumps into the right side of a platform, he pops back on top instead of getting blocked.
-        //^Small issue, but something to fix pre-production.^
+	if (dynamic_cast<Platform*>(details->getCollided()) != NULL) {
+		//BUG: when the player jumps into the right side of a platform, he pops back on top instead of getting blocked.
+		//^Small issue, but something to fix pre-production.^
 
-        // if it the Object from the collision is a Platform update the position of the
-        // player based on the xStopCollide and yStopCollide values
-        if (details->getXStopCollide() != 0) {
-            xSpeed = 0;
-            x += details->getXStopCollide();
-        }
-        if (details->getYStopCollide() != 0) {
-            ySpeed = 0;
-            y += details->getYStopCollide();
-            if (details->getYStopCollide() < 0) {
-                // the player is on a platform so onPlatform is true
-                onPlatform = true;
-            }
-        }
-    } else if (dynamic_cast<Coin*>(details->getCollided()) != NULL) {
-        //set coin visibility to false and add to high score in world
-        Coin * c = dynamic_cast<Coin*>(details->getCollided());
-        c->setVisibility(false);
-        if(c->getisCollectible() == true) {
-        World::instance().incScore(c->getAmount());
-        }
-        c->setisCollectible(false);
+		// if it the Object from the collision is a Platform update the position of the
+		// player based on the xStopCollide and yStopCollide values
+		if (details->getXStopCollide() != 0) {
+			xSpeed = 0;
+			x += details->getXStopCollide();
+		}
+		if (details->getYStopCollide() != 0) {
+			ySpeed = 0;
+			y += details->getYStopCollide();
+			if (details->getYStopCollide() < 0) {
+				// the player is on a platform so onPlatform is true
+				onPlatform = true;
+			}
+		}
+	} else if (dynamic_cast<Coin*>(details->getCollided()) != NULL) {
+		//set coin visibility to false and add to high score in world
+		Coin * c = dynamic_cast<Coin*>(details->getCollided());
+		c->setVisibility(false);
+		if(c->getisCollectible() == true) {
+			World::instance().incScore(c->getAmount());
+		}
+		c->setisCollectible(false);
 
-    }
-    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
-    {
-        if (details->getXStopCollide() > 0)
-        {
-            x += 5;
-            xSpeed += 15;
-            ySpeed -= 10;
-            movable = false;
-            details->getCollided()->setRight(false);
-        }
-        else if (details->getXStopCollide() < 0)
-        {
-            x -= 5;
-            xSpeed -= 15;
-            ySpeed -= 10;
-            movable = false;
-            details->getCollided()->setRight(true);
-        }
-        else if (details->getYStopCollide() < 0)
-        {
-            y -= 10;
-            ySpeed -= 20;
-        }
-        else if (details->getYStopCollide() > 0)
-        {
-            y += 5;
-            ySpeed += 10;
-        }
+	}
+	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
+	{
+		if (details->getXStopCollide() > 0)
+		{
+			x += 5;
+			xSpeed += 15;
+			ySpeed -= 10;
+			movable = false;
+			details->getCollided()->setRight(false);
+		}
+		else if (details->getXStopCollide() < 0)
+		{
+			x -= 5;
+			xSpeed -= 15;
+			ySpeed -= 10;
+			movable = false;
+			details->getCollided()->setRight(true);
+		}
+		else if (details->getYStopCollide() < 0)
+		{
+			y -= 10;
+			ySpeed -= 20;
+		}
+		else if (details->getYStopCollide() > 0)
+		{
+			y += 5;
+			ySpeed += 10;
+		}
 
-   } else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
-           setAtEndOfLevel(true);
-    }
+	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
+		setAtEndOfLevel(true);
+	}
 }
