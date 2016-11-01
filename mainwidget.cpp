@@ -40,7 +40,9 @@ MainWidget::MainWidget(QWidget *parent) :
     TitleScreen* titleScrn = new TitleScreen(this);
     titleScrn->show();
     titleScrn->raise();
-    World::instance().setSeconds(30);
+
+    World::instance().setSeconds(World::instance().getStartSeconds());
+
 
 }
 
@@ -48,7 +50,7 @@ void MainWidget::loadLevel(QString filename)
 {
 
 	ObjectLabel* lblPlayer = NULL;
-        ObjectLabel* lblEndLevel = NULL;
+    ObjectLabel* lblEndLevel = NULL;
 
     //Deletes all objects from the last game
     for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
@@ -69,14 +71,6 @@ void MainWidget::loadLevel(QString filename)
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
 
-    EndGameObject * endGame = World::instance().getEndGame();
-    lblEndLevel = new ObjectLabel(ui->worldWidget);
-    lblEndLevel->setObject(endGame);
-    lblEndLevel->setPixmap(QPixmap(endGame->getImage()));
-    lblEndLevel->setScaledContents(true);
-    lblEndLevel->show();
-    lblEndLevel->updateLabelPosition();
-
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -96,6 +90,16 @@ void MainWidget::loadLevel(QString filename)
     ui->lblLife1->show();
     ui->lblLife2->show();
     ui->lblLife3->show();
+
+    if (World::instance().getSeconds() < 10) {
+        int i = World::instance().getSeconds();
+        QString timeFormated = QString("0:0%1").arg(i);
+        ui->lblTimeLeft->setText(timeFormated);
+    } else {
+        int i = World::instance().getSeconds();
+        QString timeFormated = QString("0:%1").arg(i);
+        ui->lblTimeLeft->setText(timeFormated);
+    }
 }
 
 void MainWidget::setWalkImage(Player* player)
@@ -191,8 +195,9 @@ void MainWidget::timerHit(){
             player->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
                 death(player);
-            delete collision;
+
         }
+             delete collision;
     }
 
     for (size_t i = 0; i < world.getObjects().size(); i ++)
@@ -236,7 +241,7 @@ void MainWidget::timerHit(){
     showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
-    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || (World::instance().getSeconds() == 0 && player->getNumLives() == 1))
+    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
     {
         death(player);
         resetPlayer(player);
@@ -247,7 +252,16 @@ void MainWidget::timerHit(){
 void MainWidget::clockHit()
 {
     World::instance().setSeconds(World::instance().getSeconds() - 1);
-    ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
+    if (World::instance().getSeconds() < 10) {
+        int i = World::instance().getSeconds();
+        QString timeFormated = QString("0:0%1").arg(i);
+        ui->lblTimeLeft->setText(timeFormated);
+    } else {
+        int i = World::instance().getSeconds();
+        QString timeFormated = QString("0:%1").arg(i);
+        ui->lblTimeLeft->setText(timeFormated);
+    }
+    //ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }
 
 void MainWidget::resetPlayer(Player* player)
@@ -257,6 +271,7 @@ void MainWidget::resetPlayer(Player* player)
     World::instance().setScore(0);
     ui->lblScore->setText("0");
     World::instance().getScreen()->setLocation(0, 0);
+    World::instance().setSeconds(World::instance().getStartSeconds());
 }
 
 void MainWidget::death(Player* player)
@@ -265,7 +280,7 @@ void MainWidget::death(Player* player)
     player->setNumLives(player->getNumLives() - 1);
 
         if (player->getNumLives() > 0 && player->getIsAtEndOfLevel() != true && World::instance().getSeconds() != 0) {
-           World::instance().setSeconds(30);
+           World::instance().setSeconds(World::instance().getStartSeconds());
             if (player->getNumLives() == 2){
                 ui->lblLife3->hide();
             } else if (player->getNumLives() == 1){

@@ -21,7 +21,6 @@ using namespace std;
 class World {
 	vector<Object*> objects;
 	Player* player;
-    EndGameObject* endGame;
     PlayingScreen* screen;
 
 	// singleton instance
@@ -32,7 +31,8 @@ class World {
 	World(const World& that) = delete;  // don't allow copying
 
 	int score;
-        int seconds;
+    int seconds;
+    int startSeconds;
 
 public:
 	Object *createObject(const string& type);
@@ -56,11 +56,12 @@ public:
 
     vector<Object*>& getObjects() { return objects; }
 	Player* getPlayer() { return player; }
-        EndGameObject * getEndGame() { return endGame; }
-	void setPlayer(Player* initPlayer) { player = initPlayer;}
-        void setEndGame(EndGameObject* newEndGameObject) { endGame = newEndGameObject; }
-       void setSeconds(int initSeconds) { seconds = initSeconds; }
-       int getSeconds() { return seconds; }
+
+    void setPlayer(Player* initPlayer) { player = initPlayer;}
+    void setSeconds(int initSeconds) { seconds = initSeconds; }
+    int getSeconds() { return seconds; }
+    void setStartSeconds(int initSeconds) { seconds = initSeconds; }
+    int getStartSeconds() { return seconds; }
 
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found

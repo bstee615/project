@@ -1,7 +1,7 @@
 #ifndef ENDGAMEOBJECT_H
 #define ENDGAMEOBJECT_H
 
-#include"object.h"
+#include "object.h"
 
 class EndGameObject : public Object
 {
