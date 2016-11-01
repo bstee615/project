@@ -75,7 +75,7 @@ void MainWidget::loadLevel(QString filename)
 		label->updateLabelPosition();
 		label->setScaledContents(true);
         label->setPixmap(QPixmap(worldObj->getImage()));
-		label->show();
+        label->show();
     }
 
 	if (lblPlayer != NULL)
