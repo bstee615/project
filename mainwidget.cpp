@@ -271,7 +271,11 @@ void MainWidget::resetPlayer(Player* player)
     World::instance().setScore(0);
     ui->lblScore->setText("0");
     World::instance().getScreen()->setLocation(0, 0);
-    World::instance().setSeconds(World::instance().getStartSeconds());
+    // for testing it is set to 30 needs to be set to start seconds
+    World::instance().setSeconds(30);
+    int i = World::instance().getSeconds();
+    QString timeFormated = QString("0:%1").arg(i);
+    ui->lblTimeLeft->setText(timeFormated);
 
     for (Object* worldObj : World::instance().getObjects()) {
 
