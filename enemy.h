@@ -17,6 +17,7 @@ public:
         onPlatform = true;
         xSpeed = 3;
         ySpeed = 0;
+        count = 0;
     }
 
 	virtual void load(QString config);
@@ -36,7 +37,7 @@ class FlyingEnemy: public Enemy
     int initY;
 
 public:
-    FlyingEnemy(): Enemy(), up(true) { }
+    FlyingEnemy(): Enemy(), up(true), initY(this->getY()) { ySpeed = 2; }
 
     void move();
     void collide(CollisionDetails*);

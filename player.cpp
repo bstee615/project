@@ -144,6 +144,7 @@ void Player::collide(CollisionDetails *details)
         else if (details->getYStopCollide() > 0)
         {
             y += 5;
+            ySpeed += 10;
         }
 
    } else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){

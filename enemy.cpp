@@ -66,16 +66,12 @@ void FlyingEnemy::move()
         y -= ySpeed;
     else
         y += ySpeed;
-    if (y == initY + 40 || y == initY)
-        up = !up;
 
-    if (count < 80)
-    {
-        count++;
-    }
-    if (count  == 80)
+    count ++;
+    if (count == 10)
     {
         up = !up;
+        count = 0;
     }
 
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
