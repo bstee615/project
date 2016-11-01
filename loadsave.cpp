@@ -25,11 +25,11 @@ void LoadSave::load(QString filename)
 		QString line = "";
 		QTextStream in(&file);
 
-		// not used yet -->
+
 		line = in.readLine();
 		int time = line.toInt();
-		// --> end not used yet
 
+        World::instance().setStartSeconds(time);
 		// set up screen object
 		line = in.readLine();
 		QList<QString> levelDim = line.split(",");
@@ -49,9 +49,8 @@ void LoadSave::load(QString filename)
 		int pX = playerCoord.at(1).toInt();
 		int pY = playerCoord.at(2).toInt();
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
-		World::instance().setPlayer(player);
-        EndGameObject* endGame = new EndGameObject(2400, 220, 50, 50, ":/images/flag.png");
-        World::instance().setEndGame(endGame);
+        World::instance().setPlayer(player);
+
 
 		// loop to get platforms and other objects.
 		loadObjects(in);

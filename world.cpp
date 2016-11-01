@@ -69,10 +69,11 @@ void World::reset() {
     }
     delete player;
     score = 0;
-    seconds = 0;
+    seconds = startSeconds;
     objects.clear();
     Object::resetNextId();
 	delete screen;
+
 }
 
 //World destructor
@@ -95,16 +96,18 @@ Object *World::createObject(const string& type) {
 		return new Player;
 	else if (type.find("plat") == 0)
 		return new Platform;
-    else if (type.find("en") == 0)
+    else if (type.find("ene") == 0)
         return new Enemy;
     else if (type.find("flyingen") == 0)
         return new FlyingEnemy;
     else if (type.find("ob") == 0)
         return new Object;
+    else if (type.find("end") == 0)
+        return new EndGameObject;
 	else
 		return NULL;
 }
-/* <<<<<<< HEAD
+/*
 
 // Load level stored in <filename>
 void World::loadLevel(QString filename)

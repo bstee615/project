@@ -1,7 +1,8 @@
-300
+30
 2500,320
 0,0
 player,29,212,25,48,:/images/maincharacter/stand.png,0,0
+endGame,2400,220,50,50,:images/flag.png,0,0
 platform,0,260,203,60,:/images/platformdirt.png,0,0,0,0
 platform,344,260,452,60,:/images/platformdirt.png,0,0,0,0
 platform,720,195,76,64,:/images/platformdirt.png,0,0,0,0
