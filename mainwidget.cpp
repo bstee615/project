@@ -272,7 +272,7 @@ void MainWidget::resetPlayer(Player* player)
     player->setY(212);
     World::instance().setScore(0);
     ui->lblScore->setText("0");
-    World::instance().getScreen()->setLocation(0, 0);
+	World::instance().getScreen()->setLocation(0, 0);
 	clock->stop();
 	World::instance().setSeconds(World::instance().getStartSeconds() + 1);
 	clockHit();
@@ -354,7 +354,8 @@ void MainWidget::showCoin() {
 
 
 MainWidget::~MainWidget() {
-	delete ui;
+    ui->worldWidget->deleteLater();
+    delete ui;
 }
 
 void MainWidget::keyPressEvent(QKeyEvent *event)
