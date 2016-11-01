@@ -22,4 +22,4 @@ platform,1665,55,114,15,:/images/platformdirt.png,0,0,0,0
 platform,1830,-30,25,150,:/images/platformdirt.png,0,0,0,0
 coin,160,160,32,32,:/images/goldCoin/goldCoin5.png
 enemy,400,212,42,48,:/images/groundrobot.png
-flyingenemy,200,100,32,32,:/images/flyingrobot.png
+flyingenemy,800,100,32,32,:/images/flyingrobot.png
