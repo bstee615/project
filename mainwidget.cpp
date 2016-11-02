@@ -168,7 +168,7 @@ void MainWidget::timerHit(){
 	if (player->getX() < 0)
 	{
 		player->setX(0);
-		player->setXSpeed(0);
+        player->setXSpeed(0);
 	}
 	if (player->getRightPoint() > World::instance().getScreen()->getLevelWidth())
 	{
@@ -177,7 +177,7 @@ void MainWidget::timerHit(){
     }
 
 	// update screen location based on player location
-	PlayingScreen* screen = World::instance().getScreen();
+    PlayingScreen* screen = World::instance().getScreen();
 	if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
 		&& (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
 	{
@@ -189,7 +189,7 @@ void MainWidget::timerHit(){
 		screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
 	}
 
-	if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
+    if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
 		&& (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
 	{
 		screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
