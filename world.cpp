@@ -1,6 +1,5 @@
 #include <QFile>
 #include "world.h"
-#include <QApplication>
 
 World World::world;
 
@@ -35,7 +34,6 @@ vector<string> split(string toSplit, string delim)
 // returns object with <id>, or NULL if none
 Object *World::getById(int id) {
     for (size_t i = 0; i < objects.size(); ++i) {
-        QCoreApplication::processEvents();
         Object *obj = objects.at(i);
         if (obj->getId() == id) {
             return obj;
