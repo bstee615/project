@@ -89,6 +89,12 @@ void MainWidget::loadLevel(QString filename)
 	ui->lblLife2->show();
 	ui->lblLife3->show();
 
+    ui->lblLife1->raise();
+    ui->lblLife2->raise();
+    ui->lblLife3->raise();
+    ui->lblScore->raise();
+    ui->lblTimeLeft->raise();
+
 	World::instance().setSeconds(World::instance().getStartSeconds());
 
 	if (World::instance().getSeconds() < 10) {
