@@ -28,7 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->lblTimeLeft->raise();
 
 	timer = new QTimer(this);
-      timer->setInterval(60);
+      timer->setInterval(50);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 
       clock = new QTimer(this);
