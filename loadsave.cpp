@@ -51,8 +51,13 @@ void LoadSave::load(QString filename)
         World::instance().setPlayer(player);
 
 
-		// loop to get platforms and other objects.
-		loadObjects(in);
+		// loop to get platforms and other objects
+		size_t numObjs = 0;
+		loadObjects(in, numObjs);
+
+		if (World::instance().getObjects().size() != numObjs)
+			throw runtime_error("The program did not load all of the objects!");
+
 		file.close();
 	}
 	else
@@ -63,8 +68,9 @@ void LoadSave::load(QString filename)
 
 // configures objects from a file <in>
 // called at beginning of series of objects in a save file
-void LoadSave::loadObjects(QTextStream& in)
+void LoadSave::loadObjects(QTextStream& in, size_t& num)
 {
+	num = 0;
 	QString line = "";
 	Object* obj = NULL;
 	while (!in.atEnd())
@@ -76,6 +82,7 @@ void LoadSave::loadObjects(QTextStream& in)
 			obj->load(line);
             obj->setVisibility(true);
             World::instance().add(obj);
+			num++;
 		}
 	}
 }

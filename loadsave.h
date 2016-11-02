@@ -23,7 +23,7 @@ public:
 
 	// configures objects from a file <in>
 	// called at beginning of series of objects in a save file
-	void loadObjects(QTextStream& in);
+	void loadObjects(QTextStream& in, size_t &num);
 
 	// reads object data and saves a save state file
 	void save(QString filename);

@@ -104,7 +104,7 @@ protected:
     void run();
 
 public:
-    MoveThread(Object* obj) : object(obj), QThread() {}
+	MoveThread(Object* obj) : QThread(), object(obj) {}
 };
 
 class CheckPlayerCollisionThread : public QThread {

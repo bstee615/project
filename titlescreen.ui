@@ -74,7 +74,7 @@
     <string notr="true">font: 7pt &quot;Droid Sans&quot;;</string>
    </property>
    <property name="text">
-    <string>Alpha Version</string>
+    <string>Beta Version</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
