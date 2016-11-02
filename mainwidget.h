@@ -107,4 +107,16 @@ public:
     MoveThread(Object* obj) : object(obj), QThread() {}
 };
 
+class CheckPlayerCollisionThread : public QThread {
+    Q_OBJECT
+    bool death;
+
+protected:
+    void run();
+
+public:
+    CheckPlayerCollisionThread() : death(false), QThread(){}
+    bool getDeath() { return death; }
+};
+
 #endif // MAINWIDGET_H

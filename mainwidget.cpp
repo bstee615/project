@@ -191,8 +191,9 @@ void MainWidget::timerHit(){
     for (int i = 0; i < world.getObjects().size(); i ++)
     {
         QCoreApplication::processEvents();
-        moveThreads.push_back(new MoveThread(world.getObjects().at(i)));
-        moveThreads.at(i)->start();
+        MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
+        moveThreads.push_back(currentThread);
+        currentThread->start();
     }
 
     for (int i = 0; i < moveThreads.size(); ++i) {
@@ -211,18 +212,13 @@ void MainWidget::timerHit(){
             if (dynamic_cast<Enemy*>(collision->getCollided()))
                 death(player);
         }
-             delete collision;
+        delete collision;
     }
 
-    if (!player->canMove())
-    {
-        player->setImage(":/images/maincharacter/hurt.png");
-        if (player->isLeft())
-            player->setImage(":/images/maincharacter/hurtleft.png");
+    CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
+    playerCollide->start();
 
-        QTimer::singleShot(10, this, SLOT(normalMove()));
-        QTimer::singleShot(500, this, SLOT(normalImage()));
-    }
+
 
     for (int i = 0; i < ui->worldWidget->children().length(); i++)
     {
@@ -240,6 +236,21 @@ void MainWidget::timerHit(){
                 }
             }
         }
+    }
+    playerCollide->wait();
+    if (playerCollide->getDeath()) {
+        death(player);
+    }
+    delete playerCollide;
+
+    if (!player->canMove())
+    {
+        player->setImage(":/images/maincharacter/hurt.png");
+        if (player->isLeft())
+            player->setImage(":/images/maincharacter/hurtleft.png");
+
+        QTimer::singleShot(10, this, SLOT(normalMove()));
+        QTimer::singleShot(500, this, SLOT(normalImage()));
     }
 
 
@@ -421,4 +432,19 @@ void MainWidget::normalImage()
 void MoveThread::run()
 {
     object->move();
+}
+
+
+void CheckPlayerCollisionThread::run()
+{
+    for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
+        // checks to see if player the player collides with each object
+        CollisionDetails* collision = World::instance().getPlayer()->checkCollision(World::instance().getObjects().at(i));
+        if (collision != NULL) {
+            World::instance().getPlayer()->collide(collision);
+            if (dynamic_cast<Enemy*>(collision->getCollided()))
+                death = true;
+        }
+        delete collision;
+    }
 }
