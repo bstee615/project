@@ -383,7 +383,7 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
 		player->setLeft(false);
-	} else if (event->key() == Qt::Key_Space) {
+    } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
 		Player* player = World::instance().getPlayer();
 		player->setJumpOnMove(true);
 	}
