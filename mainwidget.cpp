@@ -39,7 +39,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	left = false;
 	TitleScreen* titleScrn = new TitleScreen(this);
 	titleScrn->show();
-	titleScrn->raise();
+    titleScrn->raise();
 }
 
 void MainWidget::loadLevel(QString filename)

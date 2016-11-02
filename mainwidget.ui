@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>40</x>
      <y>40</y>
-     <width>520</width>
-     <height>320</height>
+     <width>944</width>
+     <height>688</height>
     </rect>
    </property>
    <widget class="QLabel" name="lblBackground">
@@ -27,8 +27,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>520</width>
-      <height>320</height>
+      <width>944</width>
+      <height>688</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -44,7 +44,7 @@
    <widget class="QLabel" name="lblScore">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>860</x>
       <y>10</y>
       <width>61</width>
       <height>21</height>
@@ -66,7 +66,7 @@
    <widget class="QLabel" name="lblLife1">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>830</x>
       <y>0</y>
       <width>31</width>
       <height>41</height>
@@ -85,7 +85,7 @@
    <widget class="QLabel" name="lblLife2">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>800</x>
       <y>0</y>
       <width>31</width>
       <height>41</height>
@@ -104,7 +104,7 @@
    <widget class="QLabel" name="lblLife3">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>770</x>
       <y>0</y>
       <width>31</width>
       <height>41</height>
