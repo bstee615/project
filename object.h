@@ -83,7 +83,7 @@ public:
     virtual bool isRight() { return right; }
     virtual void setRight(bool newRight) { right = newRight; }
 
-    virtual bool isUp() { }
+	virtual bool isUp() { }
     virtual void setUp(bool newUp) { }
 
     int getCount() { return count; }
