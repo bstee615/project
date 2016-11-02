@@ -203,18 +203,6 @@ void MainWidget::timerHit(){
         delete currentThread;
     }
 
-    for(size_t i = 0; i < world.getObjects().size(); ++i) {
-        QCoreApplication::processEvents();
-        // checks to see if player the player collides with each object
-        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
-        if (collision != NULL) {
-            player->collide(collision);
-            if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death(player);
-        }
-        delete collision;
-    }
-
     CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
     playerCollide->start();
 
