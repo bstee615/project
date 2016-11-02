@@ -200,20 +200,11 @@ void MainWidget::timerHit(){
 
     for (size_t i = 0; i < world.getObjects().size(); i ++)
     {
+        QCoreApplication::processEvents();
         world.getObjects().at(i)->move();
     }
 
-    for(size_t i = 0; i < world.getObjects().size(); ++i) {
-        QCoreApplication::processEvents();
-        // checks to see if player the player collides with each object
-        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
-        if (collision != NULL) {
-            player->collide(collision);
-            if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death(player);
-            delete collision;
-        }
-    }
+
 
     if (!player->canMove())
     {
@@ -232,11 +223,20 @@ void MainWidget::timerHit(){
         if (guiObject != NULL) {
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
+            // showCoin method replacement
+            if (dynamic_cast<Coin *>(guiObject->getObject()) != NULL) {
+                if (guiObject->getObject()->getVisibility() == true) {
+                    guiObject->show();
+                } else {
+                    guiObject->hide();
+                }
+            }
         }
     }
 
 
-    showCoin();
+    // Andrew - I think I eliminated the need for this showCoin method 10 lines up.
+    //showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
     if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
@@ -320,7 +320,7 @@ void MainWidget::showCoin() {
 		Coin * coin = dynamic_cast<Coin*>(worldObj);
 		if (coin != NULL) {
 
-			int coinId = worldObj->getId();
+            int coinId = worldObj->getId();
 			ObjectLabel * lbl;
 
 			for (int i = 0; i < ui->worldWidget->children().length(); i++ ) {
