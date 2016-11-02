@@ -188,14 +188,14 @@ void MainWidget::timerHit(){
     }
 
     vector<MoveThread*> moveThreads;
-    for (int i = 0; i < world.getObjects().size(); i ++)
+    for (size_t i = 0; i < world.getObjects().size(); i ++)
     {
         QCoreApplication::processEvents();
         moveThreads.push_back(new MoveThread(world.getObjects().at(i)));
         moveThreads.at(i)->start();
     }
 
-    for (int i = 0; i < moveThreads.size(); ++i) {
+    for (size_t i = 0; i < moveThreads.size(); ++i) {
         QCoreApplication::processEvents();
         MoveThread* currentThread = moveThreads.at(i);
         currentThread->wait();
@@ -209,7 +209,10 @@ void MainWidget::timerHit(){
         if (collision != NULL) {
             player->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death(player);
+            {
+                if (!collision->getCollided()->isDead())
+                    death(player);
+            }
         }
              delete collision;
     }
@@ -237,6 +240,14 @@ void MainWidget::timerHit(){
                     guiObject->show();
                 } else {
                     guiObject->hide();
+                }
+            }
+            if (dynamic_cast<Enemy *>(guiObject->getObject()) != NULL)
+            {
+                if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
+                {
+                    World::instance().destroy(guiObject->getObject()->getId());
+                    guiObject->setPixmap(QPixmap(":/images/pow!.png").scaled(32,32));
                 }
             }
         }
@@ -416,7 +427,6 @@ void MainWidget::normalImage()
             player->setImage(":/images/maincharacter/standleft.png");
     }
 }
-
 
 void MoveThread::run()
 {
