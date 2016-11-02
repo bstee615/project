@@ -251,6 +251,14 @@ void MainWidget::timerHit(){
     //showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
+    if (player->getIsAtEndOfLevel()) {
+        EndGame * e = new EndGame(this);
+        e->show();
+        timer->stop();
+        //checkhighscores();
+        clock->stop();
+    }
+
     if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
     {
         death(player);
