@@ -3,9 +3,14 @@
 0,0
 player,29,212,25,48,:/images/maincharacter/stand.png,0,0
 endGame,2400,220,50,50,:images/flag.png,0,0
-platform,0,260,203,60,:/images/platformdirt.png,0,0,0,0
+object,882,120,30,75,:/images/objecthill.png
+object,32,210,50,50,:/images/objectarrowsign.png
+object,382,210,50,50,:/images/objectarrowsign.png
+platform,0,260,200,60,:/images/platformdirt.png,0,0,0,0
+platform,200,260,72,24,:/images/bridgelogs.png,0,0,0,0
+platform,272,260,72,24,:/images/bridgelogs.png,0,0,0,0
 platform,344,260,452,60,:/images/platformdirt.png,0,0,0,0
-platform,720,195,406,195,:/images/platformdirt.png,0,0,0,0
+platform,720,195,406,65,:/images/platformdirt.png,0,0,0,0
 platform,1185,280,446,40,:/images/platformdirt.png,0,0,0,0
 platform,1759,230,151,90,:/images/platformdirt.png,0,0,0,0
 platform,1970,185,38,140,:/images/platformdirt.png,0,0,0,0
@@ -22,8 +27,3 @@ coin,160,160,32,32,:/images/goldCoin/goldCoin5.png
 enemy,400,212,42,48,:/images/groundrobot.png
 flyingenemy,800,100,32,32,:/images/flyingrobot.png
 flyingenemy,1960,59,32,32,:/images/flyingrobot.png
-object,32,220,20,20,:/images/objecttorch.png
-object,132,220,20,20,:/images/objecttorch.png
-object,832,150,20,20,:/images/objecttorch.png
-object,932,150,20,20,:/images/objecttorch.png
-object,882,120,30,75,:/images/objecthill.png

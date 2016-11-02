@@ -48,9 +48,17 @@ void Enemy::collide(CollisionDetails *details)
         if (details->getXStopCollide() != 0) {
             x += details->getXStopCollide();
             if (details->getXStopCollide() > 0)
+            {
                 right = true;
+                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
+                    x += 5;
+            }
             if (details->getXStopCollide() < 0)
+            {
                 right = false;
+                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
+                    x -= 5;
+            }
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
@@ -106,16 +114,30 @@ void FlyingEnemy::collide(CollisionDetails *details)
         if (details->getXStopCollide() != 0) {
             x += details->getXStopCollide();
             if (details->getXStopCollide() > 0)
+            {
                 setRight(true);
+                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
+                    setX(getX() + 5);
+            }
             if (details->getXStopCollide() < 0)
+            {
                 setRight(false);
+                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
+                    setX(getX() - 5);
+            }
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
             if (details->getYStopCollide() < 0)
+            {
+                setY(getY() + 5);
                 up = true;
+            }
             if (details->getYStopCollide() > 0)
+            {
+                setY(getY() + 5);
                 up = false;
+            }
         }
     }
 }

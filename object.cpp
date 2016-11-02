@@ -189,6 +189,3 @@ CollisionDetails* Object::checkCollision(Object *that)
     // returns nulll if there is no collision
     return NULL;
 }
-
-
-
