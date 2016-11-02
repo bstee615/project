@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "world.h"
 #include "platform.h"
+#include <QApplication>
 
 void Enemy::load(QString config)
 {
@@ -31,6 +32,7 @@ void Enemy::move()
 
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
+        QCoreApplication::processEvents();
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
@@ -88,6 +90,7 @@ void FlyingEnemy::move()
 
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
+        QCoreApplication::processEvents();
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
