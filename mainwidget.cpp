@@ -44,6 +44,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::loadLevel(QString filename)
 {
+    ui->lblBackground->setPixmap(QString(":/images/easybackground.png"));
 
 	ObjectLabel* lblPlayer = NULL;
     ObjectLabel* lblEndLevel = NULL;
@@ -76,6 +77,7 @@ void MainWidget::loadLevel(QString filename)
 		label->setScaledContents(true);
         label->setPixmap(QPixmap(worldObj->getImage()));
         label->show();
+        label->getObject()->setVisibility(true);
     }
 
 	if (lblPlayer != NULL)
@@ -130,6 +132,19 @@ void MainWidget::timerHit(){
     //program 4 code below (for reference)
     World& world = World::instance();
     Player* player = world.getPlayer();
+
+
+    for(size_t i = 0; i < world.getObjects().size(); ++i) {
+        QCoreApplication::processEvents();
+        // checks to see if player the player collides with each object
+        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
+        if (collision != NULL) {
+            player->collide(collision);
+            if (dynamic_cast<Enemy*>(collision->getCollided()))
+                death(player);
+            delete collision;
+        }
+    }
 
     labelPlayer->setPixmap(player->getImage());
     player->advanceCount();
@@ -193,7 +208,6 @@ void MainWidget::timerHit(){
             player->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
                 death(player);
-
         }
              delete collision;
     }
@@ -201,18 +215,6 @@ void MainWidget::timerHit(){
     for (size_t i = 0; i < world.getObjects().size(); i ++)
     {
         world.getObjects().at(i)->move();
-    }
-
-    for(size_t i = 0; i < world.getObjects().size(); ++i) {
-        QCoreApplication::processEvents();
-        // checks to see if player the player collides with each object
-        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
-        if (collision != NULL) {
-            player->collide(collision);
-            if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death(player);
-            delete collision;
-        }
     }
 
     if (!player->canMove())

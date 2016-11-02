@@ -121,30 +121,30 @@ void Player::collide(CollisionDetails *details)
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
 		if (details->getXStopCollide() > 0)
-		{
-			x += 5;
-			xSpeed += 15;
-			ySpeed -= 10;
+        {
+            x += 5;
+            xSpeed += 15;
 			movable = false;
 			details->getCollided()->setRight(false);
 		}
-		else if (details->getXStopCollide() < 0)
-		{
-			x -= 5;
-			xSpeed -= 15;
-			ySpeed -= 10;
+        if (details->getXStopCollide() < 0)
+        {
+            x -= 5;
+            xSpeed -= 15;
 			movable = false;
 			details->getCollided()->setRight(true);
 		}
-		else if (details->getYStopCollide() < 0)
-		{
-			y -= 10;
-			ySpeed -= 20;
+        if (details->getYStopCollide() < 0)
+        {
+            y -= ySpeed;
+            ySpeed -= 15;
+            details->getCollided()->setUp(false);
 		}
-		else if (details->getYStopCollide() > 0)
-		{
-			y += 5;
-			ySpeed += 10;
+        if (details->getYStopCollide() > 0)
+        {
+            xSpeed = 0;
+            ySpeed += 20;
+            details->getCollided()->setUp(true);
 		}
 
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
