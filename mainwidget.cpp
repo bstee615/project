@@ -223,6 +223,14 @@ void MainWidget::timerHit(){
                     guiObject->hide();
                 }
             }
+            if (dynamic_cast<Enemy *>(guiObject->getObject()) != NULL)
+            {
+                if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
+                {
+                    World::instance().destroy(guiObject->getObject()->getId());
+                    guiObject->hide();
+                }
+            }
         }
     }
     playerCollide->wait();
@@ -431,7 +439,8 @@ void CheckPlayerCollisionThread::run()
         if (collision != NULL) {
             World::instance().getPlayer()->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death = true;
+                if (!collision->getCollided()->isDead())
+                    death = true;
         }
         delete collision;
     }
