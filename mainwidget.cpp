@@ -227,11 +227,8 @@ void MainWidget::timerHit(){
                 if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
                 {
                     World::instance().destroy(guiObject->getObject()->getId());
-<<<<<<< HEAD
-                    guiObject->setPixmap(QPixmap(":/images/pow!.png").scaled(32,32));
-=======
+
                     guiObject->hide();
->>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
                 }
             }
         }
