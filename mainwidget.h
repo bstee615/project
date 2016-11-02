@@ -13,6 +13,8 @@
 #include "world.h"
 #include "titlescreen.h"
 
+#include <QThread>
+
 class ObjectLabel : public QLabel {
     Q_OBJECT
     Object * object;
@@ -91,6 +93,18 @@ private slots:
     void clockHit();
     void normalMove();
     void normalImage();
+};
+
+class MoveThread : public QThread
+{
+    Q_OBJECT
+    Object* object;
+
+protected:
+    void run();
+
+public:
+    MoveThread(Object* obj) : object(obj), QThread() {}
 };
 
 #endif // MAINWIDGET_H

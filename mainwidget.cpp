@@ -187,10 +187,19 @@ void MainWidget::timerHit(){
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
     }
 
-    for (size_t i = 0; i < world.getObjects().size(); i ++)
+    vector<MoveThread*> moveThreads;
+    for (int i = 0; i < world.getObjects().size(); i ++)
     {
         QCoreApplication::processEvents();
-        world.getObjects().at(i)->move();
+        moveThreads.push_back(new MoveThread(world.getObjects().at(i)));
+        moveThreads.at(i)->start();
+    }
+
+    for (int i = 0; i < moveThreads.size(); ++i) {
+        QCoreApplication::processEvents();
+        MoveThread* currentThread = moveThreads.at(i);
+        currentThread->wait();
+        delete currentThread;
     }
 
     for(size_t i = 0; i < world.getObjects().size(); ++i) {
@@ -406,4 +415,10 @@ void MainWidget::normalImage()
         if (player->isLeft())
             player->setImage(":/images/maincharacter/standleft.png");
     }
+}
+
+
+void MoveThread::run()
+{
+    object->move();
 }
