@@ -25,7 +25,7 @@ vector<string> split(string toSplit, string delim)
 		if (pos == string::npos)
 		{
 			items.push_back(toSplit.substr(oldPos, toSplit.find_last_not_of("\n") - oldPos));
-			break;
+            break;
 		}
 	}
 	return items;
