@@ -82,8 +82,16 @@ public:
 
     virtual bool isRight() { return right; }
     virtual void setRight(bool newRight) { right = newRight; }
+<<<<<<< HEAD
     virtual bool isDead() { return true; }
     virtual void kill() { return; }
+=======
+
+    virtual bool isDead() { return true; }
+    virtual void kill() { return; }
+
+    virtual void setUp(bool a) { if (a) { } }
+>>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
 
     int getCount() { return count; }
     void advanceCount() { count++; }

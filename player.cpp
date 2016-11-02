@@ -118,32 +118,58 @@ void Player::collide(CollisionDetails *details)
 		c->setisCollectible(false);
 
 	}
+<<<<<<< HEAD
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
+=======
+    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
+    {
+>>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
         if (details->getYStopCollide() != 0)
         {
             World::instance().incScore(15);
             ySpeed = -10;
+<<<<<<< HEAD
             details->getCollided()->kill();
             return;
         }
 		if (details->getXStopCollide() > 0)
+=======
+            if (details->getYStopCollide() > 0)
+                ySpeed = 10;
+            details->getCollided()->kill();
+            return;
+        }
+        if (details->getXStopCollide() > 0)
+>>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
         {
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
+<<<<<<< HEAD
 			movable = false;
 			details->getCollided()->setRight(false);
 		}
+=======
+            movable = false;
+            details->getCollided()->setRight(false);
+        }
+>>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
         else if (details->getXStopCollide() < 0)
         {
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
+<<<<<<< HEAD
 			movable = false;
 			details->getCollided()->setRight(true);
         }
 
+=======
+            movable = false;
+            details->getCollided()->setRight(true);
+        }
+>>>>>>> dbd0b2e2352764efe4a0fa3da92111a753ebbc3b
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
 	}
