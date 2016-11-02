@@ -133,19 +133,6 @@ void MainWidget::timerHit(){
     World& world = World::instance();
     Player* player = world.getPlayer();
 
-
-    for(size_t i = 0; i < world.getObjects().size(); ++i) {
-        QCoreApplication::processEvents();
-        // checks to see if player the player collides with each object
-        CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
-        if (collision != NULL) {
-            player->collide(collision);
-            if (dynamic_cast<Enemy*>(collision->getCollided()))
-                death(player);
-            delete collision;
-        }
-    }
-
     labelPlayer->setPixmap(player->getImage());
     player->advanceCount();
 
@@ -200,7 +187,13 @@ void MainWidget::timerHit(){
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
     }
 
-	for(size_t i = 0; i < world.getObjects().size(); ++i) {
+    for (size_t i = 0; i < world.getObjects().size(); i ++)
+    {
+        QCoreApplication::processEvents();
+        world.getObjects().at(i)->move();
+    }
+
+    for(size_t i = 0; i < world.getObjects().size(); ++i) {
         QCoreApplication::processEvents();
         // checks to see if player the player collides with each object
         CollisionDetails* collision = player->checkCollision(world.getObjects().at(i));
@@ -210,12 +203,6 @@ void MainWidget::timerHit(){
                 death(player);
         }
              delete collision;
-    }
-
-    for (size_t i = 0; i < world.getObjects().size(); i ++)
-    {
-        QCoreApplication::processEvents();
-        world.getObjects().at(i)->move();
     }
 
     if (!player->canMove())
