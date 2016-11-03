@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>990</height>
+    <width>539</width>
+    <height>961</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>940</y>
+     <y>920</y>
      <width>131</width>
      <height>27</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>480</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>360</y>
+     <y>480</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -88,7 +88,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>360</y>
+     <y>480</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -117,7 +117,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>360</y>
+     <y>480</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -145,8 +145,8 @@
   <widget class="QPushButton" name="PBplatform6">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>430</y>
+     <x>20</x>
+     <y>550</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -174,8 +174,8 @@
   <widget class="QPushButton" name="PBplatform7">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>430</y>
+     <x>90</x>
+     <y>550</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -203,8 +203,8 @@
   <widget class="QPushButton" name="PBplatform5">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>430</y>
+     <x>300</x>
+     <y>480</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -232,8 +232,8 @@
   <widget class="QPushButton" name="PBplatform8">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>430</y>
+     <x>160</x>
+     <y>550</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -261,8 +261,8 @@
   <widget class="QPushButton" name="PBplatform9">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>500</y>
+     <x>230</x>
+     <y>550</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -362,7 +362,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>320</y>
+     <y>440</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -401,7 +401,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>210</y>
+     <y>330</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -414,7 +414,7 @@
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>250</y>
+     <y>370</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -443,7 +443,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
+     <y>370</y>
      <width>61</width>
      <height>61</height>
     </rect>
@@ -514,7 +514,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>780</y>
+     <y>760</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -527,7 +527,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>820</y>
+     <y>800</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -540,7 +540,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>860</y>
+     <y>840</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -553,7 +553,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>900</y>
+     <y>880</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -566,7 +566,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>700</y>
+     <y>680</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -579,7 +579,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>780</y>
+     <y>760</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -589,7 +589,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>820</y>
+     <y>800</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -599,7 +599,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>860</y>
+     <y>840</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -609,7 +609,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>900</y>
+     <y>880</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -619,7 +619,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>700</y>
+     <y>680</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -642,7 +642,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>740</y>
+     <y>720</y>
      <width>85</width>
      <height>24</height>
     </rect>
@@ -655,7 +655,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>740</y>
+     <y>720</y>
      <width>113</width>
      <height>34</height>
     </rect>
@@ -665,7 +665,7 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>940</y>
+     <y>920</y>
      <width>131</width>
      <height>27</height>
     </rect>
@@ -680,7 +680,7 @@
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>329</x>
+     <x>399</x>
      <y>10</y>
      <width>121</width>
      <height>24</height>
@@ -693,7 +693,7 @@
   <widget class="QLabel" name="label_14">
    <property name="geometry">
     <rect>
-     <x>319</x>
+     <x>389</x>
      <y>40</y>
      <width>16</width>
      <height>24</height>
@@ -706,7 +706,7 @@
   <widget class="QLabel" name="label_15">
    <property name="geometry">
     <rect>
-     <x>319</x>
+     <x>389</x>
      <y>80</y>
      <width>16</width>
      <height>24</height>
@@ -719,7 +719,7 @@
   <widget class="QLineEdit" name="LEresizeX">
    <property name="geometry">
     <rect>
-     <x>339</x>
+     <x>409</x>
      <y>40</y>
      <width>113</width>
      <height>34</height>
@@ -729,7 +729,7 @@
   <widget class="QLineEdit" name="LEresizeY">
    <property name="geometry">
     <rect>
-     <x>339</x>
+     <x>409</x>
      <y>80</y>
      <width>113</width>
      <height>34</height>
@@ -739,7 +739,7 @@
   <widget class="QPushButton" name="PBresize">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>390</x>
      <y>120</y>
      <width>131</width>
      <height>32</height>
@@ -753,7 +753,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>650</y>
+     <y>630</y>
      <width>141</width>
      <height>24</height>
     </rect>
@@ -766,7 +766,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>940</y>
+     <y>920</y>
      <width>131</width>
      <height>27</height>
     </rect>
@@ -782,7 +782,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>900</y>
+     <y>880</y>
      <width>130</width>
      <height>34</height>
     </rect>
@@ -792,7 +792,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>870</y>
+     <y>850</y>
      <width>130</width>
      <height>24</height>
     </rect>
@@ -804,7 +804,7 @@
   <widget class="QPushButton" name="PBsetStart">
    <property name="geometry">
     <rect>
-     <x>321</x>
+     <x>391</x>
      <y>330</y>
      <width>131</width>
      <height>32</height>
@@ -817,7 +817,7 @@
   <widget class="QLabel" name="label_18">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>400</x>
      <y>220</y>
      <width>131</width>
      <height>24</height>
@@ -830,7 +830,7 @@
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>390</x>
      <y>250</y>
      <width>16</width>
      <height>24</height>
@@ -843,7 +843,7 @@
   <widget class="QLineEdit" name="LEstartX">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>410</x>
      <y>250</y>
      <width>113</width>
      <height>34</height>
@@ -853,7 +853,7 @@
   <widget class="QLineEdit" name="LEstartY">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>410</x>
      <y>290</y>
      <width>113</width>
      <height>34</height>
@@ -863,7 +863,7 @@
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>390</x>
      <y>290</y>
      <width>16</width>
      <height>24</height>
@@ -876,7 +876,7 @@
   <widget class="QLabel" name="LBsize">
    <property name="geometry">
     <rect>
-     <x>324</x>
+     <x>394</x>
      <y>160</y>
      <width>121</width>
      <height>24</height>
@@ -889,7 +889,7 @@
   <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>410</x>
      <y>430</y>
      <width>101</width>
      <height>24</height>
@@ -902,7 +902,7 @@
   <widget class="QLineEdit" name="LEtime">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>400</x>
      <y>480</y>
      <width>113</width>
      <height>34</height>
@@ -912,7 +912,7 @@
   <widget class="QLabel" name="label_22">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>410</x>
      <y>450</y>
      <width>101</width>
      <height>24</height>
@@ -925,7 +925,7 @@
   <widget class="QPushButton" name="PBsetTime">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>390</x>
      <y>520</y>
      <width>131</width>
      <height>32</height>
@@ -938,7 +938,7 @@
   <widget class="QLabel" name="LBstart">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>400</x>
      <y>370</y>
      <width>121</width>
      <height>24</height>
@@ -951,7 +951,7 @@
   <widget class="QLabel" name="LBtime">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>400</x>
      <y>560</y>
      <width>111</width>
      <height>24</height>
@@ -1066,6 +1066,164 @@
    <property name="icon">
     <iconset>
      <normaloff>:/images/pavement14.png</normaloff>:/images/pavement14.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>85</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Decor</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBobject3">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>250</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Platform</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/objecthill.png</normaloff>:/images/objecthill.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBobject1">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>250</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Platform</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/objectarrowsign.png</normaloff>:/images/objectarrowsign.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBobject4">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>250</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Platform</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/objecttorch.png</normaloff>:/images/objecttorch.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBobject2">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>250</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Platform</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/objectexitsign.png</normaloff>:/images/objectexitsign.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PBobject5">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>250</y>
+     <width>61</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Platform</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/objectwindow.png</normaloff>:/images/objectwindow.png</iconset>
    </property>
    <property name="iconSize">
     <size>

@@ -48,3 +48,16 @@ void TitleScreen::on_pushButton_clicked()
     maker->show();
     maker->raise();
 }
+
+void TitleScreen::on_btnMedium_clicked()
+{
+    this->hide();
+    this->widgetParent->setFocus();
+    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+    if (prnt != NULL) {
+        prnt->loadLevel(":/medium.lv");
+        prnt->getTimer()->start();
+        prnt->getClock()->start();
+    }
+    deleteLater();
+}

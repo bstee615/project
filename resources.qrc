@@ -49,5 +49,6 @@
         <file>images/pow!.png</file>
         <file>images/pause.png</file>
         <file>easy.lv</file>
+        <file>medium.lv</file>
     </qresource>
 </RCC>

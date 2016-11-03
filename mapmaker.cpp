@@ -76,6 +76,15 @@ void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful,
     label->setScaledContents(true);
 }
 
+void MapMaker::makeDecor(MovableLabel *label, QString file, int w, int h)
+{
+    label->setGeometry(0,0,w,h);
+    label->setPixmap(QPixmap(file));
+    label->type = "object";
+    label->file = file.toStdString();
+    label->setScaledContents(true);
+}
+
 void MapMaker::labelClicked()
 {
     MovableLabel *lbl = dynamic_cast<MovableLabel *>(sender());
@@ -164,13 +173,23 @@ void MapMaker::on_PBmakeObject_clicked()
     } else if (ui->PBenemyFly->isChecked()) {
         label->setGeometry(0,0,42,42);
         label->setPixmap(QPixmap(":/images/flyingrobot.png").scaled(42,42));
-        label->type = "enemy";
+        label->type = "flyingenemy";
         label->file = ":/images/flyingrobot.png";
     } else if (ui->PBenemyGround->isChecked()) {
         label->setGeometry(0,0,42,48);
         label->setPixmap(QPixmap(":/images/groundrobot.png").scaled(42,48));
         label->type = "enemy";
         label->file = ":/images/groundrobot.png";
+    } else if (ui->PBobject1->isChecked()) {
+        makeDecor(label,":/images/objectarrowsign.png",50,50);
+    } else if (ui->PBobject2->isChecked()) {
+        makeDecor(label,":/images/objectexitsign.png",50,50);
+    } else if (ui->PBobject3->isChecked()) {
+        makeDecor(label,":/images/objecthill.png",30,75);
+    } else if (ui->PBobject4->isChecked()) {
+        makeDecor(label,":/images/objecttorch.png",25,25);
+    } else if (ui->PBobject5->isChecked()) {
+        makeDecor(label,":/images/objectwindow.png",70,70);
     }
 
 
