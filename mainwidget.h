@@ -66,7 +66,7 @@ public:
     void setWalkImage(Player* player);
     void setJumpImage(Player* player);
 	void showCoin();
-
+    bool checkHighScore();
 
 	QTimer* getTimer() {return timer;}
     QTimer* getClock() { return clock; }

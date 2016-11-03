@@ -19,9 +19,9 @@
   <widget class="QLabel" name="lblHighScoreTitle">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>10</y>
-     <width>221</width>
+     <x>160</x>
+     <y>20</y>
+     <width>201</width>
      <height>41</height>
     </rect>
    </property>
@@ -45,9 +45,9 @@
   <widget class="QLabel" name="lblHighscore3">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>190</x>
      <y>150</y>
-     <width>141</width>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -57,15 +57,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore1">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>60</y>
-     <width>141</width>
+     <x>190</x>
+     <y>70</y>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -75,15 +75,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore10">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>450</x>
      <y>240</y>
-     <width>141</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
@@ -93,15 +93,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore5">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>190</x>
      <y>240</y>
-     <width>141</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
@@ -111,7 +111,7 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighScoreNumbers_2">
@@ -152,9 +152,9 @@
   <widget class="QLabel" name="lblHighscore2">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>190</x>
      <y>110</y>
-     <width>141</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
@@ -164,15 +164,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore7">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>450</x>
      <y>110</y>
-     <width>141</width>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -182,7 +182,7 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighScoreNumbers">
@@ -223,9 +223,9 @@
   <widget class="QLabel" name="lblHighscore9">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>200</y>
-     <width>141</width>
+     <x>450</x>
+     <y>190</y>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -235,15 +235,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore6">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>450</x>
      <y>60</y>
-     <width>141</width>
+     <width>71</width>
      <height>31</height>
     </rect>
    </property>
@@ -253,15 +253,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore8">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>450</x>
      <y>150</y>
-     <width>141</width>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -271,15 +271,15 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblHighscore4">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>200</y>
-     <width>141</width>
+     <x>190</x>
+     <y>190</y>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -289,13 +289,13 @@
     </font>
    </property>
    <property name="text">
-    <string>None  0</string>
+    <string>0</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnReturnHome">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>180</x>
      <y>270</y>
      <width>140</width>
      <height>27</height>
@@ -303,6 +303,234 @@
    </property>
    <property name="text">
     <string>Back to Home</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName1">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>70</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName2">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>110</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName3">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>150</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName4">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>190</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName5">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>240</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName6">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>60</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName7">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>110</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName8">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>150</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName9">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>190</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName10">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>240</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblNewHighScoreInfo">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>581</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Your scored placed in the top 10 of all time!!!! 
+Enter your name to be remembered for 
+                     all eternity!</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ledNewName">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>190</y>
+     <width>271</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnEnterName">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>250</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enter Name</string>
    </property>
   </widget>
  </widget>

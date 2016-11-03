@@ -11,11 +11,11 @@
 	}
 	//read in the high scores numbers and users from a file into two vectors
 	//or exits if there is no file with the specified name
-	void HighScore::LoadScore (string filename) {
+    void HighScore::LoadScore () {
 			string name;
 			int score;
-            ifstream file;
-            file.open(filename);
+            fstream file;
+            file.open("highscores.txt");
 		
 		if (file.is_open()) {
 			while (file >> name >> score) {
@@ -30,7 +30,7 @@
                fs << "none 0" << endl;
            }
            fs.close();
-           HighScore::instance().LoadScore("highscores.txt");
+           HighScore::instance().LoadScore();
            return;
 		}
 		
@@ -39,21 +39,24 @@
 	
 	//saves the high score of the current user to the vectors using the
 	//specified <string> and <score>
-	void HighScore::NewHighScore(string name, int score) {
+    int HighScore::NewHighScore(int score) {
 		
-		for (int i = 0; i < 10; i++) {
-			if (scores.at(i) < score) {
-				scores.insert(scores.begin() + i, score);
-				names.insert(names.begin() + i, name);
-				names.pop_back();
+        for (int i = 9; i >= 0; i--) {
+            if (scores.at(i) > score) {
+                scores.insert(scores.begin() + i, score);
 				scores.pop_back();
-				return;
+                return i;
 			}
 				
 		}
-		
+        return 0;
 	}
 	
+    void HighScore::NewHighScoreName(string name, int placeInVector){
+        names.insert(names.begin() + placeInVector, name);
+        names.pop_back();
+    }
+
 	//writes the scores and names in the vector to the file
 	void HighScore::SaveScores(string filename) {
 		ofstream file;
@@ -69,16 +72,15 @@
 	}
 	
 
-    void HighScore::UnitTests() {
+   /* void HighScore::UnitTests() {
 		
 			//unit tests
-            HighScore::instance().LoadScore("thiswon'twork.txt");
-            HighScore::instance().LoadScore("highscores.txt");
+            HighScore::instance().LoadScore();
             assert(HighScore::instance().getScore(0) == 0);
             assert(HighScore::instance().getName(0) == "none");
 				
-            HighScore::instance().NewHighScore("Joe", 1);
-		
+            int i = HighScore::instance().NewHighScore("Joe", 1);
+            assert(i == 5);
             assert(HighScore::instance().getScore(0) == 1);
             assert(HighScore::instance().getName(0) == "Joe");
 			
@@ -89,7 +91,7 @@
             HighScore::instance().SaveScores("highscores.txt");
 					
 	}
-	
+    */
 	void HighScore::teardown() {
 		delete instance_;
 	}

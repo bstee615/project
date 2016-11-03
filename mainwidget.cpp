@@ -23,13 +23,14 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->setupUi(this);
 	ui->lblLife1->raise();
 	ui->lblLife2->raise();
-	ui->lblLife3->raise();
+    ui->lblLife3->raise();
 	ui->lblScore->raise(); // these components should not be under the world objects
     ui->lblTimeLeft->raise();
 
-	timer = new QTimer(this);
+
+      timer = new QTimer(this);
       timer->setInterval(60);
-	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
+      connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 
       clock = new QTimer(this);
      clock->setInterval(1000);
@@ -305,11 +306,32 @@ void MainWidget::death(Player* player)
          //will need to split this to display different screens
         } else {
             ui->lblLife1->hide();
-            EndGame * e = new EndGame(this);
-            e->show();
             timer->stop();
-            //checkhighscores();
             clock->stop();
+             bool isAHighScore = checkHighScore();
+             if (isAHighScore) {
+                int place = HighScore::instance().NewHighScore(World::instance().getScore());
+                HighScorePage * highScoreScreen = new HighScorePage(this);
+                highScoreScreen->setScore(World::instance().getScore());
+                highScoreScreen->setPlace(place);
+                for( int i = 0; i < highScoreScreen->children().size(); i++) {
+
+                        QLabel* textLabel =dynamic_cast<QLabel*>(highScoreScreen->children().at(i));
+
+                        if( textLabel != NULL ) {
+                                 textLabel->hide();
+                        }
+                }
+                highScoreScreen->show();
+                highScoreScreen->raise();
+                highScoreScreen->showNameEnter();
+
+             } else {
+                 EndGame * e = new EndGame(this);
+                 e->show();
+                 e->raise();
+             }
+
 		}
 }
 
@@ -340,17 +362,15 @@ void MainWidget::showCoin() {
 		}
 	}
 }
-/*
- * void MainWidget::checkHighScore(){
- * if (World::instance.getScore() > HighScore::instance().getScore(9)) {
- *        //write up the HighScore::instance().NewHighScore(); method to return where the new score was entered in the array
- *        highScoreScreen = new HighScorePage(ui->worldWidget);
-          highScoreScreen->show();
-          highScoreScreen->raise();
-          //access the label on the screen based on where the score was entered
- *        HighScore::instance().SaveScores();
- * }
- */
+
+ bool MainWidget::checkHighScore(){
+  HighScore::instance().LoadScore();
+  if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
+         return true;
+  } else {
+      return false;
+  }
+ }
 
 
 MainWidget::~MainWidget() {

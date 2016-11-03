@@ -23,16 +23,22 @@ public:
 
 	//loads the top 10 high scores from a file into the vector
 	//or creates a new one
-	void LoadScore(string filename);
+    void LoadScore();
 
-	//inserts a new score and name into the corresponding vectors
-	void NewHighScore(string name, int score);
+    //inserts a new score into the corresponding vectors
+    int NewHighScore(int score);
+
+    //inserts a new name in tho the specified slot
+    void NewHighScoreName(string name, int placeInVector);
 
 	//saves the current scores in the vector to a file
 	void SaveScores(string filename);
 
 	//returns the score at the specified place in the vector
     int getScore(int i) { return scores.at(i); }
+
+    //returns lowest High score
+    int getLowestScore() { return scores.at(9); }
 	
 	//returns the name at the specified place in the vector
     string getName(int i) {return names.at(i); }

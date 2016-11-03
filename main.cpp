@@ -6,7 +6,7 @@
 
 void UnitTest() {
     Object::unitTest();
-    HighScore::UnitTests();
+    //HighScore::UnitTests();
 }
 
 int main(int argc, char *argv[])

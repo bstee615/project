@@ -3,6 +3,7 @@
 #include "ui_titlescreen.h"
 #include "mainwidget.h"
 #include "highscorepage.h"
+#include "highscore.h"
 
 TitleScreen::TitleScreen(QWidget *parent) :
     QWidget(parent),
@@ -36,4 +37,5 @@ void TitleScreen::on_lblHighScores_clicked()
     HighScorePage * scorePage = new HighScorePage(this->parentWidget());
     scorePage->show();
     scorePage->raise();
+
 }
