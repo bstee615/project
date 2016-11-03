@@ -42,7 +42,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Back to Title Screen</string>
+    <string>Continue</string>
    </property>
   </widget>
  </widget>

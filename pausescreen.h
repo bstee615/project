@@ -25,6 +25,10 @@ private slots:
 
 	void on_btnCheat_clicked();
 
+	void on_btnRestart_clicked();
+
+	void on_btnSaveState_clicked();
+
 	void on_btnTitle_clicked();
 
 	void on_btnExit_clicked();

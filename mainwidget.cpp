@@ -59,7 +59,6 @@ void MainWidget::loadLevel(QString filename)
 		}
 	}
 
-
 	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
@@ -290,22 +289,15 @@ void MainWidget::clockHit()
 	{
 		death(World::instance().getPlayer());
 		resetPlayer(World::instance().getPlayer());
-    }
-    if (World::instance().getSeconds() == 25)
-    {
-        //timer->stop();
-        //clock->stop();
-        //PauseScreen* pause = new PauseScreen(this);
-        //pause->show();
-    }
-	//ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
+	}
 }
 
 void MainWidget::resetPlayer(Player* player)
 {
 	player->setX(29);
 	player->setY(212);
-	World::instance().setScore(0);
+	if (player->getNumLives() > 1)
+		World::instance().setScore(0);
 	ui->lblScore->setText("0");
 	World::instance().getScreen()->setLocation(0, 0);
 	clock->stop();
@@ -326,47 +318,23 @@ void MainWidget::resetPlayer(Player* player)
 
 void MainWidget::death(Player* player)
 {
-
 	player->setNumLives(player->getNumLives() - 1);
 
 	if (player->getNumLives() > 0 && !player->getIsAtEndOfLevel()) {
-
-
-            if (player->getNumLives() == 2){
-                ui->lblLife3->hide();
-            } else if (player->getNumLives() == 1){
-                ui->lblLife2->hide();
-            }
-
-         //will need to split this to display different screens
-        } else {
-            ui->lblLife1->hide();
-            timer->stop();
-            clock->stop();
-             bool isAHighScore = checkHighScore();
-             if (isAHighScore) {
-                int place = HighScore::instance().NewHighScore(World::instance().getScore());
-                HighScorePage * highScoreScreen = new HighScorePage(this);
-                highScoreScreen->setScore(World::instance().getScore());
-                highScoreScreen->setPlace(place);
-                for( int i = 0; i < highScoreScreen->children().size(); i++) {
-
-                        QLabel* textLabel =dynamic_cast<QLabel*>(highScoreScreen->children().at(i));
-
-                        if( textLabel != NULL ) {
-                                 textLabel->hide();
-                        }
-                }
-                highScoreScreen->show();
-                highScoreScreen->raise();
-                highScoreScreen->showNameEnter();
-
-             } else {
-                 EndGame * e = new EndGame(this);
-                 e->show();
-                 e->raise();
-             }
-       }
+		if (player->getNumLives() == 2){
+			ui->lblLife3->hide();
+		} else if (player->getNumLives() == 1){
+			ui->lblLife2->hide();
+		}
+		//will need to split this to display different screens
+	} else {
+		ui->lblLife1->hide();
+		timer->stop();
+		clock->stop();
+		EndGame * e = new EndGame(this);
+		e->show();
+		e->raise();
+	}
 }
 
 //displays all the coins in the world if the player has lives left
@@ -396,17 +364,6 @@ void MainWidget::showCoin() {
 		}
 	}
 }
-
-
- bool MainWidget::checkHighScore(){
-  HighScore::instance().LoadScore();
-  if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
-         return true;
-  } else {
-      return false;
-  }
- }
-
 
 MainWidget::~MainWidget() {
 	ui->worldWidget->deleteLater();
@@ -482,6 +439,7 @@ void MainWidget::on_PBpause_clicked()
     timer->stop();
     clock->stop();
     PauseScreen* pause = new PauseScreen(this);
+	pause->move(ui->worldWidget->x(), ui->worldWidget->y());
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumePause);
     pause->show();
     pause->raise();

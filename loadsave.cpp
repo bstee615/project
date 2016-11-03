@@ -51,6 +51,7 @@ void LoadSave::load(QString filename)
 		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
         World::instance().setPlayer(player);
 
+		World::instance().setScore(0);
 
 		// loop to get platforms and other objects
 		size_t numObjs = 0;

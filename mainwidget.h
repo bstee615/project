@@ -16,26 +16,26 @@
 #include <QThread>
 
 class ObjectLabel : public QLabel {
-    Q_OBJECT
-    Object * object;
-    QWidget * widget;
+	Q_OBJECT
+	Object * object;
+	QWidget * widget;
 	int id;
 
-    public:
-    explicit ObjectLabel(QWidget * parent): QLabel(parent) {
-        widget = parent;
-        object = NULL;
-    }
-    ~ObjectLabel() { /*do not delete object here. Objects are deleted in the world class*/ }
+public:
+	explicit ObjectLabel(QWidget * parent): QLabel(parent) {
+		widget = parent;
+		object = NULL;
+	}
+	~ObjectLabel() { /*do not delete object here. Objects are deleted in the world class*/ }
 
-    int getId() { return id; }
-    void setId(int newId) { id = newId; }
+	int getId() { return id; }
+	void setId(int newId) { id = newId; }
 	void setObject(Object* initObject)
 	{
 		object = initObject;
-        this->id = initObject->getId();
+		this->id = initObject->getId();
 	}
-    Object* getObject(){ return object; }
+	Object* getObject(){ return object; }
 
 	// Updates the label position to the position recorded in the model, minus the location of the screen
 	void updateLabelPosition()
@@ -44,8 +44,8 @@ class ObjectLabel : public QLabel {
 		setGeometry(object->getX() - screen->getX(), object->getY() - screen->getY(), object->getWidth(), object->getHeight());
 	}
 
-    signals:
-        void clicked();
+signals:
+	void clicked();
 };
 
 namespace Ui {
@@ -57,67 +57,66 @@ class MainWidget : public QWidget
 	Q_OBJECT
 
 public:
-    explicit MainWidget(QWidget *parent = 0);
-    ~MainWidget();
+	explicit MainWidget(QWidget *parent = 0);
+	~MainWidget();
 
 	void loadLevel(QString filename);
 
-    bool canJump(Player* player);
-    void death(Player* player);
-    void resetPlayer(Player* player);
-    void setWalkImage(Player* player);
-    void setJumpImage(Player* player);
+	bool canJump(Player* player);
+	void death(Player* player);
+	void resetPlayer(Player* player);
+	void setWalkImage(Player* player);
+	void setJumpImage(Player* player);
 	void showCoin();
-    bool checkHighScore();
 	QTimer* getTimer() {return timer;}
-    QTimer* getClock() { return clock; }
-    void delay(int);
+	QTimer* getClock() { return clock; }
+	void delay(int);
 
 private:
 	Ui::MainWidget *ui;
 	QTimer * timer;
 
-    QTimer * clock;
+	QTimer * clock;
 
 	bool right;
-    bool left;
+	bool left;
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
 
 private slots:
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
-    void timerHit();
-    void clockHit();
-    void normalMove();
-    void normalImage();
-    void on_PBpause_clicked();
+	void keyPressEvent(QKeyEvent *event);
+	void keyReleaseEvent(QKeyEvent *event);
+	void timerHit();
+	void clockHit();
+	void normalMove();
+	void normalImage();
+	void on_PBpause_clicked();
 	void on_resumePause();
 };
 
 class MoveThread : public QThread
 {
-    Q_OBJECT
-    Object* object;
+	Q_OBJECT
+	Object* object;
 
 protected:
-    void run();
+	void run();
 
 public:
 	MoveThread(Object* obj) : QThread(), object(obj) {}
 };
 
 class CheckPlayerCollisionThread : public QThread {
-    Q_OBJECT
-    bool death;
+	Q_OBJECT
+	bool death;
 
 protected:
-    void run();
+	void run();
 
 public:
-    CheckPlayerCollisionThread() : death(false), QThread(){}
-    bool getDeath() { return death; }
+	CheckPlayerCollisionThread() : QThread(), death(false){}
+	bool getDeath() { return death; }
 };
 
 #endif // MAINWIDGET_H
