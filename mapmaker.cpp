@@ -138,8 +138,11 @@ void MapMaker::on_PBmakeObject_clicked()
         label->file = ":/images/goldCoin/goldCoin5.png";
         label->amount = 100;
     } else if (ui->PBwin->isChecked()){
-        successful = false;
-        errorMSG = "Win not implemented";
+        label->setGeometry(0,0,50,50);
+        label->setPixmap(QPixmap(":/images/flag.png"));
+        label->setScaledContents(true);
+        label->type = "endGame";
+        label->file = ":/images/flag.png";
     } else if (ui->PBplatform1->isChecked()){
         makePlatform(label,":/images/bridgelogs.png",successful,errorMSG);
     } else if (ui->PBplatform2->isChecked()){
@@ -255,6 +258,8 @@ void MapMaker::on_Save_clicked()
                       << thisone.height() << "," << current->file;
             if (current->type == "platform") {
                 stream << "," << current->xSpeed << "," << current->ySpeed << "," << current->xRange << "," << current->yRange;
+            } else if (current->type == "endGame") {
+                stream << ",0,0";
             }
             stream << endl;
         }
