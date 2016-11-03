@@ -32,6 +32,7 @@ public:
     ~MapMaker();
 
     void makePlatform(MovableLabel *label, QString file, bool& successful, QString& errorMSG);
+    void makeDecor(MovableLabel *label, QString file, int w, int h);
     
 private slots:
 

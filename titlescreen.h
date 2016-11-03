@@ -25,6 +25,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_btnMedium_clicked();
+
 private:
 	Ui::TitleScreen *ui;
     QWidget* widgetParent;

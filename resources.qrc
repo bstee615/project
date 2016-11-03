@@ -49,9 +49,6 @@
         <file>images/pow!.png</file>
         <file>images/pause.png</file>
         <file>easy.lv</file>
-        <file>images/powerjump.png</file>
-        <file>images/powerscore.png</file>
-        <file>images/powershield.png</file>
-        <file>images/powerrun.png</file>
+        <file>medium.lv</file>
     </qresource>
 </RCC>
