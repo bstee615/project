@@ -23,7 +23,6 @@
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
-        <file>easy.lv</file>
         <file>images/maincharacter/hurtleft.png</file>
         <file>images/maincharacter/jump3left.png</file>
         <file>images/groundrobotleft.png</file>
@@ -49,5 +48,6 @@
         <file>images/easybackground.png</file>
         <file>images/pow!.png</file>
         <file>images/pause.png</file>
+        <file>easy.lv</file>
     </qresource>
 </RCC>

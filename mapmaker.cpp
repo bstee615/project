@@ -141,23 +141,23 @@ void MapMaker::on_PBmakeObject_clicked()
         successful = false;
         errorMSG = "Win not implemented";
     } else if (ui->PBplatform1->isChecked()){
-        makePlatform(label,":/images/pavement1.png",successful,errorMSG);
+        makePlatform(label,":/images/bridgelogs.png",successful,errorMSG);
     } else if (ui->PBplatform2->isChecked()){
-        makePlatform(label,":/images/pavement2.png",successful,errorMSG);
+        makePlatform(label,":/images/bridgeplanks.png",successful,errorMSG);
     } else if (ui->PBplatform3->isChecked()){
-        makePlatform(label,":/images/pavement3.png",successful,errorMSG);
+        makePlatform(label,":/images/platformbox.png",successful,errorMSG);
     } else if (ui->PBplatform4->isChecked()){
-        makePlatform(label,":/images/pavement4.png",successful,errorMSG);
+        makePlatform(label,":/images/platformcastle.png",successful,errorMSG);
     } else if (ui->PBplatform5->isChecked()){
-        makePlatform(label,":/images/pavement5.png",successful,errorMSG);
+        makePlatform(label,":/images/platformdirt.png",successful,errorMSG);
     } else if (ui->PBplatform6->isChecked()){
-        makePlatform(label,":/images/pavement6.png",successful,errorMSG);
+        makePlatform(label,":/images/platformearth.png",successful,errorMSG);
     } else if (ui->PBplatform7->isChecked()){
-        makePlatform(label,":/images/pavement7.png",successful,errorMSG);
+        makePlatform(label,":/images/platformsand.png",successful,errorMSG);
     } else if (ui->PBplatform8->isChecked()){
-        makePlatform(label,":/images/pavement8.png",successful,errorMSG);
+        makePlatform(label,":/images/platformsnow.png",successful,errorMSG);
     } else if (ui->PBplatform9->isChecked()){
-        makePlatform(label,":/images/pavement9.png",successful,errorMSG);
+        makePlatform(label,":/images/platformstone.png",successful,errorMSG);
     } else if (ui->PBenemyFly->isChecked()) {
         label->setGeometry(0,0,42,42);
         label->setPixmap(QPixmap(":/images/flyingrobot.png").scaled(42,42));
