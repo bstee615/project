@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QImage>
 #include <QObject>
+#include <QThread>
 
 #include "object.h"
 #include "player.h"
@@ -13,7 +14,6 @@
 #include "world.h"
 #include "titlescreen.h"
 
-#include <QThread>
 
 class ObjectLabel : public QLabel {
     Q_OBJECT
@@ -90,10 +90,9 @@ private slots:
     void keyReleaseEvent(QKeyEvent *event);
     void timerHit();
     void clockHit();
-    void normalMove();
-    void normalImage();
     void on_PBpause_clicked();
 	void on_resumePause();
+    void enableMove();
 };
 
 class MoveThread : public QThread

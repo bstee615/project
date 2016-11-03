@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "world.h"
+
 namespace Ui {
 class PauseScreen;
 }

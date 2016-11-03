@@ -33,7 +33,7 @@ void Player::jump()
 
 void Player::moveRight()
 {
-	if (!movable)
+    if (!canMove)
 	{
 		slowToStop();
 		return;
@@ -49,7 +49,7 @@ void Player::moveRight()
 
 void Player::moveLeft()
 {
-	if (!movable)
+    if (!canMove)
 	{
 		slowToStop();
 		return;
@@ -92,6 +92,10 @@ void Player::move()
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
+
+    count ++;
+
+    setWalkImage();
 }
 
 void Player::collide(CollisionDetails *details)
@@ -129,6 +133,10 @@ void Player::collide(CollisionDetails *details)
 	}
     else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
     {
+        if (World::instance().getCheat())
+        {
+            return;
+        }
         if (details->getYStopCollide() != 0)
         {
             World::instance().incScore(15);
@@ -143,7 +151,7 @@ void Player::collide(CollisionDetails *details)
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
-            movable = false;
+            canMove = false;
             details->getCollided()->setRight(false);
         }
         else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
@@ -151,12 +159,26 @@ void Player::collide(CollisionDetails *details)
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
-            movable = false;
+            canMove = false;
             details->getCollided()->setRight(true);
         }
+        else
+            canMove = true;
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
 	}
+    else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
+    {
+        Collectible* item = dynamic_cast<Collectible*>(details->getCollided());
+        if (item->getType() == "jump")
+            powerjump = true;
+        else if (item->getType() == "speed")
+            powerspeed = true;
+        else if (item->getType() == "shield")
+            powershield= true;
+        else if (item->getType() == "score")
+            powerscore = true;
+    }
 }
 
 void Player::setPower(string pow, bool is)
@@ -169,4 +191,36 @@ void Player::setPower(string pow, bool is)
         powershield = is;
     else if (pow == "score")
         powerscore = is;
+}
+
+void Player::setWalkImage()
+{
+    if (!canMove)
+    {
+        if (right)
+            image = ":/images/maincharacter/hurt.png";
+        else
+            image = ":/images/maincharacter/hurtleft.png";
+
+        return;
+    }
+
+    image = ":/images/maincharacter/walk";
+    if (count < 7)
+    {
+        image += "1";
+    }
+    else if (count < 15)
+    {
+        image += "2";
+    }
+    else if (count == 15)
+    {
+        count = 0;
+        image += "1";
+    }
+
+    if (!right)
+        image += "left";
+    image += ".png";
 }

@@ -64,7 +64,7 @@ FORMS    += mainwidget.ui \
 
 QMAKE_CXXFLAGS += -std=c++11
 
-RESOURCES +=
+RESOURCES +=resources.qrc
 
 OTHER_FILES += \
     LevelFileFormat.txt \

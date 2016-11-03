@@ -89,6 +89,9 @@ border-radius: 10px;</string>
     <property name="text">
      <string>Cheat Mode: Off</string>
     </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="btnTitle">
     <property name="geometry">
