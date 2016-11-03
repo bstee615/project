@@ -13,6 +13,8 @@
 #include "world.h"
 #include "titlescreen.h"
 
+#include <QThread>
+
 class ObjectLabel : public QLabel {
     Q_OBJECT
     Object * object;
@@ -67,7 +69,6 @@ public:
     void setJumpImage(Player* player);
 	void showCoin();
     bool checkHighScore();
-
 	QTimer* getTimer() {return timer;}
     QTimer* getClock() { return clock; }
     void delay(int);
@@ -91,6 +92,30 @@ private slots:
     void clockHit();
     void normalMove();
     void normalImage();
+};
+
+class MoveThread : public QThread
+{
+    Q_OBJECT
+    Object* object;
+
+protected:
+    void run();
+
+public:
+	MoveThread(Object* obj) : QThread(), object(obj) {}
+};
+
+class CheckPlayerCollisionThread : public QThread {
+    Q_OBJECT
+    bool death;
+
+protected:
+    void run();
+
+public:
+    CheckPlayerCollisionThread() : death(false), QThread(){}
+    bool getDeath() { return death; }
 };
 
 #endif // MAINWIDGET_H

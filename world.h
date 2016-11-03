@@ -81,7 +81,7 @@ public:
 
 	int getScore() {return score;}
 	void incScore(int addAmount) {score += addAmount; }
-	void setScore(int newAmount) {score = newAmount; }
+    void setScore(int newAmount) {score = newAmount; }
 };
 
 #endif // WORLD_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>75</x>
-     <y>60</y>
+     <x>280</x>
+     <y>270</y>
      <width>450</width>
      <height>120</height>
     </rect>
@@ -35,8 +35,8 @@
   <widget class="QPushButton" name="btnStart">
    <property name="geometry">
     <rect>
-     <x>257</x>
-     <y>250</y>
+     <x>462</x>
+     <y>460</y>
      <width>85</width>
      <height>27</height>
     </rect>
@@ -50,8 +50,8 @@
     <rect>
      <x>40</x>
      <y>40</y>
-     <width>520</width>
-     <height>320</height>
+     <width>944</width>
+     <height>688</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -64,8 +64,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>170</y>
+     <x>635</x>
+     <y>380</y>
      <width>81</width>
      <height>20</height>
     </rect>
@@ -74,7 +74,7 @@
     <string notr="true">font: 7pt &quot;Droid Sans&quot;;</string>
    </property>
    <property name="text">
-    <string>Alpha Version</string>
+    <string>Beta Version</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -83,8 +83,8 @@
   <widget class="QPushButton" name="lblHighScores">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>310</y>
+     <x>445</x>
+     <y>520</y>
      <width>120</width>
      <height>27</height>
     </rect>

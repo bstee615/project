@@ -80,7 +80,7 @@ void HighScorePage::on_btnEnterName_clicked()
     ui->lblNewHighScoreInfo->hide();
     ui->ledNewName->hide();
     ui->btnEnterName->hide();
-    HighScore::instance().SaveScores();
+    HighScore::instance().SaveScores("highscores.txt");
 }
 
 void HighScorePage::setScoreandPlace(int newScore, int newPlace){

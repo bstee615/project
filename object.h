@@ -75,14 +75,18 @@ public:
 
     static void unitTest();
 
-	virtual void setAmount(int) { }
-
+    virtual void setAmount(int) { }
 
     // virtual setter methods for enemies.
     virtual void setDamage(int) { }
 
     virtual bool isRight() { return right; }
     virtual void setRight(bool newRight) { right = newRight; }
+
+    virtual bool isDead() { return true; }
+    virtual void kill() { return; }
+
+    virtual void setUp(bool a) { if (a) { } }
 
     int getCount() { return count; }
     void advanceCount() { count++; }

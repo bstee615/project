@@ -46,5 +46,7 @@
         <file>images/platformsnow.png</file>
         <file>images/platformstone.png</file>
         <file>images/water.png</file>
+        <file>images/easybackground.png</file>
+        <file>images/pow!.png</file>
     </qresource>
 </RCC>
