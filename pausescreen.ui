@@ -31,7 +31,7 @@
      <bold>true</bold>
     </font>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btnResume">
     <property name="geometry">
      <rect>
       <x>235</x>
@@ -64,7 +64,7 @@ border-radius: 10px;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btnHelp">
     <property name="geometry">
      <rect>
       <x>235</x>
@@ -77,7 +77,7 @@ border-radius: 10px;</string>
      <string>Help</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="btnCheat">
     <property name="geometry">
      <rect>
       <x>235</x>
@@ -90,7 +90,7 @@ border-radius: 10px;</string>
      <string>Cheat Mode: Off</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="btnTitle">
     <property name="geometry">
      <rect>
       <x>235</x>
@@ -103,7 +103,7 @@ border-radius: 10px;</string>
      <string>Back to Title</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="btnExit">
     <property name="geometry">
      <rect>
       <x>235</x>
@@ -117,11 +117,11 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <zorder>label_3</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>pushButton_2</zorder>
-   <zorder>pushButton_3</zorder>
-   <zorder>pushButton_4</zorder>
-   <zorder>pushButton_5</zorder>
+   <zorder>btnResume</zorder>
+   <zorder>btnHelp</zorder>
+   <zorder>btnCheat</zorder>
+   <zorder>btnTitle</zorder>
+   <zorder>btnExit</zorder>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">

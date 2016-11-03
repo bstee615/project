@@ -12,3 +12,29 @@ PauseScreen::~PauseScreen()
 {
 	delete ui;
 }
+
+void PauseScreen::on_btnResume_clicked()
+{
+	emit resumeClicked();
+	deleteLater();
+}
+
+void PauseScreen::on_btnHelp_clicked()
+{
+
+}
+
+void PauseScreen::on_btnCheat_clicked()
+{
+
+}
+
+void PauseScreen::on_btnTitle_clicked()
+{
+
+}
+
+void PauseScreen::on_btnExit_clicked()
+{
+
+}

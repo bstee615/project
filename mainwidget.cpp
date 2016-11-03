@@ -482,6 +482,13 @@ void MainWidget::on_PBpause_clicked()
     timer->stop();
     clock->stop();
     PauseScreen* pause = new PauseScreen(this);
+	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumePause);
     pause->show();
     pause->raise();
+}
+
+void MainWidget::on_resumePause()
+{
+	timer->start();
+	clock->start();
 }
