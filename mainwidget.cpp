@@ -39,7 +39,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
 	right = false;
-	left = false;
+    left = false;
 	TitleScreen* titleScrn = new TitleScreen(this);
 	titleScrn->show();
     titleScrn->raise();
@@ -290,14 +290,14 @@ void MainWidget::clockHit()
 	{
 		death(World::instance().getPlayer());
 		resetPlayer(World::instance().getPlayer());
-	}
-	if (World::instance().getSeconds() == 25)
-	{
-		timer->stop();
-		clock->stop();
-		PauseScreen* pause = new PauseScreen(this);
-		pause->show();
-	}
+    }
+    if (World::instance().getSeconds() == 25)
+    {
+        //timer->stop();
+        //clock->stop();
+        //PauseScreen* pause = new PauseScreen(this);
+        //pause->show();
+    }
 	//ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }
 
@@ -475,4 +475,13 @@ void CheckPlayerCollisionThread::run()
         }
         delete collision;
     }
+}
+
+void MainWidget::on_PBpause_clicked()
+{
+    timer->stop();
+    clock->stop();
+    PauseScreen* pause = new PauseScreen(this);
+    pause->show();
+    pause->raise();
 }

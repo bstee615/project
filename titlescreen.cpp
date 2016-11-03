@@ -12,6 +12,7 @@ TitleScreen::TitleScreen(QWidget *parent) :
     widgetParent = parent;
 	ui->setupUi(this);
     playing = false;
+    ui->btnStart->setFocus();
 }
 
 TitleScreen::~TitleScreen()

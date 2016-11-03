@@ -92,6 +92,7 @@ private slots:
     void clockHit();
     void normalMove();
     void normalImage();
+    void on_PBpause_clicked();
 };
 
 class MoveThread : public QThread

@@ -48,5 +48,6 @@
         <file>images/water.png</file>
         <file>images/easybackground.png</file>
         <file>images/pow!.png</file>
+        <file>images/pause.png</file>
     </qresource>
 </RCC>
