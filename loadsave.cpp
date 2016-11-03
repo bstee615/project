@@ -18,6 +18,7 @@ LoadSave& LoadSave::instance()
 // loads a save state and configures objects
 void LoadSave::load(QString filename)
 {
+    World::instance().reset();
 	QFile file(filename);
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{

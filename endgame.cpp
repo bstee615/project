@@ -22,6 +22,5 @@ void EndGame::on_PBbackToTitle_clicked()
     TitleScreen* title = new TitleScreen(widgetParent);
     title->show();
     title->raise();
-    World::instance().reset();
     deleteLater();
 }
