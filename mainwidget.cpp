@@ -14,6 +14,7 @@
 #include "highscore.h"
 #include "highscorepage.h"
 #include "loadsave.h"
+#include "pausescreen.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -289,6 +290,13 @@ void MainWidget::clockHit()
 	{
 		death(World::instance().getPlayer());
 		resetPlayer(World::instance().getPlayer());
+	}
+	if (World::instance().getSeconds() == 25)
+	{
+		timer->stop();
+		clock->stop();
+		PauseScreen* pause = new PauseScreen(this);
+		pause->show();
 	}
 	//ui->lblTimeLeft->setText(QString::number(World::instance().getSeconds()));
 }

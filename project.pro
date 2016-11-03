@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     highscorepage.cpp \
     playingscreen.cpp \
     endgame.cpp \
-    endgameobject.cpp
+    endgameobject.cpp \
+    pausescreen.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -49,12 +50,14 @@ HEADERS  += mainwidget.h \
     highscorepage.h \
     playingscreen.h \
     endgame.h \
-    endgameobject.h
+    endgameobject.h \
+    pausescreen.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \
     highscorepage.ui \
-    endgame.ui
+    endgame.ui \
+    pausescreen.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 
