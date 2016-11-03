@@ -4,6 +4,7 @@
 #include "mainwidget.h"
 #include "highscorepage.h"
 #include "highscore.h"
+#include "mapmaker.h"
 
 TitleScreen::TitleScreen(QWidget *parent) :
     QWidget(parent),
@@ -39,4 +40,11 @@ void TitleScreen::on_lblHighScores_clicked()
     scorePage->show();
     scorePage->raise();
 
+}
+
+void TitleScreen::on_pushButton_clicked()
+{
+    MapMaker * maker = new MapMaker();
+    maker->show();
+    maker->raise();
 }

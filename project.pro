@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     playingscreen.cpp \
     endgame.cpp \
     endgameobject.cpp \
-    pausescreen.cpp
+    pausescreen.cpp \
+    mapmaker.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -51,13 +52,15 @@ HEADERS  += mainwidget.h \
     playingscreen.h \
     endgame.h \
     endgameobject.h \
-    pausescreen.h
+    pausescreen.h \
+    mapmaker.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \
     highscorepage.ui \
     endgame.ui \
-    pausescreen.ui
+    pausescreen.ui \
+    mapmaker.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 

@@ -93,11 +93,25 @@
     <string>High Scores</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>570</y>
+     <width>110</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Map Maker</string>
+   </property>
+  </widget>
   <zorder>lblBackground</zorder>
   <zorder>label</zorder>
   <zorder>btnStart</zorder>
   <zorder>label_2</zorder>
   <zorder>lblHighScores</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>
