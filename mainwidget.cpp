@@ -64,6 +64,10 @@ void MainWidget::loadLevel(QString filename)
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();
+    player->setPower("jump",false);
+    player->setPower("speed",false);
+    player->setPower("shield",false);
+    player->setPower("score",false);
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -109,6 +113,7 @@ void MainWidget::loadLevel(QString filename)
 		QString timeFormated = QString("0:%1").arg(i);
 		ui->lblTimeLeft->setText(timeFormated);
 	}
+
 }
 
 void MainWidget::setWalkImage(Player* player)
@@ -171,6 +176,41 @@ void MainWidget::timerHit(){
 		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
 		player->setXSpeed(0);
 	}
+
+    if (player->powerJump())
+    {
+        ui->lblPowerJump->show();
+    }
+    else
+    {
+        ui->lblPowerJump->hide();
+    }
+    if (player->powerSpeed())
+    {
+        player->setXSpeedLimit(14);
+        ui->lblPowerSpeed->show();
+    }
+    else
+    {
+        player->setXSpeedLimit(9);
+        ui->lblPowerSpeed->hide();
+    }
+    if (player->powerShield())
+    {
+        ui->lblPowerShield->show();
+    }
+    else
+    {
+        ui->lblPowerShield->hide();
+    }
+    if (player->powerScore())
+    {
+        ui->lblPowerScore->show();
+    }
+    else
+    {
+        ui->lblPowerScore->hide();
+    }
 
 	// update screen location based on player location
 	PlayingScreen* screen = World::instance().getScreen();

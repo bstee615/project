@@ -26,6 +26,8 @@ void Player::jump()
 	// player jumps if jumpOnMove is true
 	if (jumpOnMove) {
 		ySpeed -= 13;
+        if (powerjump)
+            ySpeed -= 7;
 	}
 }
 
@@ -38,8 +40,10 @@ void Player::moveRight()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-	if (xSpeed < 9) {
+    if (xSpeed < xSpeedLimit) {
 		xSpeed += 1;
+        if (powerspeed)
+            xSpeed += 1;
 	}
 }
 
@@ -52,8 +56,10 @@ void Player::moveLeft()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-	if (xSpeed > -9) {
+    if (xSpeed > xSpeedLimit * -1) {
 		xSpeed += -1;
+        if (powerspeed)
+            xSpeed += -1;
 	}
 }
 
@@ -113,7 +119,10 @@ void Player::collide(CollisionDetails *details)
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
 		if(c->getisCollectible() == true) {
-			World::instance().incScore(c->getAmount());
+            if (!powerScore())
+                World::instance().incScore(c->getAmount());
+            else
+                World::instance().incScore(c->getAmount() * 2);
 		}
 		c->setisCollectible(false);
 
@@ -129,7 +138,7 @@ void Player::collide(CollisionDetails *details)
             details->getCollided()->kill();
             return;
         }
-        if (details->getXStopCollide() > 0)
+        if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
         {
             x += 5;
             ySpeed = -8;
@@ -137,7 +146,7 @@ void Player::collide(CollisionDetails *details)
             movable = false;
             details->getCollided()->setRight(false);
         }
-        else if (details->getXStopCollide() < 0)
+        else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
         {
             x -= 5;
             ySpeed = -8;
@@ -148,4 +157,16 @@ void Player::collide(CollisionDetails *details)
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
 	}
+}
+
+void Player::setPower(string pow, bool is)
+{
+    if (pow == "jump")
+        powerjump = is;
+    else if (pow == "speed")
+        powerspeed = is;
+    else if (pow == "shield")
+        powershield = is;
+    else if (pow == "score")
+        powerscore = is;
 }
