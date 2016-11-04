@@ -19,7 +19,7 @@ MapMaker::MapMaker(QWidget *parent) :
 
     startX = 0;
     startY = 0;
-    time = 0;
+    time = 300;
 
     scrollArea = new QScrollArea;
     ui->QWworld->resize(1024,768);
