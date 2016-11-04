@@ -31,7 +31,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 	timer = new QTimer(this);
     timer->setInterval(50);
-	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 
 
 	clock = new QTimer(this);
@@ -192,6 +192,9 @@ void MainWidget::timerHit(){
     if (!player->getCanMove())
     {
         QTimer::singleShot(500,this,SLOT(enableMove()));
+        player->setImage(":/images/maincharacter/hurt.png");
+        if (player->isRight() == false)
+            player->setImage(":/images/maincharacter/hurtleft.png");
     }
 
 	// update screen location based on player location
@@ -398,8 +401,12 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 		this->right = true;
         player->setRight(true);
     } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
-		Player* player = World::instance().getPlayer();
 		player->setJumpOnMove(true);
+    }
+    else if (event->key() == Qt::Key_A)
+    {
+        player->setKicking(true);
+        QTimer::singleShot(500,this,SLOT(stopKicking()));
     }
 }
 
@@ -463,4 +470,8 @@ void MainWidget::on_restartFromPause()
 void MainWidget::enableMove()
 {
     World::instance().getPlayer()->setCanMove(true);
+}
+void MainWidget::stopKicking()
+{
+
 }

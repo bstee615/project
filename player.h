@@ -25,6 +25,8 @@ public:
 	bool powershield;
 	bool powerscore;
 
+    bool kicking;
+
 	virtual void load(QString config);
 	virtual QString save();
 
@@ -57,6 +59,9 @@ public:
     bool powerShield() { return powershield; }
     bool powerScore() { return powerscore; }
     void setPower(string, bool);
+
+    bool isKicking() { return kicking; }
+    void setKicking(bool b) { kicking = b; }
 
     void setWalkImage();
 

@@ -22,6 +22,7 @@ void Player::load(QString config)
 	this->setStartPoint(params.at(6).toInt(), params.at(7).toInt());
 	this->setXSpeed(params.at(8).toInt());
 	this->setYSpeed(params.at(9).toInt());
+    this->setCanMove(true);
 }
 
 void Player::jump()
