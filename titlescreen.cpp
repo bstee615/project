@@ -85,3 +85,16 @@ void TitleScreen::on_btnOtherMap_clicked()
     this->widgetParent->setFocus();
     deleteLater();
 }
+
+void TitleScreen::on_btnHard_clicked()
+{
+    this->hide();
+    this->widgetParent->setFocus();
+    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+    if (prnt != NULL) {
+        prnt->loadLevel(":/hard.lv");
+        prnt->getTimer()->start();
+        prnt->getClock()->start();
+    }
+    deleteLater();
+}
