@@ -66,7 +66,7 @@ Enter your name to be remembered for all eternity!</string>
     </font>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="scoreListWidget" native="true">
    <property name="geometry">
     <rect>
      <x>151</x>
@@ -647,7 +647,7 @@ Enter your name to be remembered for all eternity!</string>
     <string>Enter Name</string>
    </property>
   </widget>
-  <zorder>widget</zorder>
+  <zorder>scoreListWidget</zorder>
   <zorder>lblNewHighScoreInfo</zorder>
   <zorder>ledNewName</zorder>
   <zorder>btnEnterName</zorder>

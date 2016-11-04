@@ -6,6 +6,10 @@ PauseScreen::PauseScreen(QWidget *parent) :
 	ui(new Ui::PauseScreen)
 {
 	ui->setupUi(this);
+//	if (World::instance().cheating())
+//		ui->btnCheat->setText("Cheat Mode: ON");	// add these lines later once we have a cheat bool
+//	else
+		ui->btnCheat->setText("Cheat Mode: OFF");
 }
 
 PauseScreen::~PauseScreen()
@@ -26,16 +30,16 @@ void PauseScreen::on_btnHelp_clicked()
 
 void PauseScreen::on_btnCheat_clicked()
 {
-	QPushButton* pushed = dynamic_cast<QPushButton*>(sender());
-	if (pushed != NULL)
+	QPushButton* button = dynamic_cast<QPushButton*>(sender());
+	if (button != NULL)
 	{
-		if (pushed->text() == "Cheat Mode: OFF")
+		if (button->text() == "Cheat Mode: OFF")
 		{
-			pushed->setText("Cheat Mode: ON");
+			button->setText("Cheat Mode: ON");
 		}
 		else
 		{
-			pushed->setText("Cheat Mode: OFF");
+			button->setText("Cheat Mode: OFF");
 		}
 	}
 }

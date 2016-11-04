@@ -38,7 +38,6 @@ HighScorePage::HighScorePage(QWidget *parent) :
      ui->lblName8->setText(QString::fromStdString(HighScore::instance().getName(7)));
      ui->lblName9->setText(QString::fromStdString(HighScore::instance().getName(8)));
      ui->lblName10->setText(QString::fromStdString(HighScore::instance().getName(9)));
-
 }
 
 HighScorePage::~HighScorePage()
@@ -54,11 +53,13 @@ void HighScorePage::on_btnReturnHome_clicked()
     deleteLater();
 }
 
-void HighScorePage::showNameEnter(){
-    ui->btnReturnHome->hide();
-    ui->lblNewHighScoreInfo->show();
-    ui->ledNewName->show();
-    ui->btnEnterName->show();
+void HighScorePage::showNameEnter(bool show){
+
+	ui->scoreListWidget->setVisible(!show);
+	ui->btnReturnHome->setVisible(!show);
+	ui->lblNewHighScoreInfo->setVisible(show);
+	ui->ledNewName->setVisible(show);
+	ui->btnEnterName->setVisible(show);
 }
 
 
@@ -76,10 +77,7 @@ void HighScorePage::on_btnEnterName_clicked()
                      textLabel->show();
             }
     }
-    ui->btnReturnHome->show();
-    ui->lblNewHighScoreInfo->hide();
-    ui->ledNewName->hide();
-    ui->btnEnterName->hide();
+	showNameEnter(false);
     HighScore::instance().SaveScores("highscores.txt");
 }
 

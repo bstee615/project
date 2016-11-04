@@ -45,7 +45,7 @@ void EndGame::on_PBbackToTitle_clicked()
 		}
 		highScoreScreen->show();
 		highScoreScreen->raise();
-		highScoreScreen->showNameEnter();
+		highScoreScreen->showNameEnter(true);
 	}
 	else
 	{

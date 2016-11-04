@@ -26,7 +26,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/P&amp;Plogo_composite.png</pixmap>
+    <pixmap>:/P&amp;Plogo_composite.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -38,7 +38,7 @@
      <x>462</x>
      <y>460</y>
      <width>85</width>
-     <height>27</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -84,9 +84,9 @@
    <property name="geometry">
     <rect>
      <x>445</x>
-     <y>520</y>
+     <y>510</y>
      <width>120</width>
-     <height>27</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -113,8 +113,6 @@
   <zorder>lblHighScores</zorder>
   <zorder>pushButton</zorder>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -436,10 +436,12 @@ void CheckPlayerCollisionThread::run()
 
 void MainWidget::on_PBpause_clicked()
 {
+	if (!clock->isActive())
+		// clock running means already paused
+		return;
     timer->stop();
     clock->stop();
-    PauseScreen* pause = new PauseScreen(this);
-	pause->move(ui->worldWidget->x(), ui->worldWidget->y());
+	PauseScreen* pause = new PauseScreen(this);
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumePause);
     pause->show();
     pause->raise();
