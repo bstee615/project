@@ -121,9 +121,7 @@ void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
 	World& world = World::instance();
-	Player* player = world.getPlayer();
-
-    labelPlayer->setPixmap(player->getImage());
+    Player* player = world.getPlayer();
 
     if ((right && left) || (!right && !left)) {
 		// if both right and left arrows are held down or both are released slow the player to a stop
@@ -288,6 +286,8 @@ void MainWidget::timerHit(){
         death(player);
         resetPlayer(player);
     }
+
+    labelPlayer->setPixmap(player->getImage());
 }
 
 void MainWidget::clockHit()
