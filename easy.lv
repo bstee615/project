@@ -2,7 +2,7 @@
 2500,320
 0,0
 player,29,212,25,48,:/images/maincharacter/stand.png,29,212,0,0
-endGame,2400,220,50,50,:images/flag.png,0,0
+endGame,2400,220,50,50,:images/flag.png
 object,882,120,30,75,:/images/objecthill.png
 object,32,210,50,50,:/images/objectarrowsign.png
 object,382,210,50,50,:/images/objectarrowsign.png
@@ -25,5 +25,5 @@ platform,1665,55,114,15,:/images/platformdirt.png,0,0,0,0
 platform,1830,-30,25,150,:/images/platformdirt.png,0,0,0,0
 coin,160,160,32,32,:/images/goldCoin/goldCoin5.png
 enemy,400,212,42,48,:/images/groundrobot.png
-flyingenemy,800,100,32,32,:/images/flyingrobot.png
-flyingenemy,1960,59,32,32,:/images/flyingrobot.png
+flyingenemy,800,100,42,42,:/images/flyingrobot.png
+flyingenemy,1960,59,42,42,:/images/flyingrobot.png

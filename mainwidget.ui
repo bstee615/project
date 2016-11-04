@@ -44,8 +44,8 @@
    <widget class="QLabel" name="lblScore">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>10</y>
+      <x>820</x>
+      <y>30</y>
       <width>61</width>
       <height>21</height>
      </rect>
@@ -66,8 +66,8 @@
    <widget class="QLabel" name="lblLife1">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>0</y>
+      <x>790</x>
+      <y>20</y>
       <width>31</width>
       <height>41</height>
      </rect>
@@ -85,8 +85,8 @@
    <widget class="QLabel" name="lblLife2">
     <property name="geometry">
      <rect>
-      <x>800</x>
-      <y>0</y>
+      <x>760</x>
+      <y>20</y>
       <width>31</width>
       <height>41</height>
      </rect>
@@ -104,8 +104,8 @@
    <widget class="QLabel" name="lblLife3">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>0</y>
+      <x>730</x>
+      <y>20</y>
       <width>31</width>
       <height>41</height>
      </rect>
@@ -145,8 +145,8 @@
    <widget class="QPushButton" name="PBpause">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>0</y>
+      <x>893</x>
+      <y>15</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -177,6 +177,138 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="lblPowerScore">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>20</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/images/powerscore.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPowerShield">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>20</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/images/powershield.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPowerJump">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>20</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/images/powerjump.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPowerSpeed">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>20</y>
+      <width>51</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/images/powerrun.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPowerups">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>231</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 5px;
+border-color: gray;
+border-style: solid;
+border-radius: 10px;
+background-color: rgba(128, 128, 128, 160);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="indent">
+     <number>-4</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblHealth">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>10</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 5px;
+border-color: gray;
+border-style: solid;
+border-radius: 10px;
+background-color: rgba(128, 128, 128, 160);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>lblBackground</zorder>
+   <zorder>lblTimeLeft</zorder>
+   <zorder>lblPowerups</zorder>
+   <zorder>lblPowerSpeed</zorder>
+   <zorder>lblPowerJump</zorder>
+   <zorder>lblPowerShield</zorder>
+   <zorder>lblPowerScore</zorder>
+   <zorder>lblHealth</zorder>
+   <zorder>lblLife3</zorder>
+   <zorder>lblLife2</zorder>
+   <zorder>lblLife1</zorder>
+   <zorder>lblScore</zorder>
+   <zorder>PBpause</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

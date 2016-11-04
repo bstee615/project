@@ -35,6 +35,8 @@ class World {
     int startSeconds;
 	QString currentLevel;
 
+    bool cheat;
+
 public:
 	Object *createObject(const string& type);
 
@@ -85,6 +87,9 @@ public:
 	int getScore() {return score;}
 	void incScore(int addAmount) {score += addAmount; }
     void setScore(int newAmount) {score = newAmount; }
+
+    bool getCheat() { return cheat; }
+    void setCheat(bool b) { cheat = b; }
 };
 
 #endif // WORLD_H

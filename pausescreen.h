@@ -2,6 +2,7 @@
 #define PAUSESCREEN_H
 
 #include <QWidget>
+#include "world.h"
 
 namespace Ui {
 class PauseScreen;

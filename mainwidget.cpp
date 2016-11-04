@@ -63,6 +63,10 @@ void MainWidget::loadLevel(QString filename)
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();
+    player->setPower("jump",false);
+    player->setPower("speed",false);
+    player->setPower("shield",false);
+    player->setPower("score",false);
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -108,59 +112,37 @@ void MainWidget::loadLevel(QString filename)
 		int i = World::instance().getSeconds();
 		QString timeFormated = QString("0:%1").arg(i);
 		ui->lblTimeLeft->setText(timeFormated);
-	}
+    }
 }
 
-void MainWidget::setWalkImage(Player* player)
-{
-	if (!player->canMove())
-		return;
-	QString imagename = ":/images/maincharacter/walk";
-	if (player->getCount() < 7)
-	{
-		imagename += "1";
-	}
-	else if (player->getCount() < 15)
-	{
-		imagename += "2";
-	}
-	else if (player->getCount() == 15)
-	{
-		player->setCount(0);
-		imagename += "1";
-	}
 
-	if (left)
-		imagename += "left";
-	imagename += ".png";
-	player->setImage(imagename);
-}
 
 void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
 	World& world = World::instance();
-	Player* player = world.getPlayer();
+    Player* player = world.getPlayer();
 
-	labelPlayer->setPixmap(player->getImage());
-	player->advanceCount();
-
-	if ((right && left) || (!right && !left)) {
+    if ((right && left) || (!right && !left)) {
 		// if both right and left arrows are held down or both are released slow the player to a stop
 		player->slowToStop();
-		player->setCount(0);
-		normalImage();
+        player->setCount(0);
+
+        if (player->isRight())
+            player->setImage(":/images/maincharacter/stand.png");
+        else
+            player->setImage(":/images/maincharacter/standleft.png");
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
-		player->moveRight();
-		setWalkImage(player);
+        player->moveRight();
 	} else if (left) {
 		// if the left arrow is pressed the player goes left
-		player->moveLeft();
-		setWalkImage(player);
+        player->moveLeft();
 	}
+
 	// updates player's position in the model
 	player->move();
+
 	if (player->getX() < 0)
 	{
 		player->setX(0);
@@ -171,6 +153,46 @@ void MainWidget::timerHit(){
 		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
 		player->setXSpeed(0);
 	}
+
+    if (player->powerJump())
+    {
+        ui->lblPowerJump->show();
+    }
+    else
+    {
+        ui->lblPowerJump->hide();
+    }
+    if (player->powerSpeed())
+    {
+        player->setXSpeedLimit(14);
+        ui->lblPowerSpeed->show();
+    }
+    else
+    {
+        player->setXSpeedLimit(9);
+        ui->lblPowerSpeed->hide();
+    }
+    if (player->powerShield())
+    {
+        ui->lblPowerShield->show();
+    }
+    else
+    {
+        ui->lblPowerShield->hide();
+    }
+    if (player->powerScore())
+    {
+        ui->lblPowerScore->show();
+    }
+    else
+    {
+        ui->lblPowerScore->hide();
+    }
+
+    if (!player->getCanMove())
+    {
+        QTimer::singleShot(500,this,SLOT(enableMove()));
+    }
 
 	// update screen location based on player location
 	PlayingScreen* screen = World::instance().getScreen();
@@ -248,16 +270,6 @@ void MainWidget::timerHit(){
     }
     delete playerCollide;
 
-    if (!player->canMove())
-    {
-        player->setImage(":/images/maincharacter/hurt.png");
-        if (player->isLeft())
-            player->setImage(":/images/maincharacter/hurtleft.png");
-
-        QTimer::singleShot(10, this, SLOT(normalMove()));
-        QTimer::singleShot(500, this, SLOT(normalImage()));
-    }
-
 
     // Andrew - I think I eliminated the need for this showCoin method 10 lines up.
     //showCoin();
@@ -269,9 +281,13 @@ void MainWidget::timerHit(){
 
     if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
     {
+        if (world.getCheat())
+            return;
         death(player);
         resetPlayer(player);
     }
+
+    labelPlayer->setPixmap(player->getImage());
 }
 
 void MainWidget::clockHit()
@@ -375,16 +391,16 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 {
 	Player* player = World::instance().getPlayer();
 
-	if (event->key() == Qt::Key_Left) {
+    if (event->key() == Qt::Key_Left) {
 		this->left = true;
-		player->setLeft(true);
+        player->setRight(false);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
-		player->setLeft(false);
+        player->setRight(true);
     } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
 		Player* player = World::instance().getPlayer();
 		player->setJumpOnMove(true);
-	}
+    }
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
@@ -396,27 +412,9 @@ void MainWidget::keyReleaseEvent(QKeyEvent *event)
 	}
 }
 
-void MainWidget::normalMove()
-{
-	Player* player = World::instance().getPlayer();
-	player->toggleCanMove();
-
-}
-
-void MainWidget::normalImage()
-{
-	Player* player = World::instance().getPlayer();
-	if (player->canMove())
-	{
-		player->setImage(":/images/maincharacter/stand.png");
-		if (player->isLeft())
-			player->setImage(":/images/maincharacter/standleft.png");
-	}
-}
-
 void MoveThread::run()
 {
-	object->move();
+    object->move();
 }
 
 
@@ -460,4 +458,9 @@ void MainWidget::on_restartFromPause()
 	loadLevel(World::instance().getCurrentLevel());
 	timer->start();
 	clock->start();
+}
+
+void MainWidget::enableMove()
+{
+    World::instance().getPlayer()->setCanMove(true);
 }

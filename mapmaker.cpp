@@ -19,7 +19,7 @@ MapMaker::MapMaker(QWidget *parent) :
 
     startX = 0;
     startY = 0;
-    time = 0;
+    time = 300;
 
     scrollArea = new QScrollArea;
     ui->QWworld->resize(1024,768);
@@ -72,6 +72,15 @@ void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful,
 
     label->setPixmap(QPixmap(file));
     label->type = "platform";
+    label->file = file.toStdString();
+    label->setScaledContents(true);
+}
+
+void MapMaker::makeDecor(MovableLabel *label, QString file, int w, int h)
+{
+    label->setGeometry(0,0,w,h);
+    label->setPixmap(QPixmap(file));
+    label->type = "object";
     label->file = file.toStdString();
     label->setScaledContents(true);
 }
@@ -138,8 +147,11 @@ void MapMaker::on_PBmakeObject_clicked()
         label->file = ":/images/goldCoin/goldCoin5.png";
         label->amount = 100;
     } else if (ui->PBwin->isChecked()){
-        successful = false;
-        errorMSG = "Win not implemented";
+        label->setGeometry(0,0,50,50);
+        label->setPixmap(QPixmap(":/images/flag.png"));
+        label->setScaledContents(true);
+        label->type = "endGame";
+        label->file = ":/images/flag.png";
     } else if (ui->PBplatform1->isChecked()){
         makePlatform(label,":/images/bridgelogs.png",successful,errorMSG);
     } else if (ui->PBplatform2->isChecked()){
@@ -161,13 +173,23 @@ void MapMaker::on_PBmakeObject_clicked()
     } else if (ui->PBenemyFly->isChecked()) {
         label->setGeometry(0,0,42,42);
         label->setPixmap(QPixmap(":/images/flyingrobot.png").scaled(42,42));
-        label->type = "enemy";
+        label->type = "flyingenemy";
         label->file = ":/images/flyingrobot.png";
     } else if (ui->PBenemyGround->isChecked()) {
         label->setGeometry(0,0,42,48);
         label->setPixmap(QPixmap(":/images/groundrobot.png").scaled(42,48));
         label->type = "enemy";
         label->file = ":/images/groundrobot.png";
+    } else if (ui->PBobject1->isChecked()) {
+        makeDecor(label,":/images/objectarrowsign.png",50,50);
+    } else if (ui->PBobject2->isChecked()) {
+        makeDecor(label,":/images/objectexitsign.png",50,50);
+    } else if (ui->PBobject3->isChecked()) {
+        makeDecor(label,":/images/objecthill.png",30,75);
+    } else if (ui->PBobject4->isChecked()) {
+        makeDecor(label,":/images/objecttorch.png",25,25);
+    } else if (ui->PBobject5->isChecked()) {
+        makeDecor(label,":/images/objectwindow.png",70,70);
     }
 
 
@@ -231,7 +253,7 @@ void MapMaker::on_Save_clicked()
     string filename = ui->LEfilename->text().toStdString();
     fstream stream;
     stream.open(filename,ios::out);
-    stream << time << endl;
+    stream << time << "," << time << endl;
     stream << ui->QWworld->geometry().width() << "," << ui->QWworld->geometry().height() << endl;
     stream << startX << "," << startY << endl;
     for (int i = 0; i < ui->QWworld->children().size(); ++i) {
@@ -240,7 +262,7 @@ void MapMaker::on_Save_clicked()
             if (current->type == "player") {
                 QRect thisone = current->geometry();
                 stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
-                          << thisone.height() << "," << current->file << ",0,0" << endl;
+                       << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()<< ",0,0,none,3" << endl;
             }
         }
     }
@@ -255,6 +277,8 @@ void MapMaker::on_Save_clicked()
                       << thisone.height() << "," << current->file;
             if (current->type == "platform") {
                 stream << "," << current->xSpeed << "," << current->ySpeed << "," << current->xRange << "," << current->yRange;
+            } else if (current->type == "endGame") {
+                stream << ",0,0";
             }
             stream << endl;
         }

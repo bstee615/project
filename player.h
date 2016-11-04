@@ -7,15 +7,23 @@ class Player : public Object
 {
     bool jumpOnMove;
     int numLives;
-    bool movable;
-    bool left;
+    bool canMove;
     bool reachedEndGame;
 	int startX, startY;
 
 public:
-	Player() : Object(),jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false) {}
-	Player(int x_, int y_, int width_, int height_, QString image_, int startX_, int startY_) :
-		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false), startX(startX_), startY(startY_) {}
+    Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
+    Player(int x_, int y_, int width_, int height_, QString image_) :
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), standCount(0) {}
+
+	int xSpeedLimit;
+	int standCount;
+
+	// powerup booleans.
+	bool powerjump;
+	bool powerspeed;
+	bool powershield;
+	bool powerscore;
 
 	virtual void load(QString config);
 	virtual QString save();
@@ -32,11 +40,8 @@ public:
     bool canJumpOnMove() { return jumpOnMove; }
     void setJumpOnMove(bool initJump) { jumpOnMove = initJump; }
 
-    void setLeft(bool newDir) { left = newDir; }
-    bool isLeft() { return left; }
-
-    bool canMove() { return movable; }
-    void toggleCanMove() { movable = !movable; }
+    bool getCanMove() { return canMove; }
+    void setCanMove(bool b) { canMove = b; }
 
     bool getIsAtEndOfLevel() { return reachedEndGame; }
     void setAtEndOfLevel(bool stateOfPlayer) { reachedEndGame = stateOfPlayer; }
@@ -46,6 +51,16 @@ public:
 	void setStartX(int newX) {startX = newX;}
 	void setStartY(int newY) {startY = newY;}
 	void setStartPoint(int newX, int newY) {startX = newX; startY = newY;}
+
+    bool powerJump() { return powerjump; }
+    bool powerSpeed() { return powerspeed; }
+    bool powerShield() { return powershield; }
+    bool powerScore() { return powerscore; }
+    void setPower(string, bool);
+
+    void setWalkImage();
+
+    void setXSpeedLimit(int limit) { xSpeedLimit = limit; }
 };
 
 #endif // PLAYER_H
