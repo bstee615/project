@@ -67,6 +67,8 @@ void MainWidget::loadLevel(QString filename)
     player->setPower("speed",false);
     player->setPower("shield",false);
     player->setPower("score",false);
+    player->setCanKick(true);
+    player->setKicking(false);
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -127,11 +129,6 @@ void MainWidget::timerHit(){
 		// if both right and left arrows are held down or both are released slow the player to a stop
 		player->slowToStop();
         player->setCount(0);
-
-        if (player->isRight())
-            player->setImage(":/images/maincharacter/stand.png");
-        else
-            player->setImage(":/images/maincharacter/standleft.png");
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
         player->moveRight();
@@ -405,8 +402,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_A)
     {
-        player->setKicking(true);
-        QTimer::singleShot(500,this,SLOT(stopKicking()));
+        if (player->canKick())
+        {
+            player->setKicking(true);
+            player->setCanKick(false);
+            QTimer::singleShot(500,this,SLOT(stopKicking()));
+            QTimer::singleShot(1000,this,SLOT(enableKicking()));
+        }
     }
 }
 
@@ -473,5 +475,11 @@ void MainWidget::enableMove()
 }
 void MainWidget::stopKicking()
 {
-
+    qDebug() << "kicking. POW!";
+    World::instance().getPlayer()->setKicking(false);
+}
+void MainWidget::enableKicking()
+{
+    qDebug() << "kick enabled.";
+    World::instance().getPlayer()->setCanKick(true);
 }

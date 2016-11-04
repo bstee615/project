@@ -10,22 +10,23 @@ class Player : public Object
     bool canMove;
     bool reachedEndGame;
 	int startX, startY;
+    int xSpeedLimit;
+
+    // powerup booleans.
+    bool powerjump;
+    bool powerspeed;
+    bool powershield;
+    bool powerscore;
+
+    bool kicking;
+    bool cankick;
 
 public:
     Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
     Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), standCount(0) {}
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), kicking(false),cankick(true) {}
 
-	int xSpeedLimit;
-	int standCount;
 
-	// powerup booleans.
-	bool powerjump;
-	bool powerspeed;
-	bool powershield;
-	bool powerscore;
-
-    bool kicking;
 
 	virtual void load(QString config);
 	virtual QString save();
@@ -62,6 +63,8 @@ public:
 
     bool isKicking() { return kicking; }
     void setKicking(bool b) { kicking = b; }
+    bool canKick() { return cankick; }
+    void setCanKick(bool b) { cankick = b; }
 
     void setWalkImage();
 

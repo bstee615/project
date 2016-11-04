@@ -96,6 +96,7 @@ private slots:
 	void on_restartFromPause();
 	void enableMove();
     void stopKicking();
+    void enableKicking();
 };
 
 class MoveThread : public QThread

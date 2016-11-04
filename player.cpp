@@ -50,7 +50,6 @@ void Player::moveRight()
             xSpeed += 1;
 	}
 
-    setWalkImage();
 }
 
 void Player::moveLeft()
@@ -67,8 +66,6 @@ void Player::moveLeft()
         if (powerspeed)
             xSpeed += -1;
 	}
-
-    setWalkImage();
 }
 
 void Player::slowToStop()
@@ -95,15 +92,13 @@ void Player::move()
 
 	// updates the x and y coordinates for the player
 	x += xSpeed;
-	y += ySpeed;
-
-    if (canMove == false)
-        standCount ++;
+    y += ySpeed;
 
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
 
+    setWalkImage();
 }
 
 void Player::collide(CollisionDetails *details)
@@ -156,6 +151,12 @@ void Player::collide(CollisionDetails *details)
         }
         if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->kill();
+                xSpeed /= 2;
+                return;
+            }
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
@@ -164,6 +165,12 @@ void Player::collide(CollisionDetails *details)
         }
         else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->kill();
+                xSpeed /= 2;
+                return;
+            }
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
@@ -212,6 +219,14 @@ void Player::setWalkImage()
 
         return;
     }
+    if (kicking)
+    {
+        qDebug() << "this one.";
+        image = ":/images/maincharacter/kick.png";
+        if (!right)
+            image = ":/images/maincharacter/kickleft.png";
+        return;
+    }
 
     count ++;
 
@@ -234,11 +249,11 @@ void Player::setWalkImage()
         image += "left";
     image += ".png";
 
-    if (standCount == 30)
+    if (xSpeed == 0)
     {
         if (right)
             image = ":/images/maincharacter/stand.png";
-        image = ":/images/maincharacter/standleft.png";
-        standCount = 0;
+        else
+            image = ":/images/maincharacter/standleft.png";
     }
 }

@@ -51,5 +51,7 @@
         <file>easy.lv</file>
         <file>medium.lv</file>
         <file>hard.lv</file>
+        <file>images/maincharacter/kick.png</file>
+        <file>images/maincharacter/kickleft.png</file>
     </qresource>
 </RCC>
