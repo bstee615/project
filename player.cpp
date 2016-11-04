@@ -45,6 +45,8 @@ void Player::moveRight()
         if (powerspeed)
             xSpeed += 1;
 	}
+
+    setWalkImage();
 }
 
 void Player::moveLeft()
@@ -61,6 +63,8 @@ void Player::moveLeft()
         if (powerspeed)
             xSpeed += -1;
 	}
+
+    setWalkImage();
 }
 
 void Player::slowToStop()
@@ -89,13 +93,13 @@ void Player::move()
 	x += xSpeed;
 	y += ySpeed;
 
+    if (canMove == false)
+        standCount ++;
+
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
 
-    count ++;
-
-    setWalkImage();
 }
 
 void Player::collide(CollisionDetails *details)
@@ -205,6 +209,8 @@ void Player::setWalkImage()
         return;
     }
 
+    count ++;
+
     image = ":/images/maincharacter/walk";
     if (count < 7)
     {
@@ -223,4 +229,12 @@ void Player::setWalkImage()
     if (!right)
         image += "left";
     image += ".png";
+
+    if (standCount == 30)
+    {
+        if (right)
+            image = ":/images/maincharacter/stand.png";
+        image = ":/images/maincharacter/standleft.png";
+        standCount = 0;
+    }
 }

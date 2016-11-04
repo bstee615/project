@@ -10,6 +10,7 @@ class Player : public Object
     bool canMove;
     bool reachedEndGame;
     int xSpeedLimit;
+    int standCount;
 
     // powerup booleans.
     bool powerjump;
@@ -20,7 +21,7 @@ class Player : public Object
 public:
     Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
     Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9) {}
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), standCount(0) {}
 
 	virtual void load(QString config);
 	virtual QString save();
