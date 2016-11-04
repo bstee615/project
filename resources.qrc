@@ -50,5 +50,6 @@
         <file>images/pause.png</file>
         <file>easy.lv</file>
         <file>medium.lv</file>
+        <file>hard.lv</file>
     </qresource>
 </RCC>

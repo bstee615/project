@@ -75,18 +75,20 @@ QString Object::save()
 	QString out = "";
 	QString type;
 	// check and print object type
-	if (dynamic_cast<Item*>(this))
+	if (dynamic_cast<Item*>(this) != NULL)
 		type = "item";
-	else if (dynamic_cast<Collectible*>(this))
+	else if (dynamic_cast<Collectible*>(this) != NULL)
 		type = "collectible";
-	else if (dynamic_cast<Coin*>(this))
+	else if (dynamic_cast<Coin*>(this) != NULL)
 		type = "coin";
-	else if (dynamic_cast<Player*>(this))
+	else if (dynamic_cast<Player*>(this) != NULL)
 		type = "player";
-	else if (dynamic_cast<Platform*>(this))
+	else if (dynamic_cast<Platform*>(this) != NULL)
 		type = "platform";
-	else if (dynamic_cast<Enemy*>(this))
+	else if (dynamic_cast<Enemy*>(this) != NULL)
 		type = "enemy";
+	else if (dynamic_cast<EndGameObject*>(this) != NULL)
+		type = "endGame";
 	else
 		type = "object";
 

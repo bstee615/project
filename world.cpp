@@ -60,7 +60,7 @@ Object *World::destroy(int id) {
     return obj;
 }
 
-//Resets the world to, both by deleting memory and erasing the pointers
+//Resets the world, both by deleting memory and erasing the pointers
 //to that memory
 void World::reset() {
 	

@@ -35,14 +35,14 @@
   <widget class="QPushButton" name="btnStart">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>440</y>
+     <x>469</x>
+     <y>420</y>
      <width>85</width>
-     <height>27</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Start</string>
+    <string>Easy</string>
    </property>
   </widget>
   <widget class="QLabel" name="lblBackground">
@@ -83,10 +83,10 @@
   <widget class="QPushButton" name="lblHighScores">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>520</y>
+     <x>452</x>
+     <y>580</y>
      <width>120</width>
-     <height>27</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -96,8 +96,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>570</y>
+     <x>452</x>
+     <y>630</y>
      <width>120</width>
      <height>32</height>
     </rect>
@@ -109,14 +109,50 @@
   <widget class="QPushButton" name="btnMedium">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>470</y>
+     <x>469</x>
+     <y>460</y>
      <width>85</width>
-     <height>27</height>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
     <string>Medium</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnOtherMap">
+   <property name="geometry">
+    <rect>
+     <x>395</x>
+     <y>540</y>
+     <width>100</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Other Map</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="leOtherMap">
+   <property name="geometry">
+    <rect>
+     <x>505</x>
+     <y>543</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnHard">
+   <property name="geometry">
+    <rect>
+     <x>469</x>
+     <y>500</y>
+     <width>85</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Hard</string>
    </property>
   </widget>
   <zorder>lblBackground</zorder>
@@ -126,6 +162,9 @@
   <zorder>lblHighScores</zorder>
   <zorder>pushButton</zorder>
   <zorder>btnMedium</zorder>
+  <zorder>btnOtherMap</zorder>
+  <zorder>leOtherMap</zorder>
+  <zorder>btnHard</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>

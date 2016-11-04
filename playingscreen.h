@@ -17,6 +17,8 @@ public:
 	PlayingScreen(int x_, int y_, int w_, int h_, int lvW_, int lvH_) :
 		x(x_), y(y_), width(w_), height(h_), lvWidth(lvW_), lvHeight(lvH_){}
 
+	static void unitTest();
+
 	// getters and setters
 	int getX() {return x;}
 	int getY() {return y;}

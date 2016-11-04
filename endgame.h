@@ -16,6 +16,8 @@ public:
     EndGame(QWidget *parent = 0);
     ~EndGame();
 
+	bool checkHighScore();
+
 private slots:
     void on_PBbackToTitle_clicked();
 

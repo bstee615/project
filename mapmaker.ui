@@ -958,7 +958,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>0</string>
+    <string>300</string>
    </property>
   </widget>
   <widget class="QPushButton" name="PBitem4">

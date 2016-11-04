@@ -15,7 +15,7 @@ class HighScorePage : public QWidget
 public:
     explicit HighScorePage(QWidget *parent = 0);
     ~HighScorePage();
-     void showNameEnter();
+	 void showNameEnter(bool show);
      QString getName() {return name; }
      void showHighScores();
      void setScoreandPlace(int newScore, int newPlace);

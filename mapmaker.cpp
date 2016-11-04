@@ -19,7 +19,7 @@ MapMaker::MapMaker(QWidget *parent) :
 
     startX = 0;
     startY = 0;
-    time = 0;
+    time = 300;
 
     scrollArea = new QScrollArea;
     ui->QWworld->resize(1024,768);
@@ -253,7 +253,7 @@ void MapMaker::on_Save_clicked()
     string filename = ui->LEfilename->text().toStdString();
     fstream stream;
     stream.open(filename,ios::out);
-    stream << time << endl;
+    stream << time << "," << time << endl;
     stream << ui->QWworld->geometry().width() << "," << ui->QWworld->geometry().height() << endl;
     stream << startX << "," << startY << endl;
     for (int i = 0; i < ui->QWworld->children().size(); ++i) {
@@ -262,7 +262,7 @@ void MapMaker::on_Save_clicked()
             if (current->type == "player") {
                 QRect thisone = current->geometry();
                 stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
-                          << thisone.height() << "," << current->file << ",0,0" << endl;
+                       << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()<< ",0,0,none,3" << endl;
             }
         }
     }

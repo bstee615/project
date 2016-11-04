@@ -2,7 +2,6 @@
 #define PAUSESCREEN_H
 
 #include <QWidget>
-
 #include "world.h"
 
 namespace Ui {
@@ -19,6 +18,7 @@ public:
 
 signals:
 	void resumeClicked();
+	void restartClicked();
 
 private slots:
 	void on_btnResume_clicked();
@@ -26,6 +26,10 @@ private slots:
 	void on_btnHelp_clicked();
 
 	void on_btnCheat_clicked();
+
+	void on_btnRestart_clicked();
+
+	void on_btnSaveState_clicked();
 
 	void on_btnTitle_clicked();
 

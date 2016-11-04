@@ -9,19 +9,21 @@ class Player : public Object
     int numLives;
     bool canMove;
     bool reachedEndGame;
-    int xSpeedLimit;
-    int standCount;
-
-    // powerup booleans.
-    bool powerjump;
-    bool powerspeed;
-    bool powershield;
-    bool powerscore;
+	int startX, startY;
 
 public:
     Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
     Player(int x_, int y_, int width_, int height_, QString image_) :
         Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), standCount(0) {}
+
+	int xSpeedLimit;
+	int standCount;
+
+	// powerup booleans.
+	bool powerjump;
+	bool powerspeed;
+	bool powershield;
+	bool powerscore;
 
 	virtual void load(QString config);
 	virtual QString save();
@@ -43,6 +45,12 @@ public:
 
     bool getIsAtEndOfLevel() { return reachedEndGame; }
     void setAtEndOfLevel(bool stateOfPlayer) { reachedEndGame = stateOfPlayer; }
+
+	int getStartX() {return startX;}
+	int getStartY() {return startY;}
+	void setStartX(int newX) {startX = newX;}
+	void setStartY(int newY) {startY = newY;}
+	void setStartPoint(int newX, int newY) {startX = newX; startY = newY;}
 
     bool powerJump() { return powerjump; }
     bool powerSpeed() { return powerspeed; }
