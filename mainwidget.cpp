@@ -30,7 +30,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 
 	timer = new QTimer(this);
-	timer->setInterval(50);
+    timer->setInterval(50);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 
 
