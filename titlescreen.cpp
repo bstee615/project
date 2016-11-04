@@ -5,6 +5,9 @@
 #include "highscorepage.h"
 #include "highscore.h"
 #include "mapmaker.h"
+#include <QMessageBox>
+#include <exception>
+#include <stdexcept>
 
 TitleScreen::TitleScreen(QWidget *parent) :
     QWidget(parent),
@@ -59,5 +62,26 @@ void TitleScreen::on_btnMedium_clicked()
         prnt->getTimer()->start();
         prnt->getClock()->start();
     }
+    deleteLater();
+}
+
+void TitleScreen::on_btnOtherMap_clicked()
+{
+    if (ui->leOtherMap->text() == ""){
+        QMessageBox::warning(this,"No File Specified", "Please enter a map to load.");
+        return;
+    }
+    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+    if (prnt != NULL) {
+        try{
+            prnt->loadLevel(ui->leOtherMap->text());
+        } catch(exception error) {
+            return;
+        }
+        prnt->getTimer()->start();
+        prnt->getClock()->start();
+    }
+    this->hide();
+    this->widgetParent->setFocus();
     deleteLater();
 }

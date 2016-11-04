@@ -27,6 +27,8 @@ private slots:
 
     void on_btnMedium_clicked();
 
+    void on_btnOtherMap_clicked();
+
 private:
 	Ui::TitleScreen *ui;
     QWidget* widgetParent;
