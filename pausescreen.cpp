@@ -1,5 +1,7 @@
 #include "pausescreen.h"
 #include "ui_pausescreen.h"
+#include "world.h"
+#include "loadsave.h"
 
 PauseScreen::PauseScreen(QWidget *parent) :
 	QWidget(parent),
@@ -46,12 +48,13 @@ void PauseScreen::on_btnCheat_clicked()
 
 void PauseScreen::on_btnRestart_clicked()
 {
-
+	emit restartClicked();
+	deleteLater();
 }
 
 void PauseScreen::on_btnSaveState_clicked()
 {
-
+	LoadSave::instance().save("saveState.save");
 }
 
 void PauseScreen::on_btnTitle_clicked()
@@ -61,5 +64,5 @@ void PauseScreen::on_btnTitle_clicked()
 
 void PauseScreen::on_btnExit_clicked()
 {
-
+	QApplication::exit(0);
 }

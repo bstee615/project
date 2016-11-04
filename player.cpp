@@ -7,6 +7,8 @@
 QString Player::save()
 {
 	QString out = Object::save();
+	out += "," + QString::number(this->getStartX());
+	out += "," + QString::number(this->getStartY());
 	out += "," + QString::number(this->getXSpeed());
 	out += "," + QString::number(this->getYSpeed());
 	return out;
@@ -17,8 +19,9 @@ void Player::load(QString config)
 	Object::load(config);
 	QList<QString> params = config.split(",");
 	// set object properties specific to Player
-	this->setXSpeed(params.at(6).toInt());
-	this->setYSpeed(params.at(7).toInt());
+	this->setStartPoint(params.at(6).toInt(), params.at(7).toInt());
+	this->setXSpeed(params.at(8).toInt());
+	this->setYSpeed(params.at(9).toInt());
 }
 
 void Player::jump()

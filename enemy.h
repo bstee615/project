@@ -23,7 +23,7 @@ public:
         count = 0;
         currentPlatform = new Platform();
         dead = false;
-    }
+	}
 
 	virtual void load(QString config);
 	virtual QString save();

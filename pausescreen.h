@@ -17,6 +17,7 @@ public:
 
 signals:
 	void resumeClicked();
+	void restartClicked();
 
 private slots:
 	void on_btnResume_clicked();

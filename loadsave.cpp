@@ -27,9 +27,10 @@ void LoadSave::load(QString filename)
 		QTextStream in(&file);
 
 		line = in.readLine();
-		int time = line.toInt();
+		QList<QString> timeData = line.split(",");
 
-        World::instance().setStartSeconds(time);
+		World::instance().setStartSeconds(timeData.at(0).toInt());
+		World::instance().setSeconds(timeData.at(1).toInt());
 		// set up screen object
 		line = in.readLine();
 		QList<QString> levelDim = line.split(",");
@@ -44,11 +45,8 @@ void LoadSave::load(QString filename)
 										levelDim.at(1).toInt()));
 
 		// player
-		line = in.readLine();
-		QList<QString> playerCoord = line.split(",");
-		int pX = playerCoord.at(1).toInt();
-		int pY = playerCoord.at(2).toInt();
-		Player* player = new Player(pX, pY, 25, 48, ":/images/maincharacter/stand.png");
+		Player* player = new Player();
+		player->load(in.readLine());
         World::instance().setPlayer(player);
 
 		World::instance().setScore(0);
@@ -96,13 +94,24 @@ void LoadSave::save(QString filename)
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
 		QTextStream out(&file);
+		out << World::instance().getStartSeconds() << "," << World::instance().getSeconds() << "\n";
+		PlayingScreen* scr = World::instance().getScreen();
+		out << scr->getLevelWidth() << "," << scr->getLevelHeight() << "\n";
+		out << scr->getX() << "," << scr->getY() << "\n";
 		// write lines from Object.save() method
-//		for (Object* obj : [the world].objects())
-//		{
-//			out << obj.save() << "\n"; -- Object::save() method should return a string, a line for the file
-//		}
+		size_t numObjects = 1;
+		out << World::instance().getPlayer()->save() << "\n";
+		for (Object* obj : World::instance().getObjects())
+		{
+			out << obj->save() << "\n";
+			numObjects++;
+		}
+		if (numObjects != World::instance().getObjects().size())
+			throw runtime_error("The program did not save all of the objects!");
 		file.close();
 	}
+	if (!file.exists())
+		throw runtime_error("The save file was not created successfully!");
 }
 
 void LoadSave::teardown()

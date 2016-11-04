@@ -10,11 +10,12 @@ class Player : public Object
     bool movable;
     bool left;
     bool reachedEndGame;
+	int startX, startY;
 
 public:
-    Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
-    Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false) {}
+	Player() : Object(),jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false) {}
+	Player(int x_, int y_, int width_, int height_, QString image_, int startX_, int startY_) :
+		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), movable(true), reachedEndGame(false), startX(startX_), startY(startY_) {}
 
 	virtual void load(QString config);
 	virtual QString save();
@@ -39,6 +40,12 @@ public:
 
     bool getIsAtEndOfLevel() { return reachedEndGame; }
     void setAtEndOfLevel(bool stateOfPlayer) { reachedEndGame = stateOfPlayer; }
+
+	int getStartX() {return startX;}
+	int getStartY() {return startY;}
+	void setStartX(int newX) {startX = newX;}
+	void setStartY(int newY) {startY = newY;}
+	void setStartPoint(int newX, int newY) {startX = newX; startY = newY;}
 };
 
 #endif // PLAYER_H

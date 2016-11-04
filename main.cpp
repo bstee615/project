@@ -6,7 +6,9 @@
 
 void UnitTest() {
     Object::unitTest();
+	PlayingScreen::unitTest();
     //HighScore::UnitTests();
+	qDebug() << "Passed all unit tests.";
 }
 
 int main(int argc, char *argv[])
@@ -15,7 +17,7 @@ int main(int argc, char *argv[])
 
     if (argc == 2){
         if (args.at(1) == "-test"){
-            UnitTest();
+			UnitTest();
         }
     }
 

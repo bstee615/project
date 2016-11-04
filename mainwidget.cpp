@@ -50,7 +50,7 @@ void MainWidget::loadLevel(QString filename)
 	ui->lblBackground->setPixmap(QString(":/images/easybackground.png"));
 
 	ObjectLabel* lblPlayer = NULL;
-	ObjectLabel* lblEndLevel = NULL;
+//	ObjectLabel* lblEndLevel = NULL;
 
 	//Deletes all objects from the last game
 	for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
@@ -98,6 +98,7 @@ void MainWidget::loadLevel(QString filename)
     ui->lblTimeLeft->raise();
 
 	World::instance().setSeconds(World::instance().getStartSeconds());
+	World::instance().setCurrentLevel(filename);
 
 	if (World::instance().getSeconds() < 10) {
 		int i = World::instance().getSeconds();
@@ -294,9 +295,9 @@ void MainWidget::clockHit()
 
 void MainWidget::resetPlayer(Player* player)
 {
-	player->setX(29);
-	player->setY(212);
-	if (player->getNumLives() > 1)
+	player->setX(player->getStartX());
+	player->setY(player->getStartY());
+	if (player->getNumLives() > 0)
 		World::instance().setScore(0);
 	ui->lblScore->setText("0");
 	World::instance().getScreen()->setLocation(0, 0);
@@ -436,19 +437,27 @@ void CheckPlayerCollisionThread::run()
 
 void MainWidget::on_PBpause_clicked()
 {
-	if (!clock->isActive())
-		// clock running means already paused
+	if (!timer->isActive())
+		// animation timer stopped means already paused
 		return;
     timer->stop();
     clock->stop();
 	PauseScreen* pause = new PauseScreen(this);
-	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumePause);
+	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumeFromPause);
+	connect(pause, &PauseScreen::restartClicked, this, &MainWidget::on_restartFromPause);
     pause->show();
     pause->raise();
 }
 
-void MainWidget::on_resumePause()
+void MainWidget::on_resumeFromPause()
 {
+	timer->start();
+	clock->start();
+}
+
+void MainWidget::on_restartFromPause()
+{
+	loadLevel(World::instance().getCurrentLevel());
 	timer->start();
 	clock->start();
 }
