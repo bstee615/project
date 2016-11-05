@@ -296,6 +296,29 @@ background-color: rgba(128, 128, 128, 160);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="lblCheat">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>231</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-width: 5px;
+border-color: gray;
+border-style: solid;
+border-radius: 10px;
+background-color: rgba(128, 128, 128, 160);</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt;&quot;&gt;CHEAT MODE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="indent">
+     <number>-4</number>
+    </property>
+   </widget>
    <zorder>lblBackground</zorder>
    <zorder>lblTimeLeft</zorder>
    <zorder>lblPowerups</zorder>
@@ -309,6 +332,7 @@ background-color: rgba(128, 128, 128, 160);</string>
    <zorder>lblLife1</zorder>
    <zorder>lblScore</zorder>
    <zorder>PBpause</zorder>
+   <zorder>lblCheat</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

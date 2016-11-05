@@ -3,6 +3,7 @@
 
 #include "object.h"
 
+
 class Player : public Object
 {
     bool jumpOnMove;

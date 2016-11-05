@@ -57,5 +57,6 @@
         <file>images/powerspeed.png</file>
         <file>images/powerscore.png</file>
         <file>images/powershield.png</file>
+        <file>images/infinity.png</file>
     </qresource>
 </RCC>

@@ -16,7 +16,7 @@ QString Enemy::save() {return Object::save();}
 
 void Enemy::move()
 {
-    if (x + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
+    if (getRightPoint() + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
         right = !right;
 
     if (right)

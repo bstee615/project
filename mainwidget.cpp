@@ -98,6 +98,8 @@ void MainWidget::loadLevel(QString filename)
     ui->lblScore->raise();
     ui->lblTimeLeft->raise();
 
+    ui->lblCheat->hide();
+
 	World::instance().setSeconds(World::instance().getStartSeconds());
 	World::instance().setCurrentLevel(filename);
 
@@ -277,7 +279,8 @@ void MainWidget::timerHit(){
 
 void MainWidget::clockHit()
 {
-	World::instance().setSeconds(World::instance().getSeconds() - 1);
+    if (World::instance().getCheat() == false)
+        World::instance().setSeconds(World::instance().getSeconds() - 1);
 	if (World::instance().getSeconds() < 10) {
 		int i = World::instance().getSeconds();
 		QString timeFormated = QString("0:0%1").arg(i);
@@ -287,6 +290,15 @@ void MainWidget::clockHit()
 		QString timeFormated = QString("0:%1").arg(i);
 		ui->lblTimeLeft->setText(timeFormated);
 	}
+    ui->lblCheat->hide();
+    if (World::instance().getCheat())
+    {
+        ui->lblTimeLeft->setText(QString(""));
+        ui->lblTimeLeft->setPixmap(QString(":/images/infinity.png"));
+        ui->lblTimeLeft->setScaledContents(true);
+
+        ui->lblCheat->show();
+    }
 	if (World::instance().getSeconds() == 0)
 	{
 		death(World::instance().getPlayer());
@@ -420,7 +432,7 @@ void CheckPlayerCollisionThread::run()
         if (collision != NULL) {
             World::instance().getPlayer()->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false)
+                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false && World::instance().getCheat() == false)
                     death = true;
         }
         delete collision;

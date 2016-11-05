@@ -4,6 +4,8 @@
 #include "coin.h"
 #include "world.h"
 
+#include <QTimer>
+
 QString Player::save()
 {
 	QString out = Object::save();
@@ -40,9 +42,7 @@ void Player::jump()
             ySpeed -= 10;
         else
             ySpeed -= 13;
-	}
-    if (y <= 0)
-        ySpeed = 0;
+    }
 }
 
 void Player::moveRight()
@@ -55,9 +55,7 @@ void Player::moveRight()
 
 	// player accelerates up to a speed of 8 pixels per timer hit
     if (xSpeed < xSpeedLimit) {
-		xSpeed += 1;
-        if (powerspeed)
-            xSpeed += 1;
+        xSpeed += 1;
 	}
 
 }
@@ -72,9 +70,7 @@ void Player::moveLeft()
 
 	// player accelerates up to a speed of 8 pixels per timer hit
     if (xSpeed > xSpeedLimit * -1) {
-		xSpeed += -1;
-        if (powerspeed)
-            xSpeed += -1;
+        xSpeed += -1;
 	}
 }
 
@@ -106,14 +102,32 @@ void Player::move()
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
+    double multiplier;
 	// updates the x and y coordinates for the player
-    x += xSpeed;
+    if (powerspeed)
+        multiplier = 1.5;
+    else
+        multiplier = 1;
+    if (kicking)
+        multiplier /= 2;
+
+    x += xSpeed * multiplier;
     y += ySpeed;
 
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
 
+    if (y + ySpeed <= 0)
+    {
+        y = 0;
+        ySpeed = 0;
+    }
+    if (World::instance().getCheat() && getBottomPoint() + ySpeed >= World::instance().getScreen()->getLevelHeight())
+    {
+        y = World::instance().getScreen()->getLevelHeight() - height;
+        ySpeed = 0;
+    }
 
     setWalkImage();
 }
@@ -153,10 +167,6 @@ void Player::collide(CollisionDetails *details)
 	}
     else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
     {
-        if (World::instance().getCheat())
-        {
-            return;
-        }
         if (details->getYStopCollide() != 0 && details->getCollided()->getVisibility() == true)
         {
             World::instance().incScore(15);
@@ -174,6 +184,8 @@ void Player::collide(CollisionDetails *details)
                 xSpeed /= 2;
                 return;
             }
+            if (World::instance().getCheat())
+                return;
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
@@ -188,6 +200,8 @@ void Player::collide(CollisionDetails *details)
                 xSpeed /= 2;
                 return;
             }
+            if (World::instance().getCheat())
+                return;
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
