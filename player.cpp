@@ -295,8 +295,19 @@ void Player::setWalkImage()
     }
     if (jumping)
     {
-        image = ":/images/maincharacter/jump2.png";
+        QString img = ":/images/maincharacter/jump2";
+        if (powerjump)
+        {
+            img += "wings";
+            width = 48;
+        }
+        else
+            width = 29;
         if (!right)
-            image = ":/images/maincharacter/jump2left.png";
+            img += "left";
+        img += ".png";
+        image = img;
     }
+    else
+        width = 29;
 }

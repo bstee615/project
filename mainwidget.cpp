@@ -184,9 +184,16 @@ void MainWidget::timerHit(){
     if (!player->getCanMove())
     {
         QTimer::singleShot(500,this,SLOT(enableMove()));
-        player->setImage(":/images/maincharacter/hurt.png");
+        QString img = ":/images/maincharacter/hurt";
+        if (player->powerShield())
+        {
+            img += "shield";
+            player->setWidth(48);
+        }
         if (player->isRight() == false)
-            player->setImage(":/images/maincharacter/hurtleft.png");
+            img += "left";
+        img += ".png";
+        player->setImage(img);
     }
 
 	// update screen location based on player location
@@ -467,6 +474,7 @@ void MainWidget::on_restartFromPause()
 void MainWidget::enableMove()
 {
     World::instance().getPlayer()->setCanMove(true);
+    World::instance().getPlayer()->setWidth(29);
 }
 void MainWidget::stopKicking()
 {

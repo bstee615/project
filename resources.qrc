@@ -44,7 +44,6 @@
         <file>images/platformstone.png</file>
         <file>images/water.png</file>
         <file>images/easybackground.png</file>
-        <file>images/pow!.png</file>
         <file>images/pause.png</file>
         <file>easy.lv</file>
         <file>medium.lv</file>
@@ -54,11 +53,15 @@
         <file>images/powerjump.png</file>
         <file>images/powerspeed.png</file>
         <file>images/powerscore.png</file>
-        <file>images/powershield.png</file>
         <file>images/infinity.png</file>
         <file>images/maincharacter/jump1.png</file>
         <file>images/maincharacter/jump1left.png</file>
         <file>images/maincharacter/jump2.png</file>
         <file>images/maincharacter/jump2left.png</file>
+        <file>images/maincharacter/hurtshield.png</file>
+        <file>images/maincharacter/hurtshieldleft.png</file>
+        <file>images/powershield.png</file>
+        <file>images/maincharacter/jump2wings.png</file>
+        <file>images/maincharacter/jump2wingsleft.png</file>
     </qresource>
 </RCC>
