@@ -10,8 +10,8 @@ class Player : public Object
     int numLives;
     bool canMove;
     bool reachedEndGame;
-	int startX, startY;
-    int xSpeedLimit;
+    int startX, startY;
+    int countJump;
 
     // powerup booleans.
     bool powerjump;
@@ -22,10 +22,12 @@ class Player : public Object
     bool kicking;
     bool cankick;
 
+    bool jumping;
+
 public:
     Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
     Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), kicking(false),cankick(true) {}
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false),cankick(true),jumping(false) {}
 
 
 
@@ -69,7 +71,7 @@ public:
 
     void setWalkImage();
 
-    void setXSpeedLimit(int limit) { xSpeedLimit = limit; }
+    void setJumping(bool b) { jumping = b; }
 };
 
 #endif // PLAYER_H

@@ -54,7 +54,7 @@ void Player::moveRight()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed < xSpeedLimit) {
+    if (xSpeed < 9) {
         xSpeed += 1;
 	}
 
@@ -69,7 +69,7 @@ void Player::moveLeft()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed > xSpeedLimit * -1) {
+    if (xSpeed > -9) {
         xSpeed += -1;
 	}
 }
@@ -149,9 +149,10 @@ void Player::collide(CollisionDetails *details)
 			y += details->getYStopCollide();
 			if (details->getYStopCollide() < 0) {
 				// the player is on a platform so onPlatform is true
-				onPlatform = true;
-			}
-		}
+                onPlatform = true;
+            }
+        }
+        jumping = false;
 	} else if (dynamic_cast<Coin*>(details->getCollided()) != NULL) {
 		//set coin visibility to false and add to high score in world
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
@@ -264,7 +265,6 @@ void Player::setWalkImage()
     }
     if (kicking)
     {
-        qDebug() << "this one.";
         image = ":/images/maincharacter/kick.png";
         if (!right)
             image = ":/images/maincharacter/kickleft.png";
@@ -298,5 +298,11 @@ void Player::setWalkImage()
             image = ":/images/maincharacter/stand.png";
         else
             image = ":/images/maincharacter/standleft.png";
+    }
+    if (jumping)
+    {
+        image = ":/images/maincharacter/jump2.png";
+        if (!right)
+            image = ":/images/maincharacter/jump2left.png";
     }
 }

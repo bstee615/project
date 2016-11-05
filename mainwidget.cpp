@@ -128,14 +128,16 @@ void MainWidget::timerHit(){
         player->setCount(0);
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
-        player->moveRight();
+        if (player->getCanMove())
+            player->moveRight();
 	} else if (left) {
 		// if the left arrow is pressed the player goes left
-        player->moveLeft();
+        if (player->getCanMove())
+            player->moveLeft();
 	}
 
 	// updates player's position in the model
-	player->move();
+    player->move();
 
 	if (player->getX() < 0)
 	{
@@ -158,12 +160,10 @@ void MainWidget::timerHit(){
     }
     if (player->powerSpeed())
     {
-        player->setXSpeedLimit(14);
         ui->lblPowerSpeed->show();
     }
     else
     {
-        player->setXSpeedLimit(9);
         ui->lblPowerSpeed->hide();
     }
     if (player->powerShield())
@@ -395,7 +395,8 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 		this->right = true;
         player->setRight(true);
     } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
-		player->setJumpOnMove(true);
+        player->setJumping(true);
+        player->setJumpOnMove(true);
     }
     else if (event->key() == Qt::Key_A)
     {
@@ -472,11 +473,9 @@ void MainWidget::enableMove()
 }
 void MainWidget::stopKicking()
 {
-    qDebug() << "kicking. POW!";
     World::instance().getPlayer()->setKicking(false);
 }
 void MainWidget::enableKicking()
 {
-    qDebug() << "kick enabled.";
     World::instance().getPlayer()->setCanKick(true);
 }
