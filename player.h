@@ -3,29 +3,34 @@
 
 #include "object.h"
 
+
 class Player : public Object
 {
     bool jumpOnMove;
     int numLives;
     bool canMove;
     bool reachedEndGame;
-	int startX, startY;
+    int startX, startY;
+    int countJump;
+
+    // powerup booleans.
+    bool powerjump;
+    bool powerspeed;
+    bool powershield;
+    bool powerscore;
+
+    bool kicking;
+    bool cankick;
+    int xSpeedLimit;
+    int standCount;
+    bool jumping;
 
 public:
     Player() : Object(),jumpOnMove(false), numLives(3), reachedEndGame(false) {}
-    Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), xSpeedLimit(9), standCount(0) { }
+    Player(int x_, int y_, int width_, int height_, QString image_) : Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false),cankick(true),jumping(false) {}
 
-	int xSpeedLimit;
-	int standCount;
 
-	// powerup booleans.
-	bool powerjump;
-	bool powerspeed;
-	bool powershield;
-	bool powerscore;
 
-    bool kicking;
 
 	virtual void load(QString config);
 	virtual QString save();
@@ -62,10 +67,12 @@ public:
 
     bool isKicking() { return kicking; }
     void setKicking(bool b) { kicking = b; }
+    bool canKick() { return cankick; }
+    void setCanKick(bool b) { cankick = b; }
 
     void setWalkImage();
 
-    void setXSpeedLimit(int limit) { xSpeedLimit = limit; }
+    void setJumping(bool b) { jumping = b; }
 };
 
 #endif // PLAYER_H

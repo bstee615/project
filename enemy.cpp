@@ -7,16 +7,22 @@ void Enemy::load(QString config)
 {
     QList<QString> params = config.split(",");
 	Object::load(config);
+	this->setVisibility(params.at(6) == "true");
 	this->setDamage(10);
 	this->setXSpeed(2);
     this->setRight(true);
 }
 
-QString Enemy::save() {return Object::save();}
+QString Enemy::save()
+{
+	QString out = Object::save();
+	out += "," + QString::fromStdString(this->getVisibility() ? "true" : "false");
+	return out;
+}
 
 void Enemy::move()
 {
-    if (x + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
+    if (getRightPoint() + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
         right = !right;
 
     if (right)

@@ -47,8 +47,6 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::loadLevel(QString filename)
 {
-	ui->lblBackground->setPixmap(QString(":/images/easybackground.png"));
-
 	ObjectLabel* lblPlayer = NULL;
 //	ObjectLabel* lblEndLevel = NULL;
 
@@ -62,19 +60,15 @@ void MainWidget::loadLevel(QString filename)
 	LoadSave::instance().load(filename);
     HighScore::instance().LoadScore(World::instance().getLevelName());
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
+	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
-	Player* player = World::instance().getPlayer();
-    player->setPower("jump",false);
-    player->setPower("speed",false);
-    player->setPower("shield",false);
-    player->setPower("score",false);
+    Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
 	lblPlayer->setScaledContents(true);
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
-
 
 	for (Object* worldObj : World::instance().getObjects())
 	{
@@ -83,8 +77,8 @@ void MainWidget::loadLevel(QString filename)
 		label->updateLabelPosition();
 		label->setScaledContents(true);
 		label->setPixmap(QPixmap(worldObj->getImage()));
-		label->show();
-		label->getObject()->setVisibility(true);
+		if (label->getObject()->getVisibility())
+			label->show();
 	}
 
 	if (lblPlayer != NULL)
@@ -101,6 +95,8 @@ void MainWidget::loadLevel(QString filename)
     ui->lblLife3->raise();
     ui->lblScore->raise();
     ui->lblTimeLeft->raise();
+
+    ui->lblCheat->hide();
 
 	World::instance().setSeconds(World::instance().getStartSeconds());
 	World::instance().setCurrentLevel(filename);
@@ -128,21 +124,18 @@ void MainWidget::timerHit(){
 		// if both right and left arrows are held down or both are released slow the player to a stop
 		player->slowToStop();
         player->setCount(0);
-
-        if (player->isRight())
-            player->setImage(":/images/maincharacter/stand.png");
-        else
-            player->setImage(":/images/maincharacter/standleft.png");
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
-        player->moveRight();
+        if (player->getCanMove())
+            player->moveRight();
 	} else if (left) {
 		// if the left arrow is pressed the player goes left
-        player->moveLeft();
+        if (player->getCanMove())
+            player->moveLeft();
 	}
 
 	// updates player's position in the model
-	player->move();
+    player->move();
 
 	if (player->getX() < 0)
 	{
@@ -165,12 +158,10 @@ void MainWidget::timerHit(){
     }
     if (player->powerSpeed())
     {
-        player->setXSpeedLimit(14);
         ui->lblPowerSpeed->show();
     }
     else
     {
-        player->setXSpeedLimit(9);
         ui->lblPowerSpeed->hide();
     }
     if (player->powerShield())
@@ -193,9 +184,16 @@ void MainWidget::timerHit(){
     if (!player->getCanMove())
     {
         QTimer::singleShot(500,this,SLOT(enableMove()));
-        player->setImage(":/images/maincharacter/hurt.png");
+        QString img = ":/images/maincharacter/hurt";
+        if (player->powerShield())
+        {
+            img += "shield";
+            player->setWidth(48);
+        }
         if (player->isRight() == false)
-            player->setImage(":/images/maincharacter/hurtleft.png");
+            img += "left";
+        img += ".png";
+        player->setImage(img);
     }
 
 	// update screen location based on player location
@@ -250,21 +248,10 @@ void MainWidget::timerHit(){
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
-            if (dynamic_cast<Coin *>(guiObject->getObject()) != NULL) {
-                if (guiObject->getObject()->getVisibility() == true) {
-                    guiObject->show();
-                } else {
-                    guiObject->hide();
-                }
-            }
-            if (dynamic_cast<Enemy *>(guiObject->getObject()) != NULL)
-            {
-                if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
-                {
-                    World::instance().destroy(guiObject->getObject()->getId());
-
-                    guiObject->hide();
-                }
+            if (guiObject->getObject()->getVisibility() == true) {
+                guiObject->show();
+            } else {
+				guiObject->hide();
             }
         }
     }
@@ -296,7 +283,8 @@ void MainWidget::timerHit(){
 
 void MainWidget::clockHit()
 {
-	World::instance().setSeconds(World::instance().getSeconds() - 1);
+    if (World::instance().getCheat() == false)
+        World::instance().setSeconds(World::instance().getSeconds() - 1);
 	if (World::instance().getSeconds() < 10) {
 		int i = World::instance().getSeconds();
 		QString timeFormated = QString("0:0%1").arg(i);
@@ -306,6 +294,15 @@ void MainWidget::clockHit()
 		QString timeFormated = QString("0:%1").arg(i);
 		ui->lblTimeLeft->setText(timeFormated);
 	}
+    ui->lblCheat->hide();
+    if (World::instance().getCheat())
+    {
+        ui->lblTimeLeft->setText(QString(""));
+        ui->lblTimeLeft->setPixmap(QString(":/images/infinity.png"));
+        ui->lblTimeLeft->setScaledContents(true);
+
+        ui->lblCheat->show();
+    }
 	if (World::instance().getSeconds() == 0)
 	{
 		death(World::instance().getPlayer());
@@ -402,12 +399,18 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 		this->right = true;
         player->setRight(true);
     } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
-		player->setJumpOnMove(true);
+        player->setJumping(true);
+        player->setJumpOnMove(true);
     }
     else if (event->key() == Qt::Key_A)
     {
-        player->setKicking(true);
-        QTimer::singleShot(500,this,SLOT(stopKicking()));
+        if (player->canKick())
+        {
+            player->setKicking(true);
+            player->setCanKick(false);
+            QTimer::singleShot(500,this,SLOT(stopKicking()));
+            QTimer::singleShot(1000,this,SLOT(enableKicking()));
+        }
     }
 }
 
@@ -434,7 +437,7 @@ void CheckPlayerCollisionThread::run()
         if (collision != NULL) {
             World::instance().getPlayer()->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                if (!collision->getCollided()->isDead())
+                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false && World::instance().getCheat() == false)
                     death = true;
         }
         delete collision;
@@ -471,8 +474,13 @@ void MainWidget::on_restartFromPause()
 void MainWidget::enableMove()
 {
     World::instance().getPlayer()->setCanMove(true);
+    World::instance().getPlayer()->setWidth(29);
 }
 void MainWidget::stopKicking()
 {
-
+    World::instance().getPlayer()->setKicking(false);
+}
+void MainWidget::enableKicking()
+{
+    World::instance().getPlayer()->setCanKick(true);
 }

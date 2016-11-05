@@ -4,6 +4,8 @@
 #include "coin.h"
 #include "world.h"
 
+#include <QTimer>
+
 QString Player::save()
 {
 	QString out = Object::save();
@@ -23,16 +25,24 @@ void Player::load(QString config)
 	this->setXSpeed(params.at(8).toInt());
 	this->setYSpeed(params.at(9).toInt());
     this->setCanMove(true);
+    this->setPower("jump",false);
+    this->setPower("speed",false);
+    this->setPower("shield",false);
+    this->setPower("score",false);
+    this->setCanKick(true);
+    this->setKicking(false);
+    this->setVisibility(true);
 }
 
 void Player::jump()
 {
 	// player jumps if jumpOnMove is true
 	if (jumpOnMove) {
-		ySpeed -= 13;
         if (powerjump)
-            ySpeed -= 7;
-	}
+            ySpeed -= 10;
+        else
+            ySpeed -= 13;
+    }
 }
 
 void Player::moveRight()
@@ -44,13 +54,10 @@ void Player::moveRight()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed < xSpeedLimit) {
-		xSpeed += 1;
-        if (powerspeed)
-            xSpeed += 1;
+    if (xSpeed < 9) {
+        xSpeed += 1;
 	}
 
-    setWalkImage();
 }
 
 void Player::moveLeft()
@@ -62,13 +69,9 @@ void Player::moveLeft()
 	}
 
 	// player accelerates up to a speed of 8 pixels per timer hit
-    if (xSpeed > xSpeedLimit * -1) {
-		xSpeed += -1;
-        if (powerspeed)
-            xSpeed += -1;
+    if (xSpeed > -9) {
+        xSpeed += -1;
 	}
-
-    setWalkImage();
 }
 
 void Player::slowToStop()
@@ -87,23 +90,48 @@ void Player::slowToStop()
 void Player::move()
 {
 	// if a player is on a platform and jumpmove is true the player jumps
-	if (jumpOnMove && onPlatform) {
-		jump();
+    if (jumpOnMove) {
+        if (!powerjump)
+        {
+            if (onPlatform)
+                jump();
+        }
+        else
+            jump();
 	}
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
+    double multiplier;
 	// updates the x and y coordinates for the player
-	x += xSpeed;
-	y += ySpeed;
+    if (powerspeed)
+        multiplier = 1.5;
+    else
+        multiplier = 1;
+    if (kicking)
+        multiplier /= 2;
+    if (!canMove)
+        multiplier /= 1.5;
 
-    if (canMove == false)
-        standCount ++;
+    x += xSpeed * multiplier;
+    y += ySpeed;
 
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
 
+    if (y + ySpeed <= 0)
+    {
+        y = 0;
+        ySpeed = 0;
+    }
+    if (World::instance().getCheat() && getBottomPoint() + ySpeed >= World::instance().getScreen()->getLevelHeight())
+    {
+        y = World::instance().getScreen()->getLevelHeight() - height;
+        ySpeed = 0;
+    }
+
+    setWalkImage();
 }
 
 void Player::collide(CollisionDetails *details)
@@ -123,52 +151,66 @@ void Player::collide(CollisionDetails *details)
 			y += details->getYStopCollide();
 			if (details->getYStopCollide() < 0) {
 				// the player is on a platform so onPlatform is true
-				onPlatform = true;
-			}
-		}
+                onPlatform = true;
+            }
+        }
+        jumping = false;
 	} else if (dynamic_cast<Coin*>(details->getCollided()) != NULL) {
 		//set coin visibility to false and add to high score in world
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
-		if(c->getisCollectible() == true) {
+		if(c->getisCollectible()) {
             if (!powerScore())
                 World::instance().incScore(c->getAmount());
             else
                 World::instance().incScore(c->getAmount() * 2);
+			c->setisCollectible(false);
 		}
-		c->setisCollectible(false);
-
 	}
-    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
+	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
     {
-        if (World::instance().getCheat())
-        {
-            return;
-        }
-        if (details->getYStopCollide() != 0)
+        Enemy* en = dynamic_cast<Enemy*>(details->getCollided());
+
+        if (details->getYStopCollide() != 0 && details->getCollided()->getVisibility() == true)
         {
             World::instance().incScore(15);
             ySpeed = -10;
             if (details->getYStopCollide() > 0)
-                ySpeed = 10;
-            details->getCollided()->kill();
+				ySpeed = 5;
+			en->setVisibility(false);
             return;
         }
-        if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
+        if (details->getXStopCollide() > 0 && details->getCollided()->getVisibility() == true)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->setVisibility(false);
+                xSpeed /= 2;
+                return;
+            }
+            if (World::instance().getCheat())
+                return;
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
             canMove = false;
-            details->getCollided()->setRight(false);
+			en->setRight(false);
         }
-        else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
+        else if (details->getXStopCollide() < 0 && details->getCollided()->getVisibility() == true)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->setVisibility(false);
+                xSpeed /= 2;
+                return;
+            }
+            if (World::instance().getCheat())
+                return;
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
             canMove = false;
-            details->getCollided()->setRight(true);
+			en->setRight(true);
         }
         else
             canMove = true;
@@ -179,13 +221,25 @@ void Player::collide(CollisionDetails *details)
     {
         Collectible* item = dynamic_cast<Collectible*>(details->getCollided());
         if (item->getType() == "jump")
+        {
             powerjump = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "speed")
+        {
             powerspeed = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "shield")
+        {
             powershield= true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "score")
+        {
             powerscore = true;
+            item->setVisibility(false);
+        }
     }
 }
 
@@ -203,13 +257,11 @@ void Player::setPower(string pow, bool is)
 
 void Player::setWalkImage()
 {
-    if (!canMove)
+    if (kicking)
     {
-        if (right)
-            image = ":/images/maincharacter/hurt.png";
-        else
-            image = ":/images/maincharacter/hurtleft.png";
-
+        image = ":/images/maincharacter/kick.png";
+        if (!right)
+            image = ":/images/maincharacter/kickleft.png";
         return;
     }
 
@@ -234,11 +286,28 @@ void Player::setWalkImage()
         image += "left";
     image += ".png";
 
-    if (standCount == 30)
+    if (xSpeed == 0)
     {
         if (right)
             image = ":/images/maincharacter/stand.png";
-        image = ":/images/maincharacter/standleft.png";
-        standCount = 0;
+        else
+            image = ":/images/maincharacter/standleft.png";
     }
+    if (jumping)
+    {
+        QString img = ":/images/maincharacter/jump2";
+        if (powerjump)
+        {
+            img += "wings";
+            width = 48;
+        }
+        else
+            width = 29;
+        if (!right)
+            img += "left";
+        img += ".png";
+        image = img;
+    }
+    else
+        width = 29;
 }

@@ -38,10 +38,16 @@ void PauseScreen::on_btnCheat_clicked()
 		if (button->text() == "Cheat Mode: OFF")
 		{
 			button->setText("Cheat Mode: ON");
+            World::instance().setCheat(true);
+            World::instance().getPlayer()->setPower("shield",true);
+            World::instance().getPlayer()->setPower("jump",true);
 		}
 		else
 		{
 			button->setText("Cheat Mode: OFF");
+            World::instance().setCheat(true);
+            World::instance().getPlayer()->setPower("shield",false);
+            World::instance().getPlayer()->setPower("jump",false);
 		}
 	}
 }

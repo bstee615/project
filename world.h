@@ -34,8 +34,9 @@ class World {
     int seconds;
     int startSeconds;
 	QString currentLevel;
-    string levelName;
-    bool cheat;
+       string levelName;
+	QString backgroundPath;
+	bool cheat;
 
 public:
 	Object *createObject(const string& type);
@@ -69,8 +70,14 @@ public:
 	QString getCurrentLevel() {return currentLevel;}
 	void setCurrentLevel(QString filename) {currentLevel = filename;}
 
+
     string getLevelName() { return levelName; }
     void setLevelName(string newLevelName) { levelName = newLevelName; }
+
+	QString getBackgroundPath() {return backgroundPath;}
+	void setBackgroundPath(QString filename) {backgroundPath = filename;}
+
+
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
 	Object *destroy(int id);
 

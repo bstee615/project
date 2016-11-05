@@ -11,7 +11,6 @@ class Enemy : public Object
 {
     int damage;// if false, then enemy is facing left.
     Platform* currentPlatform;
-    bool dead;
 
 public:
     Enemy(): Object()
@@ -23,7 +22,6 @@ public:
         ySpeed = 1;
         count = 0;
         currentPlatform = new Platform();
-        dead = false;
 	}
 
 	virtual void load(QString config);
@@ -35,9 +33,6 @@ public:
     virtual int getSpeed() { return xSpeed; }
 
     void setDamage(int newDamage) { damage = newDamage; }
-
-    virtual bool isDead() { return dead; }
-    virtual void kill() { dead = true; }
 };
 
 class FlyingEnemy: public Enemy

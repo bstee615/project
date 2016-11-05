@@ -13,7 +13,6 @@
         <file>P&amp;Plogo_composite.png</file>
         <file>images/maincharacter/walk2left.png</file>
         <file>images/maincharacter/hurt.png</file>
-        <file>images/maincharacter/jump3.png</file>
         <file>images/maincharacter/maincharacter1.png</file>
         <file>images/maincharacter/stand.png</file>
         <file>images/maincharacter/walk1.png</file>
@@ -25,7 +24,6 @@
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
         <file>images/maincharacter/hurtleft.png</file>
-        <file>images/maincharacter/jump3left.png</file>
         <file>images/groundrobotleft.png</file>
         <file>images/flag.png</file>
         <file>images/flyingrobot.png</file>
@@ -47,10 +45,24 @@
         <file>images/platformstone.png</file>
         <file>images/water.png</file>
         <file>images/easybackground.png</file>
-        <file>images/pow!.png</file>
         <file>images/pause.png</file>
         <file>easy.lv</file>
         <file>medium.lv</file>
         <file>hard.lv</file>
+        <file>images/maincharacter/kick.png</file>
+        <file>images/maincharacter/kickleft.png</file>
+        <file>images/powerjump.png</file>
+        <file>images/powerspeed.png</file>
+        <file>images/powerscore.png</file>
+        <file>images/infinity.png</file>
+        <file>images/maincharacter/jump1.png</file>
+        <file>images/maincharacter/jump1left.png</file>
+        <file>images/maincharacter/jump2.png</file>
+        <file>images/maincharacter/jump2left.png</file>
+        <file>images/maincharacter/hurtshield.png</file>
+        <file>images/maincharacter/hurtshieldleft.png</file>
+        <file>images/powershield.png</file>
+        <file>images/maincharacter/jump2wings.png</file>
+        <file>images/maincharacter/jump2wingsleft.png</file>
     </qresource>
 </RCC>
