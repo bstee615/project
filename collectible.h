@@ -3,6 +3,10 @@
 
 #include"object.h"
 
+#include <QString>
+
+#include <string>
+
 class Collectible : public Object {
     protected:
     string type;
@@ -14,6 +18,8 @@ class Collectible : public Object {
     void setType(string newType) { type = newType; }
     bool getisCollectible() { return isCollectible; }
     void setisCollectible(bool newCollectibility) { isCollectible = newCollectibility; }
+
+    void load(QString);
 };
 
 #endif // COLLECTIBLE_H

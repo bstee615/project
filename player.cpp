@@ -23,16 +23,26 @@ void Player::load(QString config)
 	this->setXSpeed(params.at(8).toInt());
 	this->setYSpeed(params.at(9).toInt());
     this->setCanMove(true);
+    this->setPower("jump",false);
+    this->setPower("speed",false);
+    this->setPower("shield",false);
+    this->setPower("score",false);
+    this->setCanKick(true);
+    this->setKicking(false);
+    this->setVisibility(true);
 }
 
 void Player::jump()
 {
 	// player jumps if jumpOnMove is true
 	if (jumpOnMove) {
-		ySpeed -= 13;
         if (powerjump)
-            ySpeed -= 7;
+            ySpeed -= 10;
+        else
+            ySpeed -= 13;
 	}
+    if (y <= 0)
+        ySpeed = 0;
 }
 
 void Player::moveRight()
@@ -84,19 +94,26 @@ void Player::slowToStop()
 void Player::move()
 {
 	// if a player is on a platform and jumpmove is true the player jumps
-	if (jumpOnMove && onPlatform) {
-		jump();
+    if (jumpOnMove) {
+        if (!powerjump)
+        {
+            if (onPlatform)
+                jump();
+        }
+        else
+            jump();
 	}
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
 	// updates the x and y coordinates for the player
-	x += xSpeed;
+    x += xSpeed;
     y += ySpeed;
 
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
+
 
     setWalkImage();
 }
@@ -140,20 +157,20 @@ void Player::collide(CollisionDetails *details)
         {
             return;
         }
-        if (details->getYStopCollide() != 0)
+        if (details->getYStopCollide() != 0 && details->getCollided()->getVisibility() == true)
         {
             World::instance().incScore(15);
             ySpeed = -10;
             if (details->getYStopCollide() > 0)
-                ySpeed = 10;
-            details->getCollided()->kill();
+                ySpeed = 5;
+            details->getCollided()->setVisibility(false);
             return;
         }
-        if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
+        if (details->getXStopCollide() > 0 && details->getCollided()->getVisibility() == true)
         {
             if (kicking == true)
             {
-                details->getCollided()->kill();
+                details->getCollided()->setVisibility(false);
                 xSpeed /= 2;
                 return;
             }
@@ -163,11 +180,11 @@ void Player::collide(CollisionDetails *details)
             canMove = false;
             details->getCollided()->setRight(false);
         }
-        else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
+        else if (details->getXStopCollide() < 0 && details->getCollided()->getVisibility() == true)
         {
             if (kicking == true)
             {
-                details->getCollided()->kill();
+                details->getCollided()->setVisibility(false);
                 xSpeed /= 2;
                 return;
             }
@@ -186,13 +203,25 @@ void Player::collide(CollisionDetails *details)
     {
         Collectible* item = dynamic_cast<Collectible*>(details->getCollided());
         if (item->getType() == "jump")
+        {
             powerjump = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "speed")
+        {
             powerspeed = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "shield")
+        {
             powershield= true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "score")
+        {
             powerscore = true;
+            item->setVisibility(false);
+        }
     }
 }
 

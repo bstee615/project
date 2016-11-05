@@ -8,3 +8,12 @@ Collectible::Collectible(int x_, int y_, int width_, int height_, QString image_
    isCollectible = isCollectible_;
 }
 
+void Collectible::load(QString config)
+{
+    Object::load(config);
+    QList<QString> params = config.split(",");
+
+    this->setType(params.at(6).toStdString());
+    QString img = ":/images/power" + params.at(6) + ".png";
+    image = img;
+}

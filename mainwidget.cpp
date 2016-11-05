@@ -62,13 +62,7 @@ void MainWidget::loadLevel(QString filename)
 	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
-	Player* player = World::instance().getPlayer();
-    player->setPower("jump",false);
-    player->setPower("speed",false);
-    player->setPower("shield",false);
-    player->setPower("score",false);
-    player->setCanKick(true);
-    player->setKicking(false);
+    Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -246,21 +240,11 @@ void MainWidget::timerHit(){
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
-            if (dynamic_cast<Coin *>(guiObject->getObject()) != NULL) {
-                if (guiObject->getObject()->getVisibility() == true) {
-                    guiObject->show();
-                } else {
-                    guiObject->hide();
-                }
-            }
-            if (dynamic_cast<Enemy *>(guiObject->getObject()) != NULL)
-            {
-                if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
-                {
-                    World::instance().destroy(guiObject->getObject()->getId());
 
-                    guiObject->hide();
-                }
+            if (guiObject->getObject()->getVisibility() == true) {
+                guiObject->show();
+            } else {
+                guiObject->hide();
             }
         }
     }
@@ -435,7 +419,7 @@ void CheckPlayerCollisionThread::run()
         if (collision != NULL) {
             World::instance().getPlayer()->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                if (!collision->getCollided()->isDead())
+                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false)
                     death = true;
         }
         delete collision;
