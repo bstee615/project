@@ -7,12 +7,22 @@ void Enemy::load(QString config)
 {
     QList<QString> params = config.split(",");
 	Object::load(config);
+	if (params.at(6) == "true") // true means dead
+	{
+		this->kill();
+		this->setVisibility(false);
+	}
 	this->setDamage(10);
 	this->setXSpeed(2);
     this->setRight(true);
 }
 
-QString Enemy::save() {return Object::save();}
+QString Enemy::save()
+{
+	QString out = Object::save();
+	out += "," + QString::fromStdString(this->isDead() ? "true" : "false");
+	return out;
+}
 
 void Enemy::move()
 {

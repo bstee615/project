@@ -8,3 +8,13 @@ Collectible::Collectible(int x_, int y_, int width_, int height_, QString image_
    isCollectible = isCollectible_;
 }
 
+void Collectible::load(QString config)
+{
+	Object::load(config);
+}
+
+QString Collectible::save()
+{
+	return Object::save();
+}
+

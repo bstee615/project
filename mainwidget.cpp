@@ -47,8 +47,6 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::loadLevel(QString filename)
 {
-	ui->lblBackground->setPixmap(QString(":/images/easybackground.png"));
-
 	ObjectLabel* lblPlayer = NULL;
 //	ObjectLabel* lblEndLevel = NULL;
 
@@ -61,6 +59,7 @@ void MainWidget::loadLevel(QString filename)
 
 	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
+	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
 	Player* player = World::instance().getPlayer();
     player->setPower("jump",false);
@@ -74,7 +73,6 @@ void MainWidget::loadLevel(QString filename)
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
 
-
 	for (Object* worldObj : World::instance().getObjects())
 	{
 		ObjectLabel* label = new ObjectLabel(ui->worldWidget);
@@ -82,8 +80,8 @@ void MainWidget::loadLevel(QString filename)
 		label->updateLabelPosition();
 		label->setScaledContents(true);
 		label->setPixmap(QPixmap(worldObj->getImage()));
-		label->show();
-		label->getObject()->setVisibility(true);
+		if (label->getObject()->getVisibility())
+			label->show();
 	}
 
 	if (lblPlayer != NULL)
@@ -260,8 +258,8 @@ void MainWidget::timerHit(){
             {
                 if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
                 {
-                    World::instance().destroy(guiObject->getObject()->getId());
-
+//                    World::instance().destroy(guiObject->getObject()->getId());
+					guiObject->getObject()->setVisibility(false);
                     guiObject->hide();
                 }
             }

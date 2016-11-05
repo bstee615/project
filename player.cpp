@@ -130,18 +130,18 @@ void Player::collide(CollisionDetails *details)
 		//set coin visibility to false and add to high score in world
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
-		if(c->getisCollectible() == true) {
+		if(c->getisCollectible()) {
             if (!powerScore())
                 World::instance().incScore(c->getAmount());
             else
                 World::instance().incScore(c->getAmount() * 2);
+			c->setisCollectible(false);
 		}
-		c->setisCollectible(false);
-
 	}
-    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
+	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
     {
-        if (World::instance().getCheat())
+		Enemy* en = dynamic_cast<Enemy*>(details->getCollided());
+		if (World::instance().getCheat() || en->isDead())
         {
             return;
         }
@@ -151,7 +151,7 @@ void Player::collide(CollisionDetails *details)
             ySpeed = -10;
             if (details->getYStopCollide() > 0)
                 ySpeed = 10;
-            details->getCollided()->kill();
+			en->kill();
             return;
         }
         if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
@@ -160,7 +160,7 @@ void Player::collide(CollisionDetails *details)
             ySpeed = -8;
             xSpeed = 12;
             canMove = false;
-            details->getCollided()->setRight(false);
+			en->setRight(false);
         }
         else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
         {
@@ -168,7 +168,7 @@ void Player::collide(CollisionDetails *details)
             ySpeed = -8;
             xSpeed = -12;
             canMove = false;
-            details->getCollided()->setRight(true);
+			en->setRight(true);
         }
         else
             canMove = true;
