@@ -18,6 +18,7 @@ TitleScreen::TitleScreen(QWidget *parent) :
 	ui->setupUi(this);
     playing = false;
     ui->btnStart->setFocus();
+    World::instance().setIsPlaying(false);
 }
 
 TitleScreen::~TitleScreen()
@@ -30,6 +31,7 @@ void TitleScreen::on_btnStart_clicked()
 	this->hide();
     this->widgetParent->setFocus();
     MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+    World::instance().setIsPlaying(true);
     if (prnt != NULL) {
         prnt->loadLevel(":/easy.lv");
         prnt->getTimer()->start();
@@ -105,5 +107,6 @@ void TitleScreen::on_pushButton_2_clicked()
     HelpScreen * help = new HelpScreen(this->parentWidget());
     help->show();
     help->raise();
+
     deleteLater();
 }

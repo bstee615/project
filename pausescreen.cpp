@@ -2,6 +2,8 @@
 #include "ui_pausescreen.h"
 #include "world.h"
 #include "loadsave.h"
+#include "helpscreen.h"
+
 
 PauseScreen::PauseScreen(QWidget *parent) :
 	QWidget(parent),
@@ -27,7 +29,9 @@ void PauseScreen::on_btnResume_clicked()
 
 void PauseScreen::on_btnHelp_clicked()
 {
-
+    HelpScreen * h = new HelpScreen();
+    h->raise();
+    h->show();
 }
 
 void PauseScreen::on_btnCheat_clicked()

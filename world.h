@@ -37,6 +37,7 @@ class World {
        string levelName;
 	QString backgroundPath;
 	bool cheat;
+    bool isPlaying;
 
 public:
 	Object *createObject(const string& type);
@@ -70,6 +71,8 @@ public:
 	QString getCurrentLevel() {return currentLevel;}
 	void setCurrentLevel(QString filename) {currentLevel = filename;}
 
+    bool getIsPlaying(){ return isPlaying; }
+    void setIsPlaying(bool newState) { isPlaying = newState; }
 
     string getLevelName() { return levelName; }
     void setLevelName(string newLevelName) { levelName = newLevelName; }
