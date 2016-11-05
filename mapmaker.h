@@ -33,6 +33,7 @@ public:
 
     void makePlatform(MovableLabel *label, QString file, bool& successful, QString& errorMSG);
     void makeDecor(MovableLabel *label, QString file, int w, int h);
+    void makeItem(MovableLabel *label, QString file,string colType);
     
 private slots:
 
@@ -67,7 +68,7 @@ public:
     int yRange;
     int xSpeed;
     int ySpeed;
-    int amount;
+    string collectableType;
 
     explicit MovableLabel(QWidget *parent): QLabel(parent) {
         setMouseTracking(true); // enable mouse move events
