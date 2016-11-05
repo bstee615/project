@@ -12,28 +12,45 @@
 	//read in the high scores numbers and users from a file into two vectors
 	//or exits if there is no file with the specified name
     void HighScore::LoadScore () {
-			string name;
+            string input;
 			int score;
+            bool wasString;
+            string name;
             fstream file;
             file.open("highscores.txt");
 		
 		if (file.is_open()) {
-			while (file >> name >> score) {
-				scores.push_back(score);
-				names.push_back(name);
+            while (file >> input) {
+                try  {
+                    score = stoi(input);
+
+                } catch (invalid_argument){
+                    wasString = true;
+                }
+                if (wasString == true) {
+                    name += " ";
+                    name += input;
+                    wasString = false;
+                } else {
+                    score = stoi(input);
+                    scores.push_back(score);
+                    names.push_back(name);
+                    wasString = false;
+                    name = "";
+                }
 			}
            file.close();
            return;
 		} else {
            fstream fs("highscores.txt",ios::out);
-           for (int i = 0; i < 10; i++) {
-               fs << "none 0" << endl;
+           for (int i = 9; i >= 0; i--) {
+               fs << "none " << to_string(10 * i) << endl;
            }
            fs.close();
            HighScore::instance().LoadScore();
            return;
 		}
-		
+
 
 	}
 	
@@ -43,9 +60,9 @@
 		
         for (int i = 9; i >= 0; i--) {
             if (scores.at(i) > score) {
-                scores.insert(scores.begin() + i, score);
+                scores.insert(scores.begin() + (i + 1), score);
 				scores.pop_back();
-                return i;
+                return (i + 1);
 			}
 				
 		}

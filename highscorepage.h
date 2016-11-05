@@ -18,7 +18,7 @@ public:
 	 void showNameEnter(bool show);
      QString getName() {return name; }
      void showHighScores();
-     void setScoreandPlace(int newScore, int newPlace);
+     void setNewScores();
      void setPlace(int newPlace) { place = newPlace; }
      void setScore(int newScore) { score = newScore; }
 

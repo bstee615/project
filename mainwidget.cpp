@@ -28,6 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 	ui->lblTimeLeft->raise();
 
+    HighScore::instance().LoadScore();
 
 	timer = new QTimer(this);
     timer->setInterval(50);
