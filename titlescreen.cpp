@@ -9,6 +9,7 @@
 #include <exception>
 #include <stdexcept>
 
+
 TitleScreen::TitleScreen(QWidget *parent) :
     QWidget(parent),
 	ui(new Ui::TitleScreen)
@@ -96,5 +97,13 @@ void TitleScreen::on_btnHard_clicked()
         prnt->getTimer()->start();
         prnt->getClock()->start();
     }
+    deleteLater();
+}
+
+void TitleScreen::on_pushButton_2_clicked()
+{
+    HelpScreen * help = new HelpScreen(this->parentWidget());
+    help->show();
+    help->raise();
     deleteLater();
 }

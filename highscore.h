@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cassert>
 #include <exception>
+#include <stdexcept>
 
 using namespace std;
 
