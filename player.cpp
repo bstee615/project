@@ -23,16 +23,26 @@ void Player::load(QString config)
 	this->setXSpeed(params.at(8).toInt());
 	this->setYSpeed(params.at(9).toInt());
     this->setCanMove(true);
+    this->setPower("jump",false);
+    this->setPower("speed",false);
+    this->setPower("shield",false);
+    this->setPower("score",false);
+    this->setCanKick(true);
+    this->setKicking(false);
+    this->setVisibility(true);
 }
 
 void Player::jump()
 {
 	// player jumps if jumpOnMove is true
 	if (jumpOnMove) {
-		ySpeed -= 13;
         if (powerjump)
-            ySpeed -= 7;
+            ySpeed -= 10;
+        else
+            ySpeed -= 13;
 	}
+    if (y <= 0)
+        ySpeed = 0;
 }
 
 void Player::moveRight()
@@ -50,7 +60,6 @@ void Player::moveRight()
             xSpeed += 1;
 	}
 
-    setWalkImage();
 }
 
 void Player::moveLeft()
@@ -67,8 +76,6 @@ void Player::moveLeft()
         if (powerspeed)
             xSpeed += -1;
 	}
-
-    setWalkImage();
 }
 
 void Player::slowToStop()
@@ -87,23 +94,28 @@ void Player::slowToStop()
 void Player::move()
 {
 	// if a player is on a platform and jumpmove is true the player jumps
-	if (jumpOnMove && onPlatform) {
-		jump();
+    if (jumpOnMove) {
+        if (!powerjump)
+        {
+            if (onPlatform)
+                jump();
+        }
+        else
+            jump();
 	}
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
 	// updates the x and y coordinates for the player
-	x += xSpeed;
-	y += ySpeed;
-
-    if (canMove == false)
-        standCount ++;
+    x += xSpeed;
+    y += ySpeed;
 
 	// sets to false so that a player cannot jump while not on a platform
 	jumpOnMove = false;
 	onPlatform = false;
 
+
+    setWalkImage();
 }
 
 void Player::collide(CollisionDetails *details)
@@ -145,25 +157,37 @@ void Player::collide(CollisionDetails *details)
         {
             return;
         }
-        if (details->getYStopCollide() != 0)
+        if (details->getYStopCollide() != 0 && details->getCollided()->getVisibility() == true)
         {
             World::instance().incScore(15);
             ySpeed = -10;
             if (details->getYStopCollide() > 0)
-                ySpeed = 10;
-			en->kill();
+				ySpeed = 5;
+			en->setVisibility(false);
             return;
         }
-        if (details->getXStopCollide() > 0 && details->getCollided()->isDead() == false)
+        if (details->getXStopCollide() > 0 && details->getCollided()->getVisibility() == true)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->setVisibility(false);
+                xSpeed /= 2;
+                return;
+            }
             x += 5;
             ySpeed = -8;
             xSpeed = 12;
             canMove = false;
 			en->setRight(false);
         }
-        else if (details->getXStopCollide() < 0 && details->getCollided()->isDead() == false)
+        else if (details->getXStopCollide() < 0 && details->getCollided()->getVisibility() == true)
         {
+            if (kicking == true)
+            {
+                details->getCollided()->setVisibility(false);
+                xSpeed /= 2;
+                return;
+            }
             x -= 5;
             ySpeed = -8;
             xSpeed = -12;
@@ -179,13 +203,25 @@ void Player::collide(CollisionDetails *details)
     {
         Collectible* item = dynamic_cast<Collectible*>(details->getCollided());
         if (item->getType() == "jump")
+        {
             powerjump = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "speed")
+        {
             powerspeed = true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "shield")
+        {
             powershield= true;
+            item->setVisibility(false);
+        }
         else if (item->getType() == "score")
+        {
             powerscore = true;
+            item->setVisibility(false);
+        }
     }
 }
 
@@ -212,6 +248,14 @@ void Player::setWalkImage()
 
         return;
     }
+    if (kicking)
+    {
+        qDebug() << "this one.";
+        image = ":/images/maincharacter/kick.png";
+        if (!right)
+            image = ":/images/maincharacter/kickleft.png";
+        return;
+    }
 
     count ++;
 
@@ -234,11 +278,11 @@ void Player::setWalkImage()
         image += "left";
     image += ".png";
 
-    if (standCount == 30)
+    if (xSpeed == 0)
     {
         if (right)
             image = ":/images/maincharacter/stand.png";
-        image = ":/images/maincharacter/standleft.png";
-        standCount = 0;
+        else
+            image = ":/images/maincharacter/standleft.png";
     }
 }

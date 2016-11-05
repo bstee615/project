@@ -28,6 +28,7 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 	ui->lblTimeLeft->raise();
 
+    HighScore::instance().LoadScore();
 
 	timer = new QTimer(this);
     timer->setInterval(50);
@@ -61,11 +62,7 @@ void MainWidget::loadLevel(QString filename)
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
-	Player* player = World::instance().getPlayer();
-    player->setPower("jump",false);
-    player->setPower("speed",false);
-    player->setPower("shield",false);
-    player->setPower("score",false);
+    Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -125,11 +122,6 @@ void MainWidget::timerHit(){
 		// if both right and left arrows are held down or both are released slow the player to a stop
 		player->slowToStop();
         player->setCount(0);
-
-        if (player->isRight())
-            player->setImage(":/images/maincharacter/stand.png");
-        else
-            player->setImage(":/images/maincharacter/standleft.png");
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
         player->moveRight();
@@ -247,21 +239,10 @@ void MainWidget::timerHit(){
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
-            if (dynamic_cast<Coin *>(guiObject->getObject()) != NULL) {
-                if (guiObject->getObject()->getVisibility() == true) {
-                    guiObject->show();
-                } else {
-                    guiObject->hide();
-                }
-            }
-            if (dynamic_cast<Enemy *>(guiObject->getObject()) != NULL)
-            {
-                if (guiObject->getObject()->isDead() == true && guiObject->isHidden() == false)
-                {
-//                    World::instance().destroy(guiObject->getObject()->getId());
-					guiObject->getObject()->setVisibility(false);
-                    guiObject->hide();
-                }
+            if (guiObject->getObject()->getVisibility() == true) {
+                guiObject->show();
+            } else {
+				guiObject->hide();
             }
         }
     }
@@ -403,8 +384,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_A)
     {
-        player->setKicking(true);
-        QTimer::singleShot(500,this,SLOT(stopKicking()));
+        if (player->canKick())
+        {
+            player->setKicking(true);
+            player->setCanKick(false);
+            QTimer::singleShot(500,this,SLOT(stopKicking()));
+            QTimer::singleShot(1000,this,SLOT(enableKicking()));
+        }
     }
 }
 
@@ -431,7 +417,7 @@ void CheckPlayerCollisionThread::run()
         if (collision != NULL) {
             World::instance().getPlayer()->collide(collision);
             if (dynamic_cast<Enemy*>(collision->getCollided()))
-                if (!collision->getCollided()->isDead())
+                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false)
                     death = true;
         }
         delete collision;
@@ -471,5 +457,11 @@ void MainWidget::enableMove()
 }
 void MainWidget::stopKicking()
 {
-
+    qDebug() << "kicking. POW!";
+    World::instance().getPlayer()->setKicking(false);
+}
+void MainWidget::enableKicking()
+{
+    qDebug() << "kick enabled.";
+    World::instance().getPlayer()->setCanKick(true);
 }

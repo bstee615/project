@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "mainwidget.h"
+#include "helpscreen.h"
 
 namespace Ui {
 class TitleScreen;
@@ -30,6 +31,8 @@ private slots:
     void on_btnOtherMap_clicked();
 
     void on_btnHard_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
 	Ui::TitleScreen *ui;

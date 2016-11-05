@@ -7,11 +7,7 @@ void Enemy::load(QString config)
 {
     QList<QString> params = config.split(",");
 	Object::load(config);
-	if (params.at(6) == "true") // true means dead
-	{
-		this->kill();
-		this->setVisibility(false);
-	}
+	this->setVisibility(params.at(6) == "true");
 	this->setDamage(10);
 	this->setXSpeed(2);
     this->setRight(true);
@@ -20,7 +16,7 @@ void Enemy::load(QString config)
 QString Enemy::save()
 {
 	QString out = Object::save();
-	out += "," + QString::fromStdString(this->isDead() ? "true" : "false");
+	out += "," + QString::fromStdString(this->getVisibility() ? "true" : "false");
 	return out;
 }
 
