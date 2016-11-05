@@ -11,14 +11,15 @@
 	}
 	//read in the high scores numbers and users from a file into two vectors
 	//or exits if there is no file with the specified name
-    void HighScore::LoadScore () {
+    void HighScore::LoadScore (string filename) {
             string input;
 			int score;
             bool wasString;
             string name;
             fstream file;
-            file.open("highscores.txt");
-		
+            cout << filename << endl;
+            file.open(filename);
+
 		if (file.is_open()) {
             while (file >> input) {
                 try  {
@@ -42,18 +43,19 @@
            file.close();
            return;
 		} else {
-           fstream fs("highscores.txt",ios::out);
+           fstream fs(filename,ios::out);
            for (int i = 9; i >= 0; i--) {
                fs << "none " << to_string(10 * i) << endl;
            }
            fs.close();
-           HighScore::instance().LoadScore();
+           HighScore::instance().LoadScore(filename);
            return;
-		}
+        }
 
 
 	}
 	
+
 	//saves the high score of the current user to the vectors using the
 	//specified <string> and <score>
     int HighScore::NewHighScore(int score) {
@@ -63,9 +65,14 @@
                 scores.insert(scores.begin() + (i + 1), score);
 				scores.pop_back();
                 return (i + 1);
-			}
+            }
 				
 		}
+        if (scores.at(0) <= score ) {
+            scores.insert(scores.begin(), score);
+            scores.pop_back();
+            return 0;
+        }
         return 0;
 	}
 	

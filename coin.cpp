@@ -9,7 +9,7 @@ Coin::Coin(int x_, int y_, int width_, int height_, QString image_, string type,
 void Coin::load(QString config)
 {
 	Object::load(config);
-    this->setAmount(30);
+    this->setAmount(100);
 }
 
 QString Coin::save() {return Object::save();}

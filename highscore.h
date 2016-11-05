@@ -24,7 +24,7 @@ public:
 
 	//loads the top 10 high scores from a file into the vector
 	//or creates a new one
-    void LoadScore();
+    void LoadScore(string filename);
 
     //inserts a new score into the corresponding vectors
     int NewHighScore(int score);

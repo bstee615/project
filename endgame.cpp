@@ -20,7 +20,7 @@ EndGame::~EndGame()
 }
 
 bool EndGame::checkHighScore(){
-	HighScore::instance().LoadScore();
+    HighScore::instance().LoadScore(World::instance().getLevelName());
 	if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
 		return true;
 	} else {

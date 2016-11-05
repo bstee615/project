@@ -28,7 +28,6 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 	ui->lblTimeLeft->raise();
 
-    HighScore::instance().LoadScore();
 
 	timer = new QTimer(this);
     timer->setInterval(50);
@@ -61,6 +60,7 @@ void MainWidget::loadLevel(QString filename)
 	}
 
 	LoadSave::instance().load(filename);
+    HighScore::instance().LoadScore(World::instance().getLevelName());
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 
 	Player* player = World::instance().getPlayer();

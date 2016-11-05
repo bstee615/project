@@ -11,7 +11,7 @@ HighScorePage::HighScorePage(QWidget *parent) :
 {
      widgetParent = parent;
      ui->setupUi(this);
-     HighScore::instance().LoadScore();
+     HighScore::instance().LoadScore(World::instance().getLevelName());
 
      ui->lblNewHighScoreInfo->hide();
      ui->ledNewName->hide();
@@ -57,7 +57,7 @@ void HighScorePage::on_btnEnterName_clicked()
             }
     }
 	showNameEnter(false);
-    HighScore::instance().SaveScores("highscores.txt");
+    HighScore::instance().SaveScores(World::instance().getLevelName());
 }
 
 void HighScorePage::setNewScores(){

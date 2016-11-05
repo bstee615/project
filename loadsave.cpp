@@ -26,6 +26,11 @@ void LoadSave::load(QString filename)
 		QString line = "";
 		QTextStream in(&file);
 
+        line = in.readLine();
+        string levelName = line.toStdString();
+        levelName += "scores.txt";
+        World::instance().setLevelName(levelName);
+
 		line = in.readLine();
 		QList<QString> timeData = line.split(",");
 

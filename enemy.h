@@ -3,6 +3,7 @@
 
 #include <QString>
 
+
 #include "object.h"
 #include "platform.h"
 
