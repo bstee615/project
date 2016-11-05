@@ -977,8 +977,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/pavement16.png</normaloff>:/images/pavement16.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/powerspeed.png</normaloff>:/images/powerspeed.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1006,8 +1006,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/pavement15.png</normaloff>:/images/pavement15.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/powershield.png</normaloff>:/images/powershield.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1035,8 +1035,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/pavement13.png</normaloff>:/images/pavement13.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/powerjump.png</normaloff>:/images/powerjump.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -1064,8 +1064,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>:/images/pavement14.png</normaloff>:/images/pavement14.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/powerscore.png</normaloff>:/images/powerscore.png</iconset>
    </property>
    <property name="iconSize">
     <size>

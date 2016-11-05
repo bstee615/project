@@ -110,6 +110,8 @@ void Player::move()
         multiplier = 1;
     if (kicking)
         multiplier /= 2;
+    if (!canMove)
+        multiplier /= 1.5;
 
     x += xSpeed * multiplier;
     y += ySpeed;
@@ -157,24 +159,25 @@ void Player::collide(CollisionDetails *details)
 		//set coin visibility to false and add to high score in world
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
-		if(c->getisCollectible() == true) {
+		if(c->getisCollectible()) {
             if (!powerScore())
                 World::instance().incScore(c->getAmount());
             else
                 World::instance().incScore(c->getAmount() * 2);
+			c->setisCollectible(false);
 		}
-		c->setisCollectible(false);
-
 	}
-    else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL || dynamic_cast<FlyingEnemy*>(details->getCollided()) != NULL)
+	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
     {
+        Enemy* en = dynamic_cast<Enemy*>(details->getCollided());
+
         if (details->getYStopCollide() != 0 && details->getCollided()->getVisibility() == true)
         {
             World::instance().incScore(15);
             ySpeed = -10;
             if (details->getYStopCollide() > 0)
-                ySpeed = 5;
-            details->getCollided()->setVisibility(false);
+				ySpeed = 5;
+			en->setVisibility(false);
             return;
         }
         if (details->getXStopCollide() > 0 && details->getCollided()->getVisibility() == true)
@@ -191,7 +194,7 @@ void Player::collide(CollisionDetails *details)
             ySpeed = -8;
             xSpeed = 12;
             canMove = false;
-            details->getCollided()->setRight(false);
+			en->setRight(false);
         }
         else if (details->getXStopCollide() < 0 && details->getCollided()->getVisibility() == true)
         {
@@ -207,7 +210,7 @@ void Player::collide(CollisionDetails *details)
             ySpeed = -8;
             xSpeed = -12;
             canMove = false;
-            details->getCollided()->setRight(true);
+			en->setRight(true);
         }
         else
             canMove = true;
@@ -254,15 +257,6 @@ void Player::setPower(string pow, bool is)
 
 void Player::setWalkImage()
 {
-    if (!canMove)
-    {
-        if (right)
-            image = ":/images/maincharacter/hurt.png";
-        else
-            image = ":/images/maincharacter/hurtleft.png";
-
-        return;
-    }
     if (kicking)
     {
         image = ":/images/maincharacter/kick.png";

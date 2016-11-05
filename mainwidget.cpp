@@ -48,8 +48,6 @@ MainWidget::MainWidget(QWidget *parent) :
 
 void MainWidget::loadLevel(QString filename)
 {
-	ui->lblBackground->setPixmap(QString(":/images/easybackground.png"));
-
 	ObjectLabel* lblPlayer = NULL;
 //	ObjectLabel* lblEndLevel = NULL;
 
@@ -62,6 +60,7 @@ void MainWidget::loadLevel(QString filename)
 
 	LoadSave::instance().load(filename);
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
+	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
     Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
@@ -71,7 +70,6 @@ void MainWidget::loadLevel(QString filename)
 	lblPlayer->show();
 	lblPlayer->updateLabelPosition();
 
-
 	for (Object* worldObj : World::instance().getObjects())
 	{
 		ObjectLabel* label = new ObjectLabel(ui->worldWidget);
@@ -79,8 +77,8 @@ void MainWidget::loadLevel(QString filename)
 		label->updateLabelPosition();
 		label->setScaledContents(true);
 		label->setPixmap(QPixmap(worldObj->getImage()));
-		label->show();
-		label->getObject()->setVisibility(true);
+		if (label->getObject()->getVisibility())
+			label->show();
 	}
 
 	if (lblPlayer != NULL)
@@ -243,11 +241,10 @@ void MainWidget::timerHit(){
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
-
             if (guiObject->getObject()->getVisibility() == true) {
                 guiObject->show();
             } else {
-                guiObject->hide();
+				guiObject->hide();
             }
         }
     }

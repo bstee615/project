@@ -85,6 +85,16 @@ void MapMaker::makeDecor(MovableLabel *label, QString file, int w, int h)
     label->setScaledContents(true);
 }
 
+void MapMaker::makeItem(MovableLabel *label, QString file, string colType)
+{
+    label->setGeometry(0,0,32,32);
+    label->setPixmap(QPixmap(file));
+    label->type = "collectible";
+    label->file = file.toStdString();
+    label->collectableType = colType;
+    label->setScaledContents(true);
+}
+
 void MapMaker::labelClicked()
 {
     MovableLabel *lbl = dynamic_cast<MovableLabel *>(sender());
@@ -145,7 +155,6 @@ void MapMaker::on_PBmakeObject_clicked()
         label->setPixmap(QPixmap(":/images/goldCoin/goldCoin5.png"));
         label->type = "coin";
         label->file = ":/images/goldCoin/goldCoin5.png";
-        label->amount = 100;
     } else if (ui->PBwin->isChecked()){
         label->setGeometry(0,0,50,50);
         label->setPixmap(QPixmap(":/images/flag.png"));
@@ -190,6 +199,14 @@ void MapMaker::on_PBmakeObject_clicked()
         makeDecor(label,":/images/objecttorch.png",25,25);
     } else if (ui->PBobject5->isChecked()) {
         makeDecor(label,":/images/objectwindow.png",70,70);
+    } else if (ui->PBitem1->isChecked()) {
+        makeItem(label,":/images/powerjump.png", "jump");
+    } else if (ui->PBitem2->isChecked()) {
+        makeItem(label,":/images/powerscore.png", "score");
+    } else if (ui->PBitem3->isChecked()) {
+        makeItem(label,":/images/powershield.png", "shield");
+    } else if (ui->PBitem4->isChecked()) {
+        makeItem(label,":/images/powerspeed.png", "speed");
     }
 
 
@@ -279,6 +296,8 @@ void MapMaker::on_Save_clicked()
                 stream << "," << current->xSpeed << "," << current->ySpeed << "," << current->xRange << "," << current->yRange;
             } else if (current->type == "endGame") {
                 stream << ",0,0";
+            } else if (current->type == "collectible") {
+                stream << "," << current->collectableType;
             }
             stream << endl;
         }

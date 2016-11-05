@@ -83,6 +83,11 @@ public:
     virtual bool isRight() { return right; }
     virtual void setRight(bool newRight) { right = newRight; }
 
+//<<<<<<< HEAD
+	virtual bool isDead() { return true; }
+
+//=======
+//>>>>>>> 568cd8a8d8b9da862cb09b6eb81e08f466eb2811
     virtual void setUp(bool a) { if (a) { } }
 
     int getCount() { return count; }

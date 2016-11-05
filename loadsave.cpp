@@ -15,10 +15,10 @@ LoadSave& LoadSave::instance()
 	return *loadsave;
 }
 
-// loads a save state and configures objects
+// loads a save state or level file and configures objects
 void LoadSave::load(QString filename)
 {
-    World::instance().reset();
+	World::instance().reset();
 	QFile file(filename);
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -26,11 +26,12 @@ void LoadSave::load(QString filename)
 		QString line = "";
 		QTextStream in(&file);
 
+		// time
 		line = in.readLine();
 		QList<QString> timeData = line.split(",");
-
 		World::instance().setStartSeconds(timeData.at(0).toInt());
 		World::instance().setSeconds(timeData.at(1).toInt());
+
 		// set up screen object
 		line = in.readLine();
 		QList<QString> levelDim = line.split(",");
@@ -44,10 +45,17 @@ void LoadSave::load(QString filename)
 										levelDim.at(0).toInt(),
 										levelDim.at(1).toInt()));
 
+		// score
+		line = in.readLine();
+		World::instance().setScore(line.toInt());
+
+		// background image
+		World::instance().setBackgroundPath(in.readLine());
+
 		// player
 		Player* player = new Player();
 		player->load(in.readLine());
-        World::instance().setPlayer(player);
+		World::instance().setPlayer(player);
 
 		World::instance().setScore(0);
 
@@ -80,8 +88,7 @@ void LoadSave::loadObjects(QTextStream& in, size_t& num)
 		if (obj != NULL)
 		{
 			obj->load(line);
-            obj->setVisibility(true);
-            World::instance().add(obj);
+			World::instance().add(obj);
 			num++;
 		}
 	}
@@ -94,21 +101,32 @@ void LoadSave::save(QString filename)
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
 		QTextStream out(&file);
+		// time
 		out << World::instance().getStartSeconds() << "," << World::instance().getSeconds() << "\n";
+		// screen
 		PlayingScreen* scr = World::instance().getScreen();
 		out << scr->getLevelWidth() << "," << scr->getLevelHeight() << "\n";
 		out << scr->getX() << "," << scr->getY() << "\n";
+		// score
+		out << World::instance().getScore() << "\n";
+		// background image
+		out << World::instance().getBackgroundPath() << "\n";
+
 		// write lines from Object.save() method
-		size_t numObjects = 1;
+		size_t numObjects = 0;
 		out << World::instance().getPlayer()->save() << "\n";
 		for (Object* obj : World::instance().getObjects())
 		{
 			out << obj->save() << "\n";
 			numObjects++;
 		}
-		if (numObjects != World::instance().getObjects().size())
-			throw runtime_error("The program did not save all of the objects!");
 		file.close();
+		if (numObjects != World::instance().getObjects().size())
+		{
+			throw runtime_error("The program did not save all of the objects!");
+			file.remove();
+			return;
+		}
 	}
 	if (!file.exists())
 		throw runtime_error("The save file was not created successfully!");

@@ -34,6 +34,7 @@ class World {
     int seconds;
     int startSeconds;
 	QString currentLevel;
+	QString backgroundPath;
 
     bool cheat;
 
@@ -68,6 +69,9 @@ public:
 
 	QString getCurrentLevel() {return currentLevel;}
 	void setCurrentLevel(QString filename) {currentLevel = filename;}
+
+	QString getBackgroundPath() {return backgroundPath;}
+	void setBackgroundPath(QString filename) {backgroundPath = filename;}
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found
 	Object *destroy(int id);
