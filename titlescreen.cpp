@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <exception>
 #include <stdexcept>
+#include "serverscreen.h"
 
 
 TitleScreen::TitleScreen(QWidget *parent) :
@@ -109,4 +110,12 @@ void TitleScreen::on_pushButton_2_clicked()
     help->raise();
 
     deleteLater();
+}
+
+void TitleScreen::on_btnServer_clicked()
+{
+    serverscreen* screen = new serverscreen(widgetParent);
+    screen->show();
+    screen->raise();
+
 }

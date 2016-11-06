@@ -13,6 +13,8 @@
 #include "playingscreen.h"
 #include "world.h"
 #include "titlescreen.h"
+#include <QTcpServer>
+#include <QTcpSocket>
 
 class ObjectLabel : public QLabel {
 	Q_OBJECT
@@ -70,6 +72,7 @@ public:
 	QTimer* getTimer() {return timer;}
 	QTimer* getClock() { return clock; }
 	void delay(int);
+    QTcpServer& getServer() { return server; }
 
 private:
 	Ui::MainWidget *ui;
@@ -82,6 +85,10 @@ private:
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
+
+    QTcpServer server;
+    QTcpSocket* socket;
+    int connectCount;
 
 public slots:
 	void on_loadState(QString filename);
