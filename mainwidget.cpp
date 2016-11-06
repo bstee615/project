@@ -47,6 +47,8 @@ MainWidget::MainWidget(QWidget *parent) :
     connectCount = 0;
     connect(&server,SIGNAL(newConnection()),this,SLOT(clientConnected()));
     socket = NULL;
+    connect(socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
 }
 
 void MainWidget::loadLevel(QString filename)
@@ -480,13 +482,14 @@ void MainWidget::enableKicking()
 
 void MainWidget::clientConnected()
 {
-    if(connectCount >= 1) {
+    /*if(connectCount >= 1) {
         return;
-    }
+    }*/
     connectCount += 1;
-    socket = server.nextPendingConnection();
-    connect(socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
+    QTcpSocket* sock = server.nextPendingConnection();
+    connect(sock, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+    connect(sock, SIGNAL(readyRead()), this, SLOT(dataReceived()));
+    socket = sock;
 }
 
 void MainWidget::dataReceived()
