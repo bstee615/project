@@ -82,6 +82,14 @@ void PauseScreen::on_btnLoadState_clicked()
 
 void PauseScreen::on_btnTitle_clicked()
 {
+	QWidget* widgetParent = dynamic_cast<QWidget*>(this->parent());
+	if (widgetParent != NULL)
+	{
+		TitleScreen* title = new TitleScreen(widgetParent);
+		title->show();
+		title->raise();
+		this->deleteLater();
+	}
 }
 
 void PauseScreen::on_btnExit_clicked()
