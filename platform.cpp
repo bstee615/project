@@ -24,3 +24,14 @@ void Platform::load(QString config)
 	this->setStartX(params.at(10).toInt());
 	this->setStartY(params.at(11).toInt());
 }
+
+void Platform::move()
+{
+	this->setX(this->getX() + this->getXSpeed());
+	if (this->getX() > (this->getStartX() + this->getXRange()) || this->getX() < (this->getStartX() - this->getXRange()))
+		this->setXSpeed(-1 * this->getXSpeed());
+
+	this->setY(this->getY() + this->getYSpeed());
+	if (this->getY() > (this->getStartY() + this->getYRange()) || this->getY() < (this->getStartY() - this->getYRange()))
+		this->setYSpeed(-1 * this->getYSpeed());
+}

@@ -203,8 +203,6 @@ void MainWidget::timerHit(){
     CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
     playerCollide->start();
 
-
-
     for (int i = 0; i < ui->worldWidget->children().length(); i++)
     {
         QCoreApplication::processEvents();
@@ -226,9 +224,6 @@ void MainWidget::timerHit(){
     }
     delete playerCollide;
 
-
-    // Andrew - I think I eliminated the need for this showCoin method 10 lines up.
-    //showCoin();
     ui->lblScore->setText(QString::number(World::instance().getScore()));
 
     if (player->getIsAtEndOfLevel()) {
@@ -274,30 +269,33 @@ void MainWidget::clockHit()
 	}
 
 	// decrement powerup times
-	Player* player = World::instance().getPlayer();
-	if (player->powerJump())
+	if (!World::instance().getCheat())
 	{
-		player->getPowerTime("jump") -= 1;
-		if (player->getPowerTime("jump") <= 0)
-			player->setPower("jump", false);
-	}
-	if (player->powerSpeed())
-	{
-		player->getPowerTime("speed") -= 1;
-		if (player->getPowerTime("speed") <= 0)
-			player->setPower("speed", false);
-	}
-	if (player->powerShield())
-	{
-		player->getPowerTime("shield") -= 1;
-		if (player->getPowerTime("shield") <= 0)
-			player->setPower("shield", false);
-	}
-	if (player->powerScore())
-	{
-		player->getPowerTime("score") -= 1;
-		if (player->getPowerTime("score") <= 0)
-			player->setPower("score", false);
+		Player* player = World::instance().getPlayer();
+		if (player->powerJump())
+		{
+			player->getPowerTime("jump") -= 1;
+			if (player->getPowerTime("jump") <= 0)
+				player->setPower("jump", false);
+		}
+		if (player->powerSpeed())
+		{
+			player->getPowerTime("speed") -= 1;
+			if (player->getPowerTime("speed") <= 0)
+				player->setPower("speed", false);
+		}
+		if (player->powerShield())
+		{
+			player->getPowerTime("shield") -= 1;
+			if (player->getPowerTime("shield") <= 0)
+				player->setPower("shield", false);
+		}
+		if (player->powerScore())
+		{
+			player->getPowerTime("score") -= 1;
+			if (player->getPowerTime("score") <= 0)
+				player->setPower("score", false);
+		}
 	}
 }
 

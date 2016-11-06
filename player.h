@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "object.h"
-
+#include "platform.h"
 
 class Player : public Object
 {
@@ -19,6 +19,8 @@ class Player : public Object
     int standCount;
     bool jumping;
 
+	Platform* currentPlatform;
+
 	// powerup variables
 	bool powerjump;
 	int powerjumpTime;
@@ -30,9 +32,10 @@ class Player : public Object
 	int powerscoreTime;
 
 public:
-	Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false) {}
+	Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {}
 	Player(int x_, int y_, int width_, int height_, QString image_) :
-		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false) {}
+		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),
+		currentPlatform(NULL) {}
 
 	virtual void load(QString config);
 	virtual QString save();

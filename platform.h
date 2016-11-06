@@ -16,6 +16,8 @@ public:
 	virtual void load(QString config);
 	virtual QString save();
 
+	void move();
+
 	int getXRange() {return xRange;}
 	int getYRange() {return yRange;}
 	int getStartX() {return startX;}

@@ -56,6 +56,7 @@ void Player::jump()
 			ySpeed -= 10;
 		else
 			ySpeed -= 13;
+		currentPlatform = NULL;
 	}
 }
 
@@ -107,12 +108,21 @@ void Player::move()
 	if (jumpOnMove) {
 		if (!powerjump)
 		{
-			if (onPlatform)
+			if (onPlatform || World::instance().getCheat())
 				jump();
 		}
 		else
 			jump();
 	}
+
+	// if onPlatform, get that platform and add its speed to player's
+	// for moving platforms
+	if (currentPlatform != NULL)
+	{
+		x += currentPlatform->getXSpeed();
+		y += currentPlatform->getYSpeed();
+	}
+
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
@@ -162,10 +172,11 @@ void Player::collide(CollisionDetails *details)
 		}
 		if (details->getYStopCollide() != 0) {
 			ySpeed = 0;
-			y += details->getYStopCollide();
+			y += details->getYStopCollide() + details->getCollided()->getYSpeed();
 			if (details->getYStopCollide() < 0) {
 				// the player is on a platform so onPlatform is true
 				onPlatform = true;
+				currentPlatform = dynamic_cast<Platform*>(details->getCollided());
 			}
 		}
 		jumping = false;
