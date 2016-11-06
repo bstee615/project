@@ -9,6 +9,7 @@
 #include <exception>
 #include <stdexcept>
 #include "serverscreen.h"
+#include "clientscreen.h"
 
 
 TitleScreen::TitleScreen(QWidget *parent) :
@@ -118,4 +119,11 @@ void TitleScreen::on_btnServer_clicked()
     screen->show();
     screen->raise();
 
+}
+
+void TitleScreen::on_btnClient_clicked()
+{
+    ClientScreen* screen = new ClientScreen(widgetParent);
+    screen->show();
+    screen->raise();
 }

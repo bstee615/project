@@ -15,6 +15,9 @@ public:
     explicit ClientScreen(QWidget *parent = 0);
     ~ClientScreen();
 
+private slots:
+    void on_btnConnect_clicked();
+
 private:
     Ui::ClientScreen *ui;
 };

@@ -73,6 +73,7 @@ public:
 	QTimer* getClock() { return clock; }
 	void delay(int);
     QTcpServer& getServer() { return server; }
+    QTcpSocket* getSocket() { return socket; }
 
 private:
 	Ui::MainWidget *ui;
