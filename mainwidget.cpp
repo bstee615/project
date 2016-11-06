@@ -468,3 +468,18 @@ void MainWidget::enableKicking()
 {
     World::instance().getPlayer()->setCanKick(true);
 }
+
+void MainWidget::clientConnected()
+{
+
+}
+
+void MainWidget::dataReceived()
+{
+
+}
+
+void MainWidget::clientDisconnected()
+{
+
+}

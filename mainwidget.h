@@ -99,7 +99,10 @@ private slots:
 	void on_restartFromPause();
 	void enableMove();
     void stopKicking();
-	void enableKicking();
+    void enableKicking();
+    void clientConnected();
+    void dataReceived();
+    void clientDisconnected();
 };
 
 class MoveThread : public QThread
