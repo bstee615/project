@@ -17,8 +17,13 @@ HelpScreen::~HelpScreen()
 
 void HelpScreen::on_btnReturntoHome_clicked()
 {
+    if (World::instance().getIsPlaying() == false) {
     TitleScreen* title = new TitleScreen(widgetParent);
     title->show();
     title->raise();
     this->deleteLater();
+    } else {
+        this->hide();
+        this->deleteLater();
+    }
 }
