@@ -14,7 +14,6 @@
 #include "world.h"
 #include "titlescreen.h"
 
-
 class ObjectLabel : public QLabel {
 	Q_OBJECT
 	Object * object;
