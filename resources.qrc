@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-	<file>images/coindrop.mp3</file>
         <file>images/goldCoin/goldCoin9.png</file>
         <file>images/goldCoin/goldCoin8.png</file>
         <file>images/goldCoin/goldCoin7.png</file>

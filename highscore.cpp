@@ -17,7 +17,6 @@
             bool wasString;
             string name;
             fstream file;
-            cout << filename << endl;
             file.open(filename);
 
 		if (file.is_open()) {

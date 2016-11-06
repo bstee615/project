@@ -13,11 +13,13 @@ void Collectible::load(QString config)
 	Object::load(config);
 	QList<QString> params = config.split(",");
 	this->setType(params.at(6));
+	this->setVisibility(params.at(7) == "true");
 }
 
 QString Collectible::save()
 {
 	QString out = Object::save();
 	out += "," + this->getType();
+	out += "," + QString::fromStdString(this->getVisibility() ? "true" : "false");
 	return out;
 }

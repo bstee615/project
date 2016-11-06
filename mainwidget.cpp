@@ -48,7 +48,6 @@ MainWidget::MainWidget(QWidget *parent) :
 void MainWidget::loadLevel(QString filename)
 {
 	ObjectLabel* lblPlayer = NULL;
-//	ObjectLabel* lblEndLevel = NULL;
 
 	//Deletes all objects from the last game
 	for (int i = 0; i < ui->worldWidget->children().size(); ++i) {
@@ -58,7 +57,7 @@ void MainWidget::loadLevel(QString filename)
 	}
 
 	LoadSave::instance().load(filename);
-    HighScore::instance().LoadScore(World::instance().getLevelName());
+	HighScore::instance().LoadScore(World::instance().getLevelName());
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
@@ -101,18 +100,13 @@ void MainWidget::loadLevel(QString filename)
 	World::instance().setSeconds(World::instance().getStartSeconds());
 	World::instance().setCurrentLevel(filename);
 
-	if (World::instance().getSeconds() < 10) {
-		int i = World::instance().getSeconds();
-		QString timeFormated = QString("0:0%1").arg(i);
-		ui->lblTimeLeft->setText(timeFormated);
-	} else {
-		int i = World::instance().getSeconds();
-		QString timeFormated = QString("0:%1").arg(i);
-		ui->lblTimeLeft->setText(timeFormated);
-    }
+	QString timeFormat = "";
+	if (World::instance().getSeconds() > 60 * 10)
+		timeFormat = "mm:ss";
+	else
+		timeFormat = "m:ss";
+	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString(timeFormat));
 }
-
-
 
 void MainWidget::timerHit(){
 
@@ -148,38 +142,10 @@ void MainWidget::timerHit(){
 		player->setXSpeed(0);
 	}
 
-    if (player->powerJump())
-    {
-        ui->lblPowerJump->show();
-    }
-    else
-    {
-        ui->lblPowerJump->hide();
-    }
-    if (player->powerSpeed())
-    {
-        ui->lblPowerSpeed->show();
-    }
-    else
-    {
-        ui->lblPowerSpeed->hide();
-    }
-    if (player->powerShield())
-    {
-        ui->lblPowerShield->show();
-    }
-    else
-    {
-        ui->lblPowerShield->hide();
-    }
-    if (player->powerScore())
-    {
-        ui->lblPowerScore->show();
-    }
-    else
-    {
-        ui->lblPowerScore->hide();
-    }
+	ui->lblPowerJump->setVisible(player->powerJump());
+	ui->lblPowerSpeed->setVisible(player->powerSpeed());
+	ui->lblPowerShield->setVisible(player->powerShield());
+	ui->lblPowerScore->setVisible(player->powerScore());
 
     if (!player->getCanMove())
     {
@@ -283,17 +249,14 @@ void MainWidget::timerHit(){
 
 void MainWidget::clockHit()
 {
-    if (World::instance().getCheat() == false)
-        World::instance().setSeconds(World::instance().getSeconds() - 1);
-	if (World::instance().getSeconds() < 10) {
-		int i = World::instance().getSeconds();
-		QString timeFormated = QString("0:0%1").arg(i);
-		ui->lblTimeLeft->setText(timeFormated);
-	} else {
-		int i = World::instance().getSeconds();
-		QString timeFormated = QString("0:%1").arg(i);
-		ui->lblTimeLeft->setText(timeFormated);
-	}
+	if (!World::instance().getCheat())
+		World::instance().setSeconds(World::instance().getSeconds() - 1);
+	QString timeFormat = "";
+	if (World::instance().getSeconds() > 60 * 10)
+		timeFormat = "mm:ss";
+	else
+		timeFormat = "m:ss";
+	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString(timeFormat));
     ui->lblCheat->hide();
     if (World::instance().getCheat())
     {
@@ -307,6 +270,33 @@ void MainWidget::clockHit()
 	{
 		death(World::instance().getPlayer());
 		resetPlayer(World::instance().getPlayer());
+	}
+
+	// decrement powerup times
+	Player* player = World::instance().getPlayer();
+	if (player->powerJump())
+	{
+		player->getPowerTime("jump") -= 1;
+		if (player->getPowerTime("jump") <= 0)
+			player->setPower("jump", false);
+	}
+	if (player->powerSpeed())
+	{
+		player->getPowerTime("speed") -= 1;
+		if (player->getPowerTime("speed") <= 0)
+			player->setPower("speed", false);
+	}
+	if (player->powerShield())
+	{
+		player->getPowerTime("shield") -= 1;
+		if (player->getPowerTime("shield") <= 0)
+			player->setPower("shield", false);
+	}
+	if (player->powerScore())
+	{
+		player->getPowerTime("score") -= 1;
+		if (player->getPowerTime("score") <= 0)
+			player->setPower("score", false);
 	}
 }
 

@@ -21,7 +21,7 @@ using namespace std;
 class World {
 	vector<Object*> objects;
 	Player* player;
-    PlayingScreen* screen;
+	PlayingScreen* screen;
 
 	// singleton instance
 	static World world;
@@ -31,10 +31,10 @@ class World {
 	World(const World& that) = delete;  // don't allow copying
 
 	int score;
-    int seconds;
-    int startSeconds;
+	int seconds;
+	int startSeconds;
 	QString currentLevel;
-       string levelName;
+	string levelName;
 	QString backgroundPath;
 	bool cheat;
 
@@ -44,7 +44,7 @@ public:
 	// adds <obj> to objects in world
 	void add(Object *obj) {
 		auto it = objects.begin();
-        for (; it != objects.end(); ++it) {
+		for (; it != objects.end(); ++it) {
 			if (obj->getId() < (*it)->getId()) {
 				objects.insert(it, obj);
 				break;
@@ -53,26 +53,25 @@ public:
 		if (it == objects.end()) {
 			objects.push_back(obj);
 		}
-    }
+	}
 
 	// returns object with <id>, or NULL if none
 	Object *getById(int id);
 
-    vector<Object*>& getObjects() { return objects; }
+	vector<Object*>& getObjects() { return objects; }
 	Player* getPlayer() { return player; }
 
-    void setPlayer(Player* initPlayer) { player = initPlayer;}
-    void setSeconds(int initSeconds) { seconds = initSeconds; }
-    int getSeconds() { return seconds; }
+	void setPlayer(Player* initPlayer) { player = initPlayer;}
+	void setSeconds(int initSeconds) { seconds = initSeconds; }
+	int getSeconds() { return seconds; }
 	void setStartSeconds(int initSeconds) { startSeconds = initSeconds; }
 	int getStartSeconds() { return startSeconds; }
 
 	QString getCurrentLevel() {return currentLevel;}
 	void setCurrentLevel(QString filename) {currentLevel = filename;}
 
-
-    string getLevelName() { return levelName; }
-    void setLevelName(string newLevelName) { levelName = newLevelName; }
+	string getLevelName() { return levelName; }
+	void setLevelName(string newLevelName) { levelName = newLevelName; }
 
 	QString getBackgroundPath() {return backgroundPath;}
 	void setBackgroundPath(QString filename) {backgroundPath = filename;}
@@ -94,11 +93,11 @@ public:
 	void setScreen(PlayingScreen* scr) {screen = scr;}
 
 	int getScore() {return score;}
-	void incScore(int addAmount) {score += addAmount; }
-    void setScore(int newAmount) {score = newAmount; }
+	void incScore(int addAmount);
+	void setScore(int newAmount) {score = newAmount; }
 
-    bool getCheat() { return cheat; }
-    void setCheat(bool b) { cheat = b; }
+	bool getCheat() { return cheat; }
+	void setCheat(bool b) { cheat = b; }
 };
 
 #endif // WORLD_H

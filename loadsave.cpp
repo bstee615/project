@@ -25,12 +25,12 @@ void LoadSave::load(QString filename)
 		// read lines and configure objects
 		QString line = "";
 		QTextStream in(&file);
-	
-	//read in level name
-        line = in.readLine();
-        string levelName = line.toStdString();
-        levelName += "scores.txt";
-        World::instance().setLevelName(levelName);
+
+		//read in level name
+		line = in.readLine();
+		string levelName = line.toStdString();
+		levelName += "scores.txt";
+		World::instance().setLevelName(levelName);
 
 		//time
 		line = in.readLine();
@@ -107,6 +107,10 @@ void LoadSave::save(QString filename)
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
 		QTextStream out(&file);
+		// level name
+		QString levelName = QString::fromStdString(World::instance().getLevelName());
+		QString suffix = "scores.txt";
+		out << levelName.left(levelName.length() - suffix.length()) << "\n";
 		// time
 		out << World::instance().getStartSeconds() << "," << World::instance().getSeconds() << "\n";
 		// screen
