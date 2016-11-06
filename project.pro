@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     endgameobject.cpp \
     pausescreen.cpp \
     mapmaker.cpp \
-    helpscreen.cpp
+    helpscreen.cpp \
+    savestatedialog.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwidget.h \
     endgameobject.h \
     pausescreen.h \
     mapmaker.h \
-    helpscreen.h
+    helpscreen.h \
+    savestatedialog.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \
@@ -63,7 +65,8 @@ FORMS    += mainwidget.ui \
     endgame.ui \
     pausescreen.ui \
     mapmaker.ui \
-    helpscreen.ui
+    helpscreen.ui \
+    savestatedialog.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 

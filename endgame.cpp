@@ -28,7 +28,7 @@ bool EndGame::checkHighScore(){
 	}
 }
 
-void EndGame::on_PBbackToTitle_clicked()
+void EndGame::on_PBcontinue_clicked()
 {
 	if (checkHighScore()) {
 		int place = HighScore::instance().NewHighScore(World::instance().getScore());

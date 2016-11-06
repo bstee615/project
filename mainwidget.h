@@ -84,6 +84,9 @@ private:
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
 
+public slots:
+	void on_loadState(QString filename);
+
 private slots:
 	void keyPressEvent(QKeyEvent *event);
 	void keyReleaseEvent(QKeyEvent *event);
@@ -96,7 +99,7 @@ private slots:
 	void on_restartFromPause();
 	void enableMove();
     void stopKicking();
-    void enableKicking();
+	void enableKicking();
 };
 
 class MoveThread : public QThread

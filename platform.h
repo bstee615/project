@@ -6,6 +6,7 @@
 class Platform : public Object
 {
 	int xRange, yRange;
+	int startX, startY;
 
 public:
     Platform() : Object() {}
@@ -17,9 +18,13 @@ public:
 
 	int getXRange() {return xRange;}
 	int getYRange() {return yRange;}
+	int getStartX() {return startX;}
+	int getStartY() {return startY;}
 
 	void setXRange(int range) {xRange = range;}
 	void setYRange(int range) {yRange = range;}
+	void setStartX(int x) {startX = x;}
+	void setStartY(int y) {startY = y;}
 };
 
 #endif // PLATFORM_H

@@ -100,12 +100,7 @@ void MainWidget::loadLevel(QString filename)
 	World::instance().setSeconds(World::instance().getStartSeconds());
 	World::instance().setCurrentLevel(filename);
 
-	QString timeFormat = "";
-	if (World::instance().getSeconds() > 60 * 10)
-		timeFormat = "mm:ss";
-	else
-		timeFormat = "m:ss";
-	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString(timeFormat));
+	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
 
 void MainWidget::timerHit(){
@@ -251,12 +246,7 @@ void MainWidget::clockHit()
 {
 	if (!World::instance().getCheat())
 		World::instance().setSeconds(World::instance().getSeconds() - 1);
-	QString timeFormat = "";
-	if (World::instance().getSeconds() > 60 * 10)
-		timeFormat = "mm:ss";
-	else
-		timeFormat = "m:ss";
-	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString(timeFormat));
+	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
     ui->lblCheat->hide();
     if (World::instance().getCheat())
     {
@@ -321,7 +311,6 @@ void MainWidget::resetPlayer(Player* player)
 			coin->setisCollectible(true);
 		}
 	}
-    //showCoin();
 }
 
 void MainWidget::death(Player* player)
@@ -459,6 +448,11 @@ void MainWidget::on_restartFromPause()
 	loadLevel(World::instance().getCurrentLevel());
 	timer->start();
 	clock->start();
+}
+
+void MainWidget::on_loadState(QString filename)
+{
+	loadLevel(filename);
 }
 
 void MainWidget::enableMove()

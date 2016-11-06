@@ -7,6 +7,8 @@ QString Platform::save()
 	out += "," + QString::number(this->getYSpeed());
 	out += "," + QString::number(this->getXRange());
 	out += "," + QString::number(this->getYRange());
+	out += "," + QString::number(this->getStartX());
+	out += "," + QString::number(this->getStartY());
 	return out;
 }
 
@@ -19,4 +21,6 @@ void Platform::load(QString config)
 	this->setYSpeed(params.at(7).toInt());
 	this->setXRange(params.at(8).toInt());
 	this->setYRange(params.at(9).toInt());
+	this->setStartX(params.at(10).toInt());
+	this->setStartY(params.at(11).toInt());
 }

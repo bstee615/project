@@ -3,16 +3,17 @@
 #include "world.h"
 #include "loadsave.h"
 #include "helpscreen.h"
-
+#include "savestatedialog.h"
+#include "mainwidget.h"
 
 PauseScreen::PauseScreen(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::PauseScreen)
 {
 	ui->setupUi(this);
-//	if (World::instance().cheating())
-//		ui->btnCheat->setText("Cheat Mode: ON");	// add these lines later once we have a cheat bool
-//	else
+	if (World::instance().getCheat())
+		ui->btnCheat->setText("Cheat Mode: ON");	// add these lines later once we have a cheat bool
+	else
 		ui->btnCheat->setText("Cheat Mode: OFF");
 }
 
@@ -49,7 +50,7 @@ void PauseScreen::on_btnCheat_clicked()
 		else
 		{
 			button->setText("Cheat Mode: OFF");
-            World::instance().setCheat(true);
+			World::instance().setCheat(false);
             World::instance().getPlayer()->setPower("shield",false);
             World::instance().getPlayer()->setPower("jump",false);
 		}
@@ -64,12 +65,23 @@ void PauseScreen::on_btnRestart_clicked()
 
 void PauseScreen::on_btnSaveState_clicked()
 {
-	LoadSave::instance().save("saveState.save");
+	SaveStateDialog* save = new SaveStateDialog(this, true);
+	save->show();
+}
+
+void PauseScreen::on_btnLoadState_clicked()
+{
+	SaveStateDialog* load = new SaveStateDialog(this, false);
+	MainWidget* parent = NULL;
+	parent = dynamic_cast<MainWidget*>(this->parent());
+	if (parent == NULL)
+		throw runtime_error("The pause screen's parent is not a MainWidget!");
+	connect(load, &SaveStateDialog::loadRequested, parent, &MainWidget::on_loadState);
+	load->show();
 }
 
 void PauseScreen::on_btnTitle_clicked()
 {
-
 }
 
 void PauseScreen::on_btnExit_clicked()
