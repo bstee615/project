@@ -12,7 +12,7 @@ serverscreen::serverscreen(QWidget *parent) :
     MainWidget* main = dynamic_cast<MainWidget*>(parent);
     if (!main->getServer().listen(QHostAddress::Any, 5000)) {
             QMessageBox::critical(this, "Uh oh", "Cannot start socket.");
-            exit(1);
+            deleteLater();
         }
 }
 
