@@ -70,14 +70,16 @@ void TitleScreen::on_btnMedium_clicked()
 
 void TitleScreen::on_btnOtherMap_clicked()
 {
+    QString line = "";
     if (ui->leOtherMap->text() == ""){
         QMessageBox::warning(this,"No File Specified", "Please enter a map to load.");
         return;
     }
+    line = ui->leOtherMap->text() + ".lv";
     MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
     if (prnt != NULL) {
         try{
-            prnt->loadLevel(ui->leOtherMap->text());
+            prnt->loadLevel(line);
         } catch(exception error) {
             return;
         }
