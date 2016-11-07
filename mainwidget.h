@@ -7,14 +7,14 @@
 #include <QImage>
 #include <QObject>
 #include <QThread>
-#include <QMediaPlayer>
 
 #include "object.h"
 #include "player.h"
 #include "playingscreen.h"
 #include "world.h"
 #include "titlescreen.h"
-
+#include <QTcpServer>
+#include <QTcpSocket>
 
 class ObjectLabel : public QLabel {
 	Q_OBJECT
@@ -72,6 +72,8 @@ public:
 	QTimer* getTimer() {return timer;}
 	QTimer* getClock() { return clock; }
 	void delay(int);
+    QTcpServer& getServer() { return server; }
+    QTcpSocket* getSocket() { return socket; }
 
 private:
 	Ui::MainWidget *ui;
@@ -81,11 +83,16 @@ private:
 
 	bool right;
 	bool left;
-    QMediaPlayer * music;
-
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
+
+    QTcpServer server;
+    QTcpSocket* socket;
+    int connectCount;
+
+public slots:
+	void on_loadState(QString filename);
 
 private slots:
 	void keyPressEvent(QKeyEvent *event);
@@ -100,6 +107,9 @@ private slots:
 	void enableMove();
     void stopKicking();
     void enableKicking();
+    void clientConnected();
+    void dataReceived();
+    void clientDisconnected();
 };
 
 class MoveThread : public QThread

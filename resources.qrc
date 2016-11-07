@@ -63,10 +63,5 @@
         <file>images/powershield.png</file>
         <file>images/maincharacter/jump2wings.png</file>
         <file>images/maincharacter/jump2wingsleft.png</file>
-        <file>images/death.mp3</file>
-        <file>images/hurt.mp3</file>
-        <file>images/music.mp3</file>
-        <file>images/victory.mp3</file>
-        <file>images/coinDrop.mp3</file>
     </qresource>
 </RCC>

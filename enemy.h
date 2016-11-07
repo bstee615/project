@@ -39,12 +39,22 @@ class FlyingEnemy: public Enemy
 {
     bool up;
     int xCount;
+	int startX, startY;
 
 public:
     FlyingEnemy(): Enemy(), up(true), xCount(0) { ySpeed = 2; }
 
     void move();
     void collide(CollisionDetails*);
+
+	virtual void load(QString config);
+	virtual QString save();
+
+	int getStartX() {return startX;}
+	int getStartY() {return startY;}
+
+	void setStartX(int x) {startX = x;}
+	void setStartY(int y) {startY = y;}
 };
 
 #endif // ENEMY_H
