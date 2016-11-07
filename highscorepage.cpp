@@ -26,9 +26,9 @@ HighScorePage::~HighScorePage()
 
 void HighScorePage::on_btnReturnHome_clicked()
 {
-    TitleScreen* title = new TitleScreen(widgetParent);
-    title->show();
-    title->raise();
+    //TitleScreen* title = new TitleScreen(widgetParent);
+    //title->show();
+    //title->raise();
     deleteLater();
 }
 

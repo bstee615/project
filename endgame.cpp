@@ -32,7 +32,10 @@ void EndGame::on_PBcontinue_clicked()
 {
 	if (checkHighScore()) {
 		int place = HighScore::instance().NewHighScore(World::instance().getScore());
-		HighScorePage * highScoreScreen = new HighScorePage(widgetParent);
+        TitleScreen * title = new TitleScreen(widgetParent);
+        title->show();
+        title->raise();
+        HighScorePage * highScoreScreen = new HighScorePage(title);
 		highScoreScreen->setScore(World::instance().getScore());
 		highScoreScreen->setPlace(place);
 		for( int i = 0; i < highScoreScreen->children().size(); i++) {
