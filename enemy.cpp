@@ -72,24 +72,6 @@ void Enemy::collide(CollisionDetails *details)
     }
 }
 
-// ======FlyingEnemy=====
-
-void FlyingEnemy::load(QString config)
-{
-	QList<QString> params = config.split(",");
-	Enemy::load(config);
-	this->setStartX(params.at(7).toInt());
-	this->setStartY(params.at(8).toInt());
-}
-
-QString FlyingEnemy::save()
-{
-	QString out = Enemy::save();
-	out += "," + QString::number(this->getStartX());
-	out += "," + QString::number(this->getStartY());
-	return out;
-}
-
 void FlyingEnemy::move()
 {
     if (isRight())

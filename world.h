@@ -22,7 +22,6 @@ class World {
 	vector<Object*> objects;
 	Player* player;
 	PlayingScreen* screen;
-    Object* OtherPlayer;
 
 	// singleton instance
 	static World world;

@@ -63,6 +63,8 @@ void LoadSave::load(QString filename)
 		player->load(in.readLine());
 		World::instance().setPlayer(player);
 
+		World::instance().setScore(0);
+
 		// loop to get platforms and other objects
 		size_t numObjs = 0;
 		loadObjects(in, numObjs);

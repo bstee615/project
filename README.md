@@ -1,2 +1,2 @@
-# project
-Team project for CpS209
+# soundEffectsTestPart2
+Real version of sound effects test

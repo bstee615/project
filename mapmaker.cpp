@@ -263,27 +263,23 @@ void MapMaker::on_PBsetTime_clicked()
 
 void MapMaker::on_Save_clicked()
 {
-    if (ui->LEfilename->text() == "" || ui->LEfilename->text().indexOf(' ') == NULL) {
+    if (ui->LEfilename->text() == "") {
         QMessageBox::warning(this,"Error","supply a file name please.");
         return;
     }
-    string filename = (ui->LEfilename->text().toStdString()) + ".lv";
+    string filename = ui->LEfilename->text().toStdString();
     fstream stream;
     stream.open(filename,ios::out);
-    stream << ui->LEfilename->text().toStdString() << endl;
     stream << time << "," << time << endl;
     stream << ui->QWworld->geometry().width() << "," << ui->QWworld->geometry().height() << endl;
     stream << startX << "," << startY << endl;
-    stream << 0 << endl;
-    stream << ":/images/easybackground.png" << endl;
     for (int i = 0; i < ui->QWworld->children().size(); ++i) {
         MovableLabel * current = dynamic_cast<MovableLabel*>(ui->QWworld->children().at(i));
         if (current != NULL) {
             if (current->type == "player") {
                 QRect thisone = current->geometry();
                 stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
-                       << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()
-                       << ",0,0,none,3,false,0,false,0,false,0,false,0" << endl;
+                       << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()<< ",0,0,none,3" << endl;
             }
         }
     }
@@ -297,16 +293,11 @@ void MapMaker::on_Save_clicked()
             stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
                       << thisone.height() << "," << current->file;
             if (current->type == "platform") {
-                stream << "," << current->xSpeed << "," << current->ySpeed << "," << current->xRange << ","
-                       << current->yRange << "," << thisone.x() << "," << thisone.y();
+                stream << "," << current->xSpeed << "," << current->ySpeed << "," << current->xRange << "," << current->yRange;
             } else if (current->type == "endGame") {
                 stream << ",0,0";
             } else if (current->type == "collectible") {
-                stream << "," << current->collectableType << ",true";
-            } else if (current->type == "enemy" || current->type == "flyingenemy") {
-                stream << ",true," << thisone.x() << "," << thisone.y();
-            } else if (current->type == "coin") {
-                stream << ",50,true";
+                stream << "," << current->collectableType;
             }
             stream << endl;
         }

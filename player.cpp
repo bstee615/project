@@ -56,7 +56,6 @@ void Player::jump()
 			ySpeed -= 10;
 		else
 			ySpeed -= 13;
-		currentPlatform = NULL;
 	}
 }
 
@@ -108,21 +107,12 @@ void Player::move()
 	if (jumpOnMove) {
 		if (!powerjump)
 		{
-			if (onPlatform || World::instance().getCheat())
+			if (onPlatform)
 				jump();
 		}
 		else
 			jump();
 	}
-
-	// if onPlatform, get that platform and add its speed to player's
-	// for moving platforms
-	if (currentPlatform != NULL)
-	{
-		x += currentPlatform->getXSpeed();
-		y += currentPlatform->getYSpeed();
-	}
-
 	// gravity accelerates the player down 1 pixel per timer hit
 	++ySpeed;
 
@@ -172,11 +162,10 @@ void Player::collide(CollisionDetails *details)
 		}
 		if (details->getYStopCollide() != 0) {
 			ySpeed = 0;
-			y += details->getYStopCollide() + details->getCollided()->getYSpeed();
+			y += details->getYStopCollide();
 			if (details->getYStopCollide() < 0) {
 				// the player is on a platform so onPlatform is true
 				onPlatform = true;
-				currentPlatform = dynamic_cast<Platform*>(details->getCollided());
 			}
 		}
 		jumping = false;
@@ -188,6 +177,13 @@ void Player::collide(CollisionDetails *details)
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
 		}
+        if (coinSound->state() == QMediaPlayer::PlayingState) {
+            coinSound->setPosition(0);
+        } else if (coinSound->state() == QMediaPlayer::PlayingState) {
+            coinSound->play();
+        }
+
+
 	}
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
@@ -201,6 +197,11 @@ void Player::collide(CollisionDetails *details)
 				ySpeed = 5;
 			en->setVisibility(false);
 			return;
+            if (hurtSound->state() == QMediaPlayer::PlayingState) {
+                hurtSound->setPosition(0);
+            } else if (hurtSound->state() == QMediaPlayer::PlayingState) {
+                hurtSound->play();
+            }
 		}
 		if (details->getXStopCollide() > 0 && en->getVisibility() == true)
 		{
@@ -240,6 +241,11 @@ void Player::collide(CollisionDetails *details)
 			canMove = true;
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
+        if (victorySound->state() == QMediaPlayer::PlayingState) {
+            victorySound->setPosition(0);
+        } else if (victorySound->state() == QMediaPlayer::PlayingState) {
+            victorySound->play();
+        }
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{
@@ -249,6 +255,7 @@ void Player::collide(CollisionDetails *details)
 			setPower(item->getType().toStdString(), true);
 			item->setVisibility(false);
 		}
+        //Add sounds based on the type of the collectible
 	}
 }
 

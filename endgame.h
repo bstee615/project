@@ -19,7 +19,7 @@ public:
 	bool checkHighScore();
 
 private slots:
-	void on_PBcontinue_clicked();
+    void on_PBbackToTitle_clicked();
 
 private:
     Ui::EndGame *ui;

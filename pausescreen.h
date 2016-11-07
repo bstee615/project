@@ -31,8 +31,6 @@ private slots:
 
 	void on_btnSaveState_clicked();
 
-	void on_btnLoadState_clicked();
-
 	void on_btnTitle_clicked();
 
 	void on_btnExit_clicked();

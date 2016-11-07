@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,10 +33,7 @@ SOURCES += main.cpp \
     endgameobject.cpp \
     pausescreen.cpp \
     mapmaker.cpp \
-    helpscreen.cpp \
-    savestatedialog.cpp \
-    serverscreen.cpp \
-    clientscreen.cpp
+    helpscreen.cpp
 
 HEADERS  += mainwidget.h \
     object.h \
@@ -58,10 +55,7 @@ HEADERS  += mainwidget.h \
     endgameobject.h \
     pausescreen.h \
     mapmaker.h \
-    helpscreen.h \
-    savestatedialog.h \
-    serverscreen.h \
-    clientscreen.h
+    helpscreen.h
 
 FORMS    += mainwidget.ui \
     titlescreen.ui \
@@ -69,10 +63,7 @@ FORMS    += mainwidget.ui \
     endgame.ui \
     pausescreen.ui \
     mapmaker.ui \
-    helpscreen.ui \
-    savestatedialog.ui \
-    serverscreen.ui \
-    clientscreen.ui
+    helpscreen.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 
