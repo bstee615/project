@@ -44,11 +44,6 @@ MainWidget::MainWidget(QWidget *parent) :
 	TitleScreen* titleScrn = new TitleScreen(this);
 	titleScrn->show();
     titleScrn->raise();
-    connectCount = 0;
-    connect(&server,SIGNAL(newConnection()),this,SLOT(clientConnected()));
-    socket = NULL;
-    connect(socket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
 }
 
 void MainWidget::loadLevel(QString filename)
@@ -241,13 +236,6 @@ void MainWidget::timerHit(){
     }
 
     labelPlayer->setPixmap(player->getImage());
-    if (socket != NULL) {
-        stringstream line;
-        line << player->getX() << "," << player->getY() << "," << player->getImage().toStdString();
-        string sline;
-        getline(line,sline);
-        socket->write(QString::fromStdString(sline).toLocal8Bit());
-    }
 }
 
 void MainWidget::clockHit()
@@ -480,31 +468,4 @@ void MainWidget::enableKicking()
     World::instance().getPlayer()->setCanKick(true);
 }
 
-void MainWidget::clientConnected()
-{
-    /*if(connectCount >= 1) {
-        return;
-    }*/
-    connectCount += 1;
-    QTcpSocket* sock = server.nextPendingConnection();
-    connect(sock, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-    connect(sock, SIGNAL(readyRead()), this, SLOT(dataReceived()));
-    socket = sock;
-}
 
-void MainWidget::dataReceived()
-{
-    QTcpSocket *sock = dynamic_cast<QTcpSocket*>(sender());
-    while (sock->canReadLine()) {
-        QString line = sock->readLine();
-
-    }
-}
-
-void MainWidget::clientDisconnected()
-{
-    QTcpSocket *sock = dynamic_cast<QTcpSocket*>(sender());
-    sock->deleteLater();
-    --connectCount;
-    socket = NULL;
-}

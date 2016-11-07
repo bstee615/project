@@ -168,32 +168,6 @@
     <string>Help</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnServer">
-   <property name="geometry">
-    <rect>
-     <x>640</x>
-     <y>510</y>
-     <width>120</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LAN Server</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnClient">
-   <property name="geometry">
-    <rect>
-     <x>640</x>
-     <y>560</y>
-     <width>120</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LAN Client</string>
-   </property>
-  </widget>
   <zorder>btnHelp</zorder>
   <zorder>label</zorder>
   <zorder>btnStart</zorder>
@@ -205,8 +179,6 @@
   <zorder>leOtherMap</zorder>
   <zorder>btnHard</zorder>
   <zorder>pushButton_2</zorder>
-  <zorder>btnServer</zorder>
-  <zorder>btnClient</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>
