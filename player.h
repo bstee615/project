@@ -11,7 +11,7 @@ class Player : public Object
     bool canMove;
     bool reachedEndGame;
     int startX, startY;
-	int countJump;
+    int countJump;
 
     bool kicking;
     bool cankick;
@@ -19,17 +19,17 @@ class Player : public Object
     int standCount;
     bool jumping;
 
-	Platform* currentPlatform;
+    Platform* currentPlatform;
 
-	// powerup variables
-	bool powerjump;
-	int powerjumpTime;
-	bool powerspeed;
-	int powerspeedTime;
-	bool powershield;
-	int powershieldTime;
-	bool powerscore;
-	int powerscoreTime;
+    // powerup variables
+    bool powerjump;
+    int powerjumpTime;
+    bool powerspeed;
+    int powerspeedTime;
+    bool powershield;
+    int powershieldTime;
+    bool powerscore;
+    int powerscoreTime;
 
     QMediaPlayer * coinSound;
     QMediaPlayer * victorySound;
@@ -44,8 +44,8 @@ public:
         hurtSound = new QMediaPlayer();
         hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
     }
-	Player(int x_, int y_, int width_, int height_, QString image_) :
-		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),
+    Player(int x_, int y_, int width_, int height_, QString image_) :
+        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),
         currentPlatform(NULL) {
         coinSound = new QMediaPlayer();
         coinSound->setMedia(QUrl("qrc:/images/coinDrop.mp3"));
@@ -55,8 +55,8 @@ public:
         hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
     }
 
-	virtual void load(QString config);
-	virtual QString save();
+    virtual void load(QString config);
+    virtual QString save();
 
     void jump();
     void moveRight();
@@ -76,18 +76,18 @@ public:
     bool getIsAtEndOfLevel() { return reachedEndGame; }
     void setAtEndOfLevel(bool stateOfPlayer) { reachedEndGame = stateOfPlayer; }
 
-	int getStartX() {return startX;}
-	int getStartY() {return startY;}
-	void setStartX(int newX) {startX = newX;}
-	void setStartY(int newY) {startY = newY;}
-	void setStartPoint(int newX, int newY) {startX = newX; startY = newY;}
+    int getStartX() {return startX;}
+    int getStartY() {return startY;}
+    void setStartX(int newX) {startX = newX;}
+    void setStartY(int newY) {startY = newY;}
+    void setStartPoint(int newX, int newY) {startX = newX; startY = newY;}
 
     bool powerJump() { return powerjump; }
     bool powerSpeed() { return powerspeed; }
     bool powerShield() { return powershield; }
     bool powerScore() { return powerscore; }
     void setPower(string, bool);
-	int& getPowerTime(string);
+    int& getPowerTime(string);
 
     bool isKicking() { return kicking; }
     void setKicking(bool b) { kicking = b; }
