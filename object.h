@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include<QString>
+#include <QMediaPlayer>
 #include <QDebug>
 #include "collisiondetails.h"
 

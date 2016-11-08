@@ -4,6 +4,7 @@
 #include "coin.h"
 #include "world.h"
 
+#include <QMediaPlayer>
 #include <QTimer>
 
 QString Player::save()
@@ -188,6 +189,11 @@ void Player::collide(CollisionDetails *details)
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
 		}
+        if (coinSound->state() == QMediaPlayer::PlayingState) {
+              coinSound->setPosition(0);
+          } else if (coinSound->state() == QMediaPlayer::PlayingState) {
+              coinSound->play();
+          }
 	}
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
@@ -200,8 +206,17 @@ void Player::collide(CollisionDetails *details)
 			if (details->getYStopCollide() > 0)
 				ySpeed = 5;
 			en->setVisibility(false);
+
+            if (hurtSound->state() == QMediaPlayer::PlayingState) {
+                    hurtSound->setPosition(0);
+             } else if (hurtSound->state() == QMediaPlayer::PlayingState) {
+                    hurtSound->play();
+             }
 			return;
-		}
+        }
+
+
+
 		if (details->getXStopCollide() > 0 && en->getVisibility() == true)
 		{
 			if (kicking == true)
@@ -228,18 +243,25 @@ void Player::collide(CollisionDetails *details)
 				xSpeed /= 2;
 				return;
 			}
-			if (World::instance().getCheat())
+            if (World::instance().getCheat())
 				return;
 			x -= 5;
 			ySpeed = -8;
 			xSpeed = -12;
 			canMove = false;
 			en->setRight(true);
-		}
-		else
+        }
+        else
 			canMove = true;
+
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
+
+        if (victorySound->state() == QMediaPlayer::PlayingState) {
+              victorySound->setPosition(0);
+         } else if (victorySound->state() == QMediaPlayer::PlayingState) {
+               victorySound->play();
+         }
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{

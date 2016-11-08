@@ -322,6 +322,9 @@ void MainWidget::death(Player* player)
 		} else if (player->getNumLives() == 1){
 			ui->lblLife2->hide();
 		}
+        QMediaPlayer * deathSound = new QMediaPlayer();
+        deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
+        deathSound->play();
 		//will need to split this to display different screens
 	} else {
 		ui->lblLife1->hide();

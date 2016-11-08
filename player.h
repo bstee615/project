@@ -31,11 +31,29 @@ class Player : public Object
 	bool powerscore;
 	int powerscoreTime;
 
+    QMediaPlayer * coinSound;
+    QMediaPlayer * victorySound;
+    QMediaPlayer * hurtSound;
+
 public:
-	Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {}
+    Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {
+        coinSound = new QMediaPlayer();
+        coinSound->setMedia(QUrl("qrc:/images/coinDrop.mp3"));
+        victorySound = new QMediaPlayer();
+        victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
+        hurtSound = new QMediaPlayer();
+        hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
+    }
 	Player(int x_, int y_, int width_, int height_, QString image_) :
 		Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),
-		currentPlatform(NULL) {}
+        currentPlatform(NULL) {
+        coinSound = new QMediaPlayer();
+        coinSound->setMedia(QUrl("qrc:/images/coinDrop.mp3"));
+        victorySound = new QMediaPlayer();
+        victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
+        hurtSound = new QMediaPlayer();
+        hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
+    }
 
 	virtual void load(QString config);
 	virtual QString save();

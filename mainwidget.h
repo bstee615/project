@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QObject>
 #include <QThread>
+#include <QMediaPlayer>
 
 #include "object.h"
 #include "player.h"
@@ -82,6 +83,7 @@ private:
 
 	ObjectLabel* labelPlayer;
 	PlayingScreen* screen;
+
 
 public slots:
 	void on_loadState(QString filename);
