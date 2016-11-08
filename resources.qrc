@@ -1,24 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/goldCoin/goldCoin9.png</file>
-        <file>images/goldCoin/goldCoin8.png</file>
-        <file>images/goldCoin/goldCoin7.png</file>
-        <file>images/goldCoin/goldCoin6.png</file>
-        <file>images/goldCoin/goldCoin5.png</file>
-        <file>images/goldCoin/goldCoin4.png</file>
-        <file>images/goldCoin/goldCoin3.png</file>
-        <file>images/goldCoin/goldCoin2.png</file>
-        <file>images/goldCoin/goldCoin1.png</file>
         <file>P&amp;Plogo_composite.png</file>
-        <file>images/maincharacter/walk2left.png</file>
         <file>images/maincharacter/hurt.png</file>
-        <file>images/maincharacter/maincharacter1.png</file>
-        <file>images/maincharacter/stand.png</file>
-        <file>images/maincharacter/walk1.png</file>
-        <file>images/maincharacter/walk1left.png</file>
-        <file>images/maincharacter/walk2.png</file>
-        <file>images/maincharacter/standleft.png</file>
-        <file>images/higscores.gif</file>
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
         <file>images/cooltext212993929389269.gif</file>
@@ -68,5 +51,13 @@
         <file>images/hurt.mp3</file>
         <file>images/music.mp3</file>
         <file>images/victory.mp3</file>
+        <file>images/higscores.gif</file>
+        <file>images/maincharacter/maincharacter1.png</file>
+        <file>images/maincharacter/stand.png</file>
+        <file>images/maincharacter/standleft.png</file>
+        <file>images/maincharacter/walk1.png</file>
+        <file>images/maincharacter/walk1left.png</file>
+        <file>images/maincharacter/walk2.png</file>
+        <file>images/maincharacter/walk2left.png</file>
     </qresource>
 </RCC>
