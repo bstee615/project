@@ -147,6 +147,8 @@ void MainWidget::timerHit(){
     {
         QTimer::singleShot(500,this,SLOT(enableMove()));
         QString img = ":/images/maincharacter/hurt";
+        if (player->powerShield())
+            img += "shield";
         if (player->isRight() == false)
             img += "left";
         img += ".png";

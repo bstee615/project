@@ -319,49 +319,55 @@ int& Player::getPowerTime(string pow)
 
 void Player::setWalkImage()
 {
+    count ++;
+
 	if (kicking)
 	{
-		image = ":/images/maincharacter/kick.png";
+        image = ":/images/maincharacter/kick";
 		if (!right)
 			image = ":/images/maincharacter/kickleft.png";
 		return;
 	}
 
-	count ++;
-
-	image = ":/images/maincharacter/walk";
-	if (count < 7)
+    if (xSpeed != 0)
+    {
+        image = ":/images/maincharacter/walk";
+        if (count < 7)
+        {
+            image += "1";
+        }
+        else if (count < 15)
+        {
+            image += "2";
+        }
+        else if (count == 15)
+        {
+            count = 0;
+            image += "1";
+        }
+        if (powerspeed)
+            image += "speed";
+        if (!right)
+            image += "left";
+        image += ".png";
+    }
+    else
 	{
-		image += "1";
-	}
-	else if (count < 15)
-	{
-		image += "2";
-	}
-	else if (count == 15)
-	{
-		count = 0;
-		image += "1";
-	}
-
-	if (!right)
-		image += "left";
-	image += ".png";
-
-	if (xSpeed == 0)
-	{
-		if (right)
-			image = ":/images/maincharacter/stand.png";
-		else
-			image = ":/images/maincharacter/standleft.png";
+        image = ":/images/maincharacter/stand";
+        if (powerscore)
+            image += "score";
+        if (!right)
+            image += "left";
+        image += ".png";
 	}
 	if (jumping)
 	{
-        QString img = ":/images/maincharacter/jump2";
+        image = ":/images/maincharacter/jump2";
+        if (powerjump)
+            image += "wings";
 		if (!right)
-			img += "left";
-		img += ".png";
-		image = img;
+            image += "left";
+        image += ".png";
 	}
 	else
 		width = 29;

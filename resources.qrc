@@ -59,5 +59,11 @@
         <file>images/maincharacter/walk1left.png</file>
         <file>images/maincharacter/walk2.png</file>
         <file>images/maincharacter/walk2left.png</file>
+        <file>images/maincharacter/standscore.png</file>
+        <file>images/maincharacter/standscoreleft.png</file>
+        <file>images/maincharacter/walk1speed.png</file>
+        <file>images/maincharacter/walk1speedleft.png</file>
+        <file>images/maincharacter/walk2speed.png</file>
+        <file>images/maincharacter/walk2speedleft.png</file>
     </qresource>
 </RCC>
