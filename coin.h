@@ -16,6 +16,7 @@ public:
 
 	virtual void load(QString config);
 	virtual QString save();
+    void move();
 
 	int getAmount() { return amount; }
 	void setAmount(int newAmount) { amount = newAmount; }

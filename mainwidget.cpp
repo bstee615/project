@@ -141,19 +141,7 @@ void MainWidget::timerHit(){
 	ui->lblPowerJump->setVisible(player->powerJump());
 	ui->lblPowerSpeed->setVisible(player->powerSpeed());
 	ui->lblPowerShield->setVisible(player->powerShield());
-	ui->lblPowerScore->setVisible(player->powerScore());
-
-    if (!player->getCanMove())
-    {
-        QTimer::singleShot(500,this,SLOT(enableMove()));
-        QString img = ":/images/maincharacter/hurt";
-        if (player->powerShield())
-            img += "shield";
-        if (player->isRight() == false)
-            img += "left";
-        img += ".png";
-        player->setImage(img);
-    }
+    ui->lblPowerScore->setVisible(player->powerScore());
 
 	// update screen location based on player location
 	PlayingScreen* screen = World::instance().getScreen();
@@ -386,8 +374,6 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
         {
             player->setKicking(true);
             player->setCanKick(false);
-            QTimer::singleShot(500,this,SLOT(stopKicking()));
-            QTimer::singleShot(1000,this,SLOT(enableKicking()));
         }
     }
 }
@@ -453,19 +439,3 @@ void MainWidget::on_loadState(QString filename)
 {
 	loadLevel(filename);
 }
-
-void MainWidget::enableMove()
-{
-    World::instance().getPlayer()->setCanMove(true);
-    World::instance().getPlayer()->setWidth(29);
-}
-void MainWidget::stopKicking()
-{
-    World::instance().getPlayer()->setKicking(false);
-}
-void MainWidget::enableKicking()
-{
-    World::instance().getPlayer()->setCanKick(true);
-}
-
-

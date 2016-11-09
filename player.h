@@ -13,6 +13,9 @@ class Player : public Object
     int startX, startY;
     int countJump;
 
+    int enableMoveCount;
+    int kickingCount;
+
     bool kicking;
     bool cankick;
     int xSpeedLimit;
@@ -43,6 +46,9 @@ public:
         victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
         hurtSound = new QMediaPlayer();
         hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
+
+        enableMoveCount = 0;
+        kickingCount = 0;
     }
     Player(int x_, int y_, int width_, int height_, QString image_) :
         Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),

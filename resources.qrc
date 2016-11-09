@@ -65,5 +65,14 @@
         <file>images/maincharacter/walk1speedleft.png</file>
         <file>images/maincharacter/walk2speed.png</file>
         <file>images/maincharacter/walk2speedleft.png</file>
+        <file>images/goldCoin/goldCoin1.png</file>
+        <file>images/goldCoin/goldCoin2.png</file>
+        <file>images/goldCoin/goldCoin3.png</file>
+        <file>images/goldCoin/goldCoin4.png</file>
+        <file>images/goldCoin/goldCoin5.png</file>
+        <file>images/goldCoin/goldCoin6.png</file>
+        <file>images/goldCoin/goldCoin7.png</file>
+        <file>images/goldCoin/goldCoin8.png</file>
+        <file>images/goldCoin/goldCoin9.png</file>
     </qresource>
 </RCC>

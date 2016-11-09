@@ -22,3 +22,30 @@ QString Coin::save()
 	out += "," + QString::fromStdString(this->getVisibility() ? "true" : "false");
 	return out;
 }
+
+void Coin::move()
+{
+    count ++;
+
+    if (count < 10)
+        image = ":/images/goldCoin/goldCoin1.png";
+    if (count < 20)
+        image = ":/images/goldCoin/goldCoin2.png";
+    if (count < 30)
+        image = ":/images/goldCoin/goldCoin3.png";
+    if (count < 40)
+        image = ":/images/goldCoin/goldCoin4.png";
+    if (count < 50)
+        image = ":/images/goldCoin/goldCoin5.png";
+    if (count < 60)
+        image = ":/images/goldCoin/goldCoin6.png";
+    if (count < 70)
+        image = ":/images/goldCoin/goldCoin7.png";
+    if (count < 80)
+        image = ":/images/goldCoin/goldCoin8.png";
+    if (count < 90)
+    {
+        image = ":/images/goldCoin/goldCoin1.png";
+        count = 0;
+    }
+}
