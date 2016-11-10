@@ -10,10 +10,17 @@ Collectible::Collectible(int x_, int y_, int width_, int height_, QString image_
 
 void Collectible::load(QString config)
 {
-	Object::load(config);
-	QList<QString> params = config.split(",");
-	this->setType(params.at(6));
-	this->setVisibility(params.at(7) == "true");
+	try
+	{
+		Object::load(config);
+		QList<QString> params = config.split(",");
+		this->setType(Object::getQListElement(params, 6));
+		this->setVisibility(Object::getQListElement(params, 7) == "true");
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString Collectible::save()

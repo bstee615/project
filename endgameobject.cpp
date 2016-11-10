@@ -2,7 +2,14 @@
 
 void EndGameObject::load(QString config)
 {
-	Object::load(config);
+	try
+	{
+		Object::load(config);
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString EndGameObject::save()

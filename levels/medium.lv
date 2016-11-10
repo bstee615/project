@@ -4,7 +4,7 @@ medium
 0,0
 0
 :/images/easybackground.png
-player,8,486,29,48,:/images/maincharacter/standleft.png,8,483,0,0,3,false,0,false,0,false,0,false,0
+player,8,486,25,48,:/images/maincharacter/standleft.png,8,483,0,0,3,false,0,false,0,false,0,false,0
 platform,241,544,300,75,:/images/bridgelogs.png,0,0,0,0,241,544
 platform,-260,534,500,300,:/images/platformdirt.png,0,0,0,0,-260,534
 platform,541,540,100,200,:/images/platformdirt.png,0,0,0,0,541,540

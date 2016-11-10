@@ -32,7 +32,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnStart">
+  <widget class="QPushButton" name="btnEasy">
    <property name="geometry">
     <rect>
      <x>374</x>
@@ -45,7 +45,7 @@
     <string>Easy</string>
    </property>
   </widget>
-  <widget class="QLabel" name="btnHelp">
+  <widget class="QLabel" name="lblBackground">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -93,7 +93,7 @@
     <string>High Scores</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btnMapMaker">
    <property name="geometry">
     <rect>
      <x>452</x>
@@ -155,7 +155,7 @@
     <string>Hard</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="btnHelp">
    <property name="geometry">
     <rect>
      <x>470</x>
@@ -168,17 +168,17 @@
     <string>Help</string>
    </property>
   </widget>
-  <zorder>btnHelp</zorder>
+  <zorder>lblBackground</zorder>
   <zorder>label</zorder>
-  <zorder>btnStart</zorder>
+  <zorder>btnEasy</zorder>
   <zorder>label_2</zorder>
   <zorder>lblHighScores</zorder>
-  <zorder>pushButton</zorder>
+  <zorder>btnMapMaker</zorder>
   <zorder>btnMedium</zorder>
   <zorder>btnOtherMap</zorder>
   <zorder>leOtherMap</zorder>
   <zorder>btnHard</zorder>
-  <zorder>pushButton_2</zorder>
+  <zorder>btnHelp</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>

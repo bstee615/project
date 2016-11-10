@@ -28,25 +28,32 @@ QString Player::save()
 
 void Player::load(QString config)
 {
-	Object::load(config);
-	QList<QString> params = config.split(",");
-	// set object properties specific to Player
-	this->setStartPoint(params.at(6).toInt(), params.at(7).toInt());
-	this->setXSpeed(params.at(8).toInt());
-	this->setYSpeed(params.at(9).toInt());
-	this->setCanMove(true);
-	this->setNumLives(params.at(10).toInt());
-	this->setPower("jump",params.at(11) == "true");
-	this->getPowerTime("jump") = params.at(12).toInt();
-	this->setPower("speed",params.at(13) == "true");
-	this->getPowerTime("speed") = params.at(14).toInt();
-	this->setPower("shield",params.at(15) == "true");
-	this->getPowerTime("shield") = params.at(16).toInt();
-	this->setPower("score",params.at(17) == "true");
-	this->getPowerTime("score") = params.at(18).toInt();
-	this->setCanKick(true);
-	this->setKicking(false);
-	this->setVisibility(true);
+	try
+	{
+		Object::load(config);
+		QList<QString> params = config.split(",");
+		// set object properties specific to Player
+		this->setStartPoint(Object::getQListElement(params, 6).toInt(), Object::getQListElement(params, 7).toInt());
+		this->setXSpeed(Object::getQListElement(params, 8).toInt());
+		this->setYSpeed(Object::getQListElement(params, 9).toInt());
+		this->setCanMove(true);
+		this->setNumLives(Object::getQListElement(params, 10).toInt());
+		this->setPower("jump",Object::getQListElement(params, 11) == "true");
+		this->getPowerTime("jump") = Object::getQListElement(params, 12).toInt();
+		this->setPower("speed",Object::getQListElement(params, 13) == "true");
+		this->getPowerTime("speed") = Object::getQListElement(params, 14).toInt();
+		this->setPower("shield",Object::getQListElement(params, 15) == "true");
+		this->getPowerTime("shield") = Object::getQListElement(params, 16).toInt();
+		this->setPower("score",Object::getQListElement(params, 17) == "true");
+		this->getPowerTime("score") = Object::getQListElement(params, 18).toInt();
+		this->setCanKick(true);
+		this->setKicking(false);
+		this->setVisibility(true);
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 void Player::jump()
@@ -189,11 +196,11 @@ void Player::collide(CollisionDetails *details)
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
 		}
-        if (coinSound->state() == QMediaPlayer::PlayingState) {
-              coinSound->setPosition(0);
-          } else if (coinSound->state() == QMediaPlayer::PlayingState) {
-              coinSound->play();
-          }
+		if (coinSound->state() == QMediaPlayer::PlayingState) {
+			coinSound->setPosition(0);
+		} else if (coinSound->state() == QMediaPlayer::PlayingState) {
+			coinSound->play();
+		}
 	}
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
@@ -207,15 +214,13 @@ void Player::collide(CollisionDetails *details)
 				ySpeed = 5;
 			en->setVisibility(false);
 
-            if (hurtSound->state() == QMediaPlayer::PlayingState) {
-                    hurtSound->setPosition(0);
-             } else if (hurtSound->state() == QMediaPlayer::PlayingState) {
-                    hurtSound->play();
-             }
+			if (hurtSound->state() == QMediaPlayer::PlayingState) {
+				hurtSound->setPosition(0);
+			} else if (hurtSound->state() == QMediaPlayer::PlayingState) {
+				hurtSound->play();
+			}
 			return;
-        }
-
-
+		}
 
 		if (details->getXStopCollide() > 0 && en->getVisibility() == true)
 		{
@@ -243,25 +248,25 @@ void Player::collide(CollisionDetails *details)
 				xSpeed /= 2;
 				return;
 			}
-            if (World::instance().getCheat())
+			if (World::instance().getCheat())
 				return;
 			x -= 5;
 			ySpeed = -8;
 			xSpeed = -12;
 			canMove = false;
 			en->setRight(true);
-        }
-        else
+		}
+		else
 			canMove = true;
 
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
 
-        if (victorySound->state() == QMediaPlayer::PlayingState) {
-              victorySound->setPosition(0);
-         } else if (victorySound->state() == QMediaPlayer::PlayingState) {
-               victorySound->play();
-         }
+		if (victorySound->state() == QMediaPlayer::PlayingState) {
+			victorySound->setPosition(0);
+		} else if (victorySound->state() == QMediaPlayer::PlayingState) {
+			victorySound->play();
+		}
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{
@@ -319,85 +324,85 @@ int& Player::getPowerTime(string pow)
 
 void Player::setWalkImage()
 {
-    count ++;
+	count ++;
 
-    if (!canMove)
-    {
-        image = ":/images/maincharacter/hurt";
-        if (powershield)
-            image += "shield";
-        if (!right)
-            image += "left";
-        image += ".png";
-
-        enableMoveCount ++;
-        if (enableMoveCount == 10)
-        {
-            canMove = true;
-            enableMoveCount = 0;
-        }
-
-        return;
-    }
-
-    if (!cankick)
-    {
-        kickingCount ++;
-        if (kickingCount == 10)
-        {
-            kicking = false;
-        }
-        if (kickingCount == 20)
-        {
-            cankick = true;
-            kickingCount = 0;
-        }
-
-        image = ":/images/maincharacter/kick";
-        if (!right)
-            image = ":/images/maincharacter/kickleft.png";
-
-        return;
-    }
-
-    if (xSpeed != 0)
-    {
-        image = ":/images/maincharacter/walk";
-        if (count < 7)
-        {
-            image += "1";
-        }
-        else if (count < 15)
-        {
-            image += "2";
-        }
-        else if (count == 15)
-        {
-            count = 0;
-            image += "1";
-        }
-        if (powerspeed)
-            image += "speed";
-        if (!right)
-            image += "left";
-        image += ".png";
-    }
-    else
+	if (!canMove)
 	{
-        image = ":/images/maincharacter/stand";
-        if (powerscore)
-            image += "score";
-        if (!right)
-            image += "left";
-        image += ".png";
+		image = ":/images/maincharacter/hurt";
+		if (powershield)
+			image += "shield";
+		if (!right)
+			image += "left";
+		image += ".png";
+
+		enableMoveCount ++;
+		if (enableMoveCount == 10)
+		{
+			canMove = true;
+			enableMoveCount = 0;
+		}
+
+		return;
+	}
+
+	if (!cankick)
+	{
+		kickingCount ++;
+		if (kickingCount == 10)
+		{
+			kicking = false;
+		}
+		if (kickingCount == 20)
+		{
+			cankick = true;
+			kickingCount = 0;
+		}
+
+		image = ":/images/maincharacter/kick";
+		if (!right)
+			image = ":/images/maincharacter/kickleft.png";
+
+		return;
+	}
+
+	if (xSpeed != 0)
+	{
+		image = ":/images/maincharacter/walk";
+		if (count < 7)
+		{
+			image += "1";
+		}
+		else if (count < 15)
+		{
+			image += "2";
+		}
+		else if (count == 15)
+		{
+			count = 0;
+			image += "1";
+		}
+		if (powerspeed)
+			image += "speed";
+		if (!right)
+			image += "left";
+		image += ".png";
+	}
+	else
+	{
+		image = ":/images/maincharacter/stand";
+		if (powerscore)
+			image += "score";
+		if (!right)
+			image += "left";
+		image += ".png";
 	}
 	if (jumping)
 	{
-        image = ":/images/maincharacter/jump2";
-        if (powerjump)
-            image += "wings";
+		image = ":/images/maincharacter/jump2";
+		if (powerjump)
+			image += "wings";
 		if (!right)
-            image += "left";
-        image += ".png";
-    }
+			image += "left";
+		image += ".png";
+	}
 }

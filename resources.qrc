@@ -26,9 +26,6 @@
         <file>images/water.png</file>
         <file>images/easybackground.png</file>
         <file>images/pause.png</file>
-        <file>easy.lv</file>
-        <file>medium.lv</file>
-        <file>hard.lv</file>
         <file>images/maincharacter/kick.png</file>
         <file>images/maincharacter/kickleft.png</file>
         <file>images/powerjump.png</file>
@@ -75,5 +72,8 @@
         <file>images/P&amp;Plogo_composite.png</file>
         <file>images/GameOver.png</file>
         <file>images/LevelClear.png</file>
+        <file>levels/easy.lv</file>
+        <file>levels/hard.lv</file>
+        <file>levels/medium.lv</file>
     </qresource>
 </RCC>

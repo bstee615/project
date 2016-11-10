@@ -14,15 +14,22 @@ QString Platform::save()
 
 void Platform::load(QString config)
 {
-	Object::load(config);
-	QList<QString> params = config.split(",");
-	// set object properties specific to Platform
-	this->setXSpeed(params.at(6).toInt());
-	this->setYSpeed(params.at(7).toInt());
-	this->setXRange(params.at(8).toInt());
-	this->setYRange(params.at(9).toInt());
-	this->setStartX(params.at(10).toInt());
-	this->setStartY(params.at(11).toInt());
+	try
+	{
+		Object::load(config);
+		QList<QString> params = config.split(",");
+		// set object properties specific to Platform
+		this->setXSpeed(Object::getQListElement(params, 6).toInt());
+		this->setYSpeed(Object::getQListElement(params, 7).toInt());
+		this->setXRange(Object::getQListElement(params, 8).toInt());
+		this->setYRange(Object::getQListElement(params, 9).toInt());
+		this->setStartX(Object::getQListElement(params, 10).toInt());
+		this->setStartY(Object::getQListElement(params, 11).toInt());
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 void Platform::move()

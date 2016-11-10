@@ -4,6 +4,14 @@
 #include "object.h"
 #include "world.h"
 
+QString Object::getQListElement(QList<QString> theList, int index)
+{
+	if (index >= theList.size() || index < 0)
+		throw invalid_argument("Index out of range.");
+	else
+		return theList.at(index);
+}
+
 int Object::nextID = 0;
 
 void Object::resetNextId() {nextID = 0;}
@@ -61,14 +69,21 @@ Object::Object(QString config) : Object()
 
 void Object::load(QString config)
 {
-	QList<QString> params = config.split(",");
-	// get and set object properties
-	this->setX(params.at(1).toInt());
-	this->setY(params.at(2).toInt());
-	this->setWidth(params.at(3).toInt());
-	this->setHeight(params.at(4).toInt());
-    this->setImage(params.at(5));
-	this->setVisibility(true);
+	try
+	{
+		QList<QString> params = config.split(",");
+		// get and set object properties
+		this->setX(getQListElement(params, 1).toInt());
+		this->setY(getQListElement(params, 2).toInt());
+		this->setWidth(getQListElement(params, 3).toInt());
+		this->setHeight(getQListElement(params, 4).toInt());
+		this->setImage(getQListElement(params, 5));
+		this->setVisibility(true);
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString Object::save()

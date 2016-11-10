@@ -37,6 +37,9 @@ public:
     }
 	Object(QString config);
 
+	// method for safely retrieving elements from a QList<QString>
+	static QString getQListElement(QList<QString>, int index);
+
 	virtual ~Object();
 
 	CollisionDetails* checkCollision(Object * that);
