@@ -26,7 +26,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/P&amp;Plogo_composite.png</pixmap>
+    <pixmap resource="resources.qrc">:/images/P&amp;Plogo_composite.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -74,7 +74,7 @@
     <string notr="true">font: 7pt &quot;Droid Sans&quot;;</string>
    </property>
    <property name="text">
-    <string>Beta Version</string>
+    <string>Version 1.0</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

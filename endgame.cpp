@@ -6,12 +6,18 @@
 #include "world.h"
 #include <QRect>
 
-EndGame::EndGame(QWidget *parent) :
+EndGame::EndGame(QWidget *parent, bool gameOver_) :
     QWidget(parent),
+	gameOver(gameOver_),
     ui(new Ui::EndGame)
 {
     widgetParent = parent;
     ui->setupUi(this);
+	if (!gameOver)
+	{
+		ui->lblTitle->setPixmap(QPixmap(":/images/LevelClear.png"));
+		ui->lblBackground->setStyleSheet("");
+	}
 }
 
 EndGame::~EndGame()
@@ -30,7 +36,7 @@ bool EndGame::checkHighScore(){
 
 void EndGame::on_PBcontinue_clicked()
 {
-	if (checkHighScore()) {
+	if (!gameOver && checkHighScore()) {
 		int place = HighScore::instance().NewHighScore(World::instance().getScore());
         TitleScreen * title = new TitleScreen(widgetParent);
         title->show();

@@ -1,10 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>P&amp;Plogo_composite.png</file>
         <file>images/maincharacter/hurt.png</file>
         <file>images/groundrobot.png</file>
         <file>images/heart.png</file>
-        <file>images/cooltext212993929389269.gif</file>
         <file>images/maincharacter/hurtleft.png</file>
         <file>images/groundrobotleft.png</file>
         <file>images/flag.png</file>
@@ -74,5 +72,8 @@
         <file>images/goldCoin/goldCoin7.png</file>
         <file>images/goldCoin/goldCoin8.png</file>
         <file>images/goldCoin/goldCoin9.png</file>
+        <file>images/P&amp;Plogo_composite.png</file>
+        <file>images/GameOver.png</file>
+        <file>images/LevelClear.png</file>
     </qresource>
 </RCC>

@@ -263,7 +263,7 @@ void MapMaker::on_PBsetTime_clicked()
 
 void MapMaker::on_Save_clicked()
 {
-    if (ui->LEfilename->text() == "" || ui->LEfilename->text().indexOf(' ') == NULL) {
+	if (ui->LEfilename->text().trimmed() == "") {
         QMessageBox::warning(this,"Error","supply a file name please.");
         return;
     }

@@ -13,12 +13,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lblTitle">
    <property name="geometry">
     <rect>
-     <x>376</x>
+     <x>296</x>
      <y>270</y>
-     <width>271</width>
+     <width>431</width>
      <height>81</height>
     </rect>
    </property>
@@ -26,7 +26,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/images/cooltext212993929389269.gif</pixmap>
+    <pixmap resource="resources.qrc">:/images/GameOver.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -41,10 +41,37 @@
      <height>32</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Sawasdee</family>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Continue</string>
    </property>
   </widget>
+  <widget class="QLabel" name="lblBackground">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>40</y>
+     <width>944</width>
+     <height>688</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(140, 0, 0, 128);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>lblBackground</zorder>
+  <zorder>lblTitle</zorder>
+  <zorder>PBcontinue</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>

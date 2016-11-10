@@ -312,10 +312,11 @@ void MainWidget::death(Player* player)
         deathSound->play();
 		//will need to split this to display different screens
 	} else {
-		ui->lblLife1->hide();
+		if (!player->getIsAtEndOfLevel())
+			ui->lblLife1->hide();
 		timer->stop();
 		clock->stop();
-		EndGame * e = new EndGame(this);
+		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
 	}
