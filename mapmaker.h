@@ -43,8 +43,6 @@ private slots:
 
     void on_PBresize_clicked();
 
-    void on_PBsetStart_clicked();
-
     void on_PBsetTime_clicked();
 
     void on_Save_clicked();

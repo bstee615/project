@@ -241,17 +241,6 @@ void MapMaker::on_PBresize_clicked()
     }
 }
 
-void MapMaker::on_PBsetStart_clicked()
-{
-    if (ui->LEstartX->text() != "" && ui->LEstartY->text() != ""){
-        startX = ui->LEresizeX->text().toInt();
-        startY = ui->LEresizeY->text().toInt();
-        ui->LBstart->setText(ui->LEstartX->text() + "," + ui->LEstartY->text());
-        ui->LEstartX->setText("");
-        ui->LEstartY->setText("");
-    }
-}
-
 void MapMaker::on_PBsetTime_clicked()
 {
     if (ui->LEtime->text() != "") {

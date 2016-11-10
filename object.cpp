@@ -91,9 +91,9 @@ QString Object::save()
 	QString out = "";
 	QString type;
 	// check and print object type
-	if (dynamic_cast<Item*>(this))
+    /*if (dynamic_cast<Item*>(this))
 		type = "item";
-	else if (dynamic_cast<Coin*>(this))
+    else*/ if (dynamic_cast<Coin*>(this))
 		type = "coin";
 	else if (dynamic_cast<Collectible*>(this))
 		type = "collectible";
