@@ -6,8 +6,10 @@
 #include "highscore.h"
 #include "mapmaker.h"
 #include <QMessageBox>
+#include <QDirIterator>
 #include <exception>
 #include <stdexcept>
+#include "world.h"
 
 
 TitleScreen::TitleScreen(QWidget *parent) :
@@ -19,6 +21,9 @@ TitleScreen::TitleScreen(QWidget *parent) :
     playing = false;
     ui->btnStart->setFocus();
     World::instance().setIsPlaying(false);
+    ui->lblHighScorePrompt->hide();
+    ui->leInitialHighScore->hide();
+    ui->btnGo->hide();
 }
 
 TitleScreen::~TitleScreen()
@@ -42,10 +47,16 @@ void TitleScreen::on_btnStart_clicked()
 
 void TitleScreen::on_lblHighScores_clicked()
 {
+   if(World::instance().getLevelName() == ""){
+
+        ui->lblHighScorePrompt->show();
+        ui->leInitialHighScore->show();
+        ui->btnGo->show();
+   } else {
     HighScorePage * scorePage = new HighScorePage(this->parentWidget());
     scorePage->show();
     scorePage->raise();
-
+    }
 }
 
 void TitleScreen::on_pushButton_clicked()
@@ -111,4 +122,36 @@ void TitleScreen::on_pushButton_2_clicked()
     help->raise();
 
     deleteLater();
+}
+
+void TitleScreen::on_btnGo_clicked()
+{
+
+    ui->lblHighScorePrompt->hide();
+    ui->leInitialHighScore->hide();
+    ui->btnGo->hide();
+    QString text= ui->leInitialHighScore->text().trimmed();
+    string  highScoreFile = text.toStdString();
+    text += "scores.txt";
+    QDirIterator it(QDir::currentPath(), QDirIterator::NoIteratorFlags);
+        while (it.hasNext())
+        {
+            it.next();
+            for (int i = 1; i <= 3; i++)
+            {
+
+                if (it.fileName() == text)
+                {
+                    World::instance().setLevelName(highScoreFile);
+                    HighScorePage * scorePage = new HighScorePage(this->parentWidget());
+                    scorePage->show();
+                    scorePage->raise();
+                    return;
+                }
+            }
+        }
+    QMessageBox * q = new QMessageBox();
+    q->setText("That file name couldn't be found!");
+    q->raise();
+    q->show();
 }

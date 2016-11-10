@@ -11,6 +11,7 @@ HighScorePage::HighScorePage(QWidget *parent) :
 {
      widgetParent = parent;
      ui->setupUi(this);
+
      HighScore::instance().LoadScore(World::instance().getLevelName());
 
      ui->lblNewHighScoreInfo->hide();
