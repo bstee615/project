@@ -620,6 +620,14 @@ Enter your name to be remembered for all eternity!</string>
       <height>27</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Sawasdee</family>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
      <string>Back to Home</string>
     </property>
