@@ -26,7 +26,7 @@ EndGame::~EndGame()
 }
 
 bool EndGame::checkHighScore(){
-    HighScore::instance().LoadScore(World::instance().getLevelName());
+	HighScore::instance().LoadScore("data/" + World::instance().getLevelName());
 	if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
 		return true;
 	} else {

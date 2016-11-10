@@ -267,7 +267,7 @@ void MapMaker::on_Save_clicked()
         QMessageBox::warning(this,"Error","supply a file name please.");
         return;
     }
-    string filename = (ui->LEfilename->text().toStdString()) + ".lv";
+	string filename = "data/" + (ui->LEfilename->text().toStdString()) + ".lv";
     fstream stream;
     stream.open(filename,ios::out);
     stream << ui->LEfilename->text().toStdString() << endl;

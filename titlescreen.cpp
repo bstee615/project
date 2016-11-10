@@ -48,7 +48,7 @@ void TitleScreen::on_btnOtherMap_clicked()
 		QMessageBox::warning(this,"No File Specified", "Please enter a map to load.");
 		return;
 	}
-	line = "levels/" + ui->leOtherMap->text() + ".lv";
+	line = "data/" + ui->leOtherMap->text() + ".lv";
 	startLevel(line);
 }
 

@@ -29,7 +29,7 @@ SaveStateDialog::~SaveStateDialog()
 
 void SaveStateDialog::loadLabels()
 {
-	QDirIterator it(QDir::currentPath(), QDirIterator::NoIteratorFlags);
+	QDirIterator it("data", QDirIterator::NoIteratorFlags);
 	while (it.hasNext())
 	{
 		it.next();
@@ -66,7 +66,7 @@ void SaveStateDialog::doIO(int slot)
 {
 	QString levelName = QString::fromStdString(World::instance().getLevelName());
 	QString suffix = "scores.txt";
-	QString filename = levelName.left(levelName.length() - suffix.length()) + ".save" + QString::number(slot);
+	QString filename = "data/" + levelName.left(levelName.length() - suffix.length()) + ".save" + QString::number(slot);
 
 	if (saving)
 	{

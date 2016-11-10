@@ -16,7 +16,7 @@
 #include "loadsave.h"
 #include "pausescreen.h"
 #include <sstream>
-
+#include <QDir>
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
@@ -29,11 +29,9 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->lblScore->raise(); // these components should not be under the world objects
 	ui->lblTimeLeft->raise();
 
-
 	timer = new QTimer(this);
 	timer->setInterval(50);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-
 
 	clock = new QTimer(this);
 	clock->setInterval(1000);
@@ -41,6 +39,12 @@ MainWidget::MainWidget(QWidget *parent) :
 
 	right = false;
 	left = false;
+
+	// ensure existence of 'data' folder in executable directory
+	QDir dataFolder("data");
+	if (!dataFolder.exists())
+		QDir().mkdir("data");
+
 	TitleScreen* titleScrn = new TitleScreen(this);
 	titleScrn->show();
 	titleScrn->raise();
@@ -65,7 +69,7 @@ void MainWidget::loadLevel(QString filename)
 	{
 		throw runtime_error(ex.what());
 	}
-	HighScore::instance().LoadScore(World::instance().getLevelName());
+	HighScore::instance().LoadScore("data/" + World::instance().getLevelName());
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
