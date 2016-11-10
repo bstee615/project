@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lblTitle">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -59,34 +59,6 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>635</x>
-     <y>380</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Droid Sans</family>
-     <pointsize>7</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 7pt &quot;Droid Sans&quot;;</string>
-   </property>
-   <property name="text">
-    <string>Version 1.0</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="lblHighScores">
@@ -177,10 +149,34 @@
     <string>Help</string>
    </property>
   </widget>
+  <widget class="QLabel" name="lblVersion">
+   <property name="geometry">
+    <rect>
+     <x>635</x>
+     <y>380</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sawasdee</family>
+     <pointsize>7</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Version 1.0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
   <zorder>lblBackground</zorder>
-  <zorder>label</zorder>
+  <zorder>lblTitle</zorder>
   <zorder>btnEasy</zorder>
-  <zorder>label_2</zorder>
   <zorder>lblHighScores</zorder>
   <zorder>btnMapMaker</zorder>
   <zorder>btnMedium</zorder>
@@ -188,6 +184,7 @@
   <zorder>leOtherMap</zorder>
   <zorder>btnHard</zorder>
   <zorder>btnHelp</zorder>
+  <zorder>lblVersion</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>
