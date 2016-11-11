@@ -3,6 +3,7 @@
 
 #include "object.h"
 #include "platform.h"
+#include <QSoundEffect>
 
 class Player : public Object
 {
@@ -34,14 +35,13 @@ class Player : public Object
     bool powerscore;
     int powerscoreTime;
 
-    QMediaPlayer * coinSound;
+	QSoundEffect coinSound;
     QMediaPlayer * victorySound;
     QMediaPlayer * hurtSound;
 
 public:
     Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {
-        coinSound = new QMediaPlayer();
-        coinSound->setMedia(QUrl("qrc:/images/coinDrop.mp3"));
+		coinSound.setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
         victorySound = new QMediaPlayer();
         victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
         hurtSound = new QMediaPlayer();
@@ -51,17 +51,9 @@ public:
         kickingCount = 0;
     }
     Player(int x_, int y_, int width_, int height_, QString image_) :
-        Object(x_, y_, width_, height_, image_), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false),
-        currentPlatform(NULL) {
-        coinSound = new QMediaPlayer();
-        coinSound->setMedia(QUrl("qrc:/images/coinDrop.mp3"));
-        victorySound = new QMediaPlayer();
-        victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
-        hurtSound = new QMediaPlayer();
-        hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
-    }
+		Object(x_, y_, width_, height_, image_) {Player();}
 
-    virtual void load(QString config);
+	virtual void load(QString config);
     virtual QString save();
 
     void jump();

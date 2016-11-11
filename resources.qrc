@@ -75,5 +75,6 @@
         <file>levels/easy.lv</file>
         <file>levels/hard.lv</file>
         <file>levels/medium.lv</file>
+        <file>images/coinDrop.wav</file>
     </qresource>
 </RCC>

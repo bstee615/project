@@ -193,15 +193,10 @@ void Player::collide(CollisionDetails *details)
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
 		if(c->getisCollectible()) {
+			coinSound.play();
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
-        }
-        if (coinSound->state() == QMediaPlayer::PlayingState) {
-            coinSound->setPosition(0);
-
-        } else if (coinSound->state() == QMediaPlayer::StoppedState) {
-            coinSound->play();
-        }
+		}
 	}
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
