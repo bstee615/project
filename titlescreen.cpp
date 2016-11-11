@@ -19,7 +19,7 @@ TitleScreen::TitleScreen(QWidget *parent) :
     widgetParent = parent;
 	ui->setupUi(this);
     playing = false;
-    ui->btnStart->setFocus();
+	ui->btnEasy->setFocus();
     World::instance().setIsPlaying(false);
     ui->lblHighScorePrompt->hide();
     ui->leInitialHighScore->hide();
@@ -31,23 +31,36 @@ TitleScreen::~TitleScreen()
 	delete ui;
 }
 
-void TitleScreen::on_btnStart_clicked()
+void TitleScreen::on_btnEasy_clicked()
 {
-	this->hide();
-    this->widgetParent->setFocus();
-    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
-    World::instance().setIsPlaying(true);
-    if (prnt != NULL) {
-        prnt->loadLevel(":/easy.lv");
-        prnt->getTimer()->start();
-        prnt->getClock()->start();
-    }
-    deleteLater();
+	startLevel(":/levels/easy.lv");
+}
+
+void TitleScreen::on_btnMedium_clicked()
+{
+	startLevel(":/levels/medium.lv");
+
+}
+
+void TitleScreen::on_btnHard_clicked()
+{
+	startLevel(":/levels/hard.lv");
+}
+
+void TitleScreen::on_btnOtherMap_clicked()
+{
+	QString line = "";
+	if (ui->leOtherMap->text() == ""){
+		QMessageBox::warning(this,"No File Specified", "Please enter a map to load.");
+		return;
+	}
+	line = "data/" + ui->leOtherMap->text() + ".lv";
+	startLevel(line);
 }
 
 void TitleScreen::on_lblHighScores_clicked()
-{
-   if(World::instance().getLevelName() == ""){
+{ 
+	if(World::instance().getLevelName() == ""){
 
         ui->lblHighScorePrompt->show();
         ui->leInitialHighScore->show();
@@ -59,63 +72,14 @@ void TitleScreen::on_lblHighScores_clicked()
     }
 }
 
-void TitleScreen::on_pushButton_clicked()
+void TitleScreen::on_btnMapMaker_clicked()
 {
     MapMaker * maker = new MapMaker();
     maker->show();
     maker->raise();
 }
 
-void TitleScreen::on_btnMedium_clicked()
-{
-    this->hide();
-    this->widgetParent->setFocus();
-    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
-    if (prnt != NULL) {
-        prnt->loadLevel(":/medium.lv");
-        prnt->getTimer()->start();
-        prnt->getClock()->start();
-    }
-    deleteLater();
-}
-
-void TitleScreen::on_btnOtherMap_clicked()
-{
-    QString line = "";
-    if (ui->leOtherMap->text() == ""){
-        QMessageBox::warning(this,"No File Specified", "Please enter a map to load.");
-        return;
-    }
-    line = ui->leOtherMap->text() + ".lv";
-    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
-    if (prnt != NULL) {
-        try{
-            prnt->loadLevel(line);
-        } catch(exception error) {
-            return;
-        }
-        prnt->getTimer()->start();
-        prnt->getClock()->start();
-    }
-    this->hide();
-    this->widgetParent->setFocus();
-    deleteLater();
-}
-
-void TitleScreen::on_btnHard_clicked()
-{
-    this->hide();
-    this->widgetParent->setFocus();
-    MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
-    if (prnt != NULL) {
-        prnt->loadLevel(":/hard.lv");
-        prnt->getTimer()->start();
-        prnt->getClock()->start();
-    }
-    deleteLater();
-}
-
-void TitleScreen::on_pushButton_2_clicked()
+void TitleScreen::on_btnHelp_clicked()
 {
     HelpScreen * help = new HelpScreen(this->parentWidget());
     help->show();
@@ -123,6 +87,7 @@ void TitleScreen::on_pushButton_2_clicked()
 
     deleteLater();
 }
+
 
 void TitleScreen::on_btnGo_clicked()
 {
@@ -154,4 +119,28 @@ void TitleScreen::on_btnGo_clicked()
     q->setText("That file name couldn't be found!");
     q->raise();
     q->show();
+}
+
+void TitleScreen::startLevel(QString level)
+{
+	MainWidget * prnt = dynamic_cast<MainWidget *>(widgetParent);
+	if (prnt != NULL)
+	{
+		try
+		{
+			prnt->loadLevel(level);
+		}
+		catch (exception& ex)
+		{
+			QMessageBox::warning(this, "Error!", "An error occurred.\n" + QString::fromStdString(ex.what()));
+			return;
+		}
+		this->hide();
+		this->widgetParent->setFocus();
+		World::instance().setIsPlaying(true);
+		prnt->getTimer()->start();
+		prnt->getClock()->start();
+	}
+	deleteLater();
+
 }

@@ -12,8 +12,10 @@ class EndGame : public QWidget
 {
     Q_OBJECT
 
+	bool gameOver;
+
 public:
-    EndGame(QWidget *parent = 0);
+	EndGame(QWidget *parent = 0, bool gameOver_ = true);
     ~EndGame();
 
 	bool checkHighScore();

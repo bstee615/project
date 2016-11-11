@@ -6,6 +6,14 @@
 #include "loadsave.h"
 #include "object.h"
 
+QString getQListElement(QList<QString> theList, int index)
+{
+	if (index >= theList.size() || index < 0)
+		throw invalid_argument("Index out of range.");
+	else
+		return theList.at(index);
+}
+
 LoadSave* LoadSave::loadsave = NULL;
 
 LoadSave& LoadSave::instance()
@@ -20,52 +28,60 @@ void LoadSave::load(QString filename)
 {
 	World::instance().reset();
 	QFile file(filename);
-	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
-		// read lines and configure objects
-		QString line = "";
-		QTextStream in(&file);
-
-		//read in level name
-		line = in.readLine();
-		string levelName = line.toStdString();
-		levelName += "scores.txt";
-		World::instance().setLevelName(levelName);
-
-		//time
-		line = in.readLine();
-		QList<QString> timeData = line.split(",");
-		World::instance().setStartSeconds(timeData.at(0).toInt());
-		World::instance().setSeconds(timeData.at(1).toInt());
-
-		// set up screen object
-		line = in.readLine();
-		QList<QString> levelDim = line.split(",");
-		line = in.readLine();
-		QList<QString> screenCoord = line.split(",");
-		World::instance().setScreen(new PlayingScreen(
-										screenCoord.at(0).toInt(),
-										screenCoord.at(1).toInt(),
-										0, // don't know the dimensions of the screen here
-										0, // will set that in mainwidget.cpp
-										levelDim.at(0).toInt(),
-										levelDim.at(1).toInt()));
-
-		// score
-		line = in.readLine();
-		World::instance().setScore(line.toInt());
-
-		// background image
-		World::instance().setBackgroundPath(in.readLine());
-
-		// player
-		Player* player = new Player();
-		player->load(in.readLine());
-		World::instance().setPlayer(player);
-
-		// loop to get platforms and other objects
 		size_t numObjs = 0;
-		loadObjects(in, numObjs);
+		try
+		{
+			// read lines and configure objects
+			QString line = "";
+			QTextStream in(&file);
+
+			//read in level name
+			line = in.readLine();
+			string levelName = line.toStdString();
+			levelName += "scores.txt";
+			World::instance().setLevelName(levelName);
+
+			//time
+			line = in.readLine();
+			QList<QString> timeData = line.split(",");
+			World::instance().setStartSeconds(getQListElement(timeData, 0).toInt());
+			World::instance().setSeconds(getQListElement(timeData, 1).toInt());
+
+			// set up screen object
+			line = in.readLine();
+			QList<QString> levelDim = line.split(",");
+			line = in.readLine();
+			QList<QString> screenCoord = line.split(",");
+			World::instance().setScreen(new PlayingScreen(
+											getQListElement(screenCoord, 0).toInt(),
+											getQListElement(screenCoord, 1).toInt(),
+											0, // don't know the dimensions of the screen here
+											0, // will set that in mainwidget.cpp
+											getQListElement(levelDim, 0).toInt(),
+											getQListElement(levelDim, 1).toInt()));
+
+			// score
+			line = in.readLine();
+			World::instance().setScore(line.toInt());
+
+			// background image
+			World::instance().setBackgroundPath(in.readLine());
+
+			// player
+			Player* player = new Player();
+			player->load(in.readLine());
+			World::instance().setPlayer(player);
+
+			// loop to get platforms and other objects
+			loadObjects(in, numObjs);
+		}
+		catch (exception& ex)
+		{
+			QString message = "The level file " + filename + " is not configured properly.";
+			throw runtime_error(message.toStdString());
+		}
 
 		if (World::instance().getObjects().size() != numObjs)
 			throw runtime_error("The program did not load all of the objects!");
@@ -85,16 +101,23 @@ void LoadSave::loadObjects(QTextStream& in, size_t& num)
 	num = 0;
 	QString line = "";
 	Object* obj = NULL;
-	while (!in.atEnd())
+	try
 	{
-		line = in.readLine();
-		obj = World::instance().createObject(line.split(",").at(0).toStdString());
-		if (obj != NULL)
+		while (!in.atEnd())
 		{
-			obj->load(line);
-			World::instance().add(obj);
-			num++;
+			line = in.readLine();
+			obj = World::instance().createObject(getQListElement(line.split(","), 0).toStdString());
+			if (obj != NULL)
+			{
+				obj->load(line);
+				World::instance().add(obj);
+				num++;
+			}
 		}
+	}
+	catch (exception& ex)
+	{
+		throw runtime_error(ex.what());
 	}
 }
 

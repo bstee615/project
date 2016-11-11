@@ -8,11 +8,18 @@ Coin::Coin(int x_, int y_, int width_, int height_, QString image_, QString type
 
 void Coin::load(QString config)
 {
-	QList<QString> params = config.split(",");
-	Object::load(config);
-	this->setAmount(params.at(6).toInt());
-	this->setVisibility(params.at(7) == "true");
-	this->setisCollectible(params.at(7) == "true");
+	try
+	{
+		QList<QString> params = config.split(",");
+		Object::load(config);
+		this->setAmount(Object::getQListElement(params, 6).toInt());
+		this->setVisibility(Object::getQListElement(params, 7) == "true");
+		this->setisCollectible(Object::getQListElement(params, 7) == "true");
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString Coin::save()

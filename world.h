@@ -6,10 +6,8 @@
 #include <vector>
 
 #include "object.h"
-#include "item.h"
 #include "collectible.h"
 #include "coin.h"
-#include "movingplatform.h"
 #include "player.h"
 #include "platform.h"
 #include "enemy.h"

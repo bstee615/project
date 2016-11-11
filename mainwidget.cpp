@@ -16,7 +16,7 @@
 #include "loadsave.h"
 #include "pausescreen.h"
 #include <sstream>
-
+#include <QDir>
 
 MainWidget::MainWidget(QWidget *parent) :
 	QWidget(parent),
@@ -25,25 +25,29 @@ MainWidget::MainWidget(QWidget *parent) :
 	ui->setupUi(this);
 	ui->lblLife1->raise();
 	ui->lblLife2->raise();
-    ui->lblLife3->raise();
+	ui->lblLife3->raise();
 	ui->lblScore->raise(); // these components should not be under the world objects
 	ui->lblTimeLeft->raise();
 
-
 	timer = new QTimer(this);
-    timer->setInterval(50);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
-
+	timer->setInterval(50);
+	connect(timer, SIGNAL(timeout()), this, SLOT(timerHit()));
 
 	clock = new QTimer(this);
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
 	right = false;
-    left = false;
+	left = false;
+
+	// ensure existence of 'data' folder in executable directory
+	QDir dataFolder("data");
+	if (!dataFolder.exists())
+		QDir().mkdir("data");
+
 	TitleScreen* titleScrn = new TitleScreen(this);
 	titleScrn->show();
-    titleScrn->raise();
+	titleScrn->raise();
 }
 
 void MainWidget::loadLevel(QString filename)
@@ -57,12 +61,19 @@ void MainWidget::loadLevel(QString filename)
 		}
 	}
 
-	LoadSave::instance().load(filename);
-	HighScore::instance().LoadScore(World::instance().getLevelName());
+	try
+	{
+		LoadSave::instance().load(filename);
+	}
+	catch (exception& ex)
+	{
+		throw runtime_error(ex.what());
+	}
+	HighScore::instance().LoadScore("data/" + World::instance().getLevelName());
 	World::instance().getScreen()->setScreenSize(ui->worldWidget->geometry().width(), ui->worldWidget->geometry().height());
 	ui->lblBackground->setPixmap(QPixmap(World::instance().getBackgroundPath()));
 
-    Player* player = World::instance().getPlayer();
+	Player* player = World::instance().getPlayer();
 	lblPlayer = new ObjectLabel(ui->worldWidget);
 	lblPlayer->setObject(player);
 	lblPlayer->setPixmap(QPixmap(player->getImage()));
@@ -90,13 +101,13 @@ void MainWidget::loadLevel(QString filename)
 	ui->lblLife2->show();
 	ui->lblLife3->show();
 
-    ui->lblLife1->raise();
-    ui->lblLife2->raise();
-    ui->lblLife3->raise();
-    ui->lblScore->raise();
-    ui->lblTimeLeft->raise();
+	ui->lblLife1->raise();
+	ui->lblLife2->raise();
+	ui->lblLife3->raise();
+	ui->lblScore->raise();
+	ui->lblTimeLeft->raise();
 
-    ui->lblCheat->hide();
+	ui->lblCheat->hide();
 
 	World::instance().setSeconds(World::instance().getStartSeconds());
 	World::instance().setCurrentLevel(filename);
@@ -108,24 +119,24 @@ void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
 	World& world = World::instance();
-    Player* player = world.getPlayer();
+	Player* player = world.getPlayer();
 
-    if ((right && left) || (!right && !left)) {
+	if ((right && left) || (!right && !left)) {
 		// if both right and left arrows are held down or both are released slow the player to a stop
 		player->slowToStop();
-        player->setCount(0);
+		player->setCount(0);
 	} else if (right) {
 		// if the right arrow is pressed the player goes right
-        if (player->getCanMove())
-            player->moveRight();
+		if (player->getCanMove())
+			player->moveRight();
 	} else if (left) {
 		// if the left arrow is pressed the player goes left
-        if (player->getCanMove())
-            player->moveLeft();
+		if (player->getCanMove())
+			player->moveLeft();
 	}
 
 	// updates player's position in the model
-    player->move();
+	player->move();
 
 	if (player->getX() < 0)
 	{
@@ -141,7 +152,7 @@ void MainWidget::timerHit(){
 	ui->lblPowerJump->setVisible(player->powerJump());
 	ui->lblPowerSpeed->setVisible(player->powerSpeed());
 	ui->lblPowerShield->setVisible(player->powerShield());
-    ui->lblPowerScore->setVisible(player->powerScore());
+	ui->lblPowerScore->setVisible(player->powerScore());
 
 	// update screen location based on player location
 	PlayingScreen* screen = World::instance().getScreen();
@@ -165,62 +176,62 @@ void MainWidget::timerHit(){
 			 && screen->getY() > 0)
 	{
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
-    }
+	}
 
-    vector<MoveThread*> moveThreads;
-    for (size_t i = 0; i < world.getObjects().size(); i ++)
-    {
-        QCoreApplication::processEvents();
-        MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
-        moveThreads.push_back(currentThread);
-        currentThread->start();
-    }
+	vector<MoveThread*> moveThreads;
+	for (size_t i = 0; i < world.getObjects().size(); i ++)
+	{
+		QCoreApplication::processEvents();
+		MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
+		moveThreads.push_back(currentThread);
+		currentThread->start();
+	}
 
-    for (size_t i = 0; i < moveThreads.size(); ++i) {
-        QCoreApplication::processEvents();
-        MoveThread* currentThread = moveThreads.at(i);
-        currentThread->wait();
-        delete currentThread;
-    }
-    CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
-    playerCollide->start();
+	for (size_t i = 0; i < moveThreads.size(); ++i) {
+		QCoreApplication::processEvents();
+		MoveThread* currentThread = moveThreads.at(i);
+		currentThread->wait();
+		delete currentThread;
+	}
+	CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
+	playerCollide->start();
 
-    for (int i = 0; i < ui->worldWidget->children().length(); i++)
-    {
-        QCoreApplication::processEvents();
-        ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
-        if (guiObject != NULL) {
-            // updates the position of each label to the position of its object in the model
-            guiObject->updateLabelPosition();
-            // showCoin method replacement
-            if (guiObject->getObject()->getVisibility() == true) {
-                guiObject->show();
-            } else {
+	for (int i = 0; i < ui->worldWidget->children().length(); i++)
+	{
+		QCoreApplication::processEvents();
+		ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+		if (guiObject != NULL) {
+			// updates the position of each label to the position of its object in the model
+			guiObject->updateLabelPosition();
+			// showCoin method replacement
+			if (guiObject->getObject()->getVisibility() == true) {
+				guiObject->show();
+			} else {
 				guiObject->hide();
-            }
-        }
-    }
-    playerCollide->wait();
-    if (playerCollide->getDeath()) {
-        death(player);
-    }
-    delete playerCollide;
+			}
+		}
+	}
+	playerCollide->wait();
+	if (playerCollide->getDeath()) {
+		death(player);
+	}
+	delete playerCollide;
 
-    ui->lblScore->setText(QString::number(World::instance().getScore()));
+	ui->lblScore->setText(QString::number(World::instance().getScore()));
 
-    if (player->getIsAtEndOfLevel()) {
-        death(player);
-    }
+	if (player->getIsAtEndOfLevel()) {
+		death(player);
+	}
 
-    if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
-    {
-        if (world.getCheat())
-            return;
-        death(player);
-        resetPlayer(player);
-    }
+	if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight() || World::instance().getSeconds() == 0 )
+	{
+		if (world.getCheat())
+			return;
+		death(player);
+		resetPlayer(player);
+	}
 
-    labelPlayer->setPixmap(player->getImage());
+	labelPlayer->setPixmap(player->getImage());
 }
 
 void MainWidget::clockHit()
@@ -228,15 +239,15 @@ void MainWidget::clockHit()
 	if (!World::instance().getCheat())
 		World::instance().setSeconds(World::instance().getSeconds() - 1);
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
-    ui->lblCheat->hide();
-    if (World::instance().getCheat())
-    {
-        ui->lblTimeLeft->setText(QString(""));
-        ui->lblTimeLeft->setPixmap(QString(":/images/infinity.png"));
-        ui->lblTimeLeft->setScaledContents(true);
+	ui->lblCheat->hide();
+	if (World::instance().getCheat())
+	{
+		ui->lblTimeLeft->setText(QString(""));
+		ui->lblTimeLeft->setPixmap(QString(":/images/infinity.png"));
+		ui->lblTimeLeft->setScaledContents(true);
 
-        ui->lblCheat->show();
-    }
+		ui->lblCheat->show();
+	}
 	if (World::instance().getSeconds() == 0)
 	{
 		death(World::instance().getPlayer());
@@ -307,21 +318,24 @@ void MainWidget::death(Player* player)
 		} else if (player->getNumLives() == 1){
 			ui->lblLife2->hide();
 		}
-        QMediaPlayer * deathSound = new QMediaPlayer();
-        deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
-        deathSound->play();
-		//will need to split this to display different screens
+		QMediaPlayer * deathSound = new QMediaPlayer();
+		deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
+		deathSound->play();
 	} else {
-		ui->lblLife1->hide();
+		if (!player->getIsAtEndOfLevel())
+		{
+			ui->lblLife1->hide();
+			player->setImage(":/images/maincharacter/hurt");
+		}
 		timer->stop();
 		clock->stop();
-		EndGame * e = new EndGame(this);
+		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
 	}
 }
 
-//displays all the coins in the world if the player has lives left
+// displays all the coins in the world if the player has lives left
 void MainWidget::showCoin() {
 	for (Object* worldObj : World::instance().getObjects()) {
 
@@ -358,24 +372,24 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 {
 	Player* player = World::instance().getPlayer();
 
-    if (event->key() == Qt::Key_Left) {
+	if (event->key() == Qt::Key_Left) {
 		this->left = true;
-        player->setRight(false);
+		player->setRight(false);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
-        player->setRight(true);
-    } else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
-        player->setJumping(true);
-        player->setJumpOnMove(true);
-    }
-    else if (event->key() == Qt::Key_A)
-    {
-        if (player->canKick())
-        {
-            player->setKicking(true);
-            player->setCanKick(false);
-        }
-    }
+		player->setRight(true);
+	} else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
+		player->setJumping(true);
+		player->setJumpOnMove(true);
+	}
+	else if (event->key() == Qt::Key_A)
+	{
+		if (player->canKick())
+		{
+			player->setKicking(true);
+			player->setCanKick(false);
+		}
+	}
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
@@ -389,23 +403,23 @@ void MainWidget::keyReleaseEvent(QKeyEvent *event)
 
 void MoveThread::run()
 {
-    object->move();
+	object->move();
 }
 
 
 void CheckPlayerCollisionThread::run()
 {
-    for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
-        // checks to see if player the player collides with each object
-        CollisionDetails* collision = World::instance().getPlayer()->checkCollision(World::instance().getObjects().at(i));
-        if (collision != NULL) {
-            World::instance().getPlayer()->collide(collision);
-            if (dynamic_cast<Enemy*>(collision->getCollided()))
-                if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false && World::instance().getCheat() == false)
-                    death = true;
-        }
-        delete collision;
-    }
+	for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
+		// checks to see if player the player collides with each object
+		CollisionDetails* collision = World::instance().getPlayer()->checkCollision(World::instance().getObjects().at(i));
+		if (collision != NULL) {
+			World::instance().getPlayer()->collide(collision);
+			if (dynamic_cast<Enemy*>(collision->getCollided()))
+				if (collision->getCollided()->getVisibility() && World::instance().getPlayer()->powerShield() == false && World::instance().getCheat() == false)
+					death = true;
+		}
+		delete collision;
+	}
 }
 
 void MainWidget::on_PBpause_clicked()
@@ -413,13 +427,13 @@ void MainWidget::on_PBpause_clicked()
 	if (!timer->isActive())
 		// animation timer stopped means already paused
 		return;
-    timer->stop();
-    clock->stop();
+	timer->stop();
+	clock->stop();
 	PauseScreen* pause = new PauseScreen(this);
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumeFromPause);
 	connect(pause, &PauseScreen::restartClicked, this, &MainWidget::on_restartFromPause);
-    pause->show();
-    pause->raise();
+	pause->show();
+	pause->raise();
 }
 
 void MainWidget::on_resumeFromPause()

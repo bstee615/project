@@ -93,8 +93,8 @@ World::~World() {
 Object *World::createObject(const string& type) {
 	if (type.find("ob") == 0)
 		return new Object;
-	else if (type.find("it") == 0)
-		return new Item;
+    //else if (type.find("it") == 0)
+    //	return new Item;
 	else if (type.find("col") == 0)
 		return new Collectible;
 	else if (type.find("coi") == 0)

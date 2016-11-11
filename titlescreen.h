@@ -19,12 +19,13 @@ public:
 
     bool isPlaying() { return playing; }
 
+	void startLevel(QString level);
 private slots:
-	void on_btnStart_clicked();
+	void on_btnEasy_clicked();
 
     void on_lblHighScores_clicked();
 
-    void on_pushButton_clicked();
+	void on_btnMapMaker_clicked();
 
     void on_btnMedium_clicked();
 
@@ -32,7 +33,7 @@ private slots:
 
     void on_btnHard_clicked();
 
-    void on_pushButton_2_clicked();
+	void on_btnHelp_clicked();
 
     void on_btnGo_clicked();
 

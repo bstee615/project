@@ -22,8 +22,6 @@ SOURCES += main.cpp \
     player.cpp \
     platform.cpp \
     collectible.cpp \
-    movingplatform.cpp \
-    item.cpp \
     coin.cpp  \
     enemy.cpp \
     mainwidget.cpp \
@@ -46,8 +44,6 @@ HEADERS  += mainwidget.h \
     player.h \
     platform.h \
     collectible.h \
-    movingplatform.h \
-    item.h \
     coin.h \
     enemy.h \
     titlescreen.h \

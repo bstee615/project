@@ -5,12 +5,19 @@
 
 void Enemy::load(QString config)
 {
-    QList<QString> params = config.split(",");
-	Object::load(config);
-	this->setVisibility(params.at(6) == "true");
-	this->setDamage(10);
-	this->setXSpeed(2);
-    this->setRight(true);
+	try
+	{
+		QList<QString> params = config.split(",");
+		Object::load(config);
+		this->setVisibility(Object::getQListElement(params, 6) == "true");
+		this->setDamage(10);
+		this->setXSpeed(2);
+		this->setRight(true);
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString Enemy::save()
@@ -76,10 +83,17 @@ void Enemy::collide(CollisionDetails *details)
 
 void FlyingEnemy::load(QString config)
 {
-	QList<QString> params = config.split(",");
-	Enemy::load(config);
-	this->setStartX(params.at(7).toInt());
-	this->setStartY(params.at(8).toInt());
+	try
+	{
+		QList<QString> params = config.split(",");
+		Enemy::load(config);
+		this->setStartX(Object::getQListElement(params, 7).toInt());
+		this->setStartY(Object::getQListElement(params, 8).toInt());
+	}
+	catch (exception& ex)
+	{
+		throw invalid_argument(ex.what());
+	}
 }
 
 QString FlyingEnemy::save()

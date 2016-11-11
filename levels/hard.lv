@@ -4,7 +4,7 @@ hard
 0,0
 0
 :/images/easybackground.png
-player,61,540,29,48,:/images/maincharacter/standleft.png,61,532,0,0,3,false,0,false,0,false,0,false,0
+player,61,540,25,48,:/images/maincharacter/standleft.png,61,532,0,0,3,false,0,false,0,false,0,false,0
 platform,-17,588,300,100,:/images/platformdirt.png,0,0,0,0,-17,588
 platform,371,590,300,100,:/images/platformdirt.png,0,0,0,0,371,590
 platform,669,565,300,125,:/images/platformdirt.png,0,0,0,0,669,565

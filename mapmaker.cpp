@@ -241,17 +241,6 @@ void MapMaker::on_PBresize_clicked()
     }
 }
 
-void MapMaker::on_PBsetStart_clicked()
-{
-    if (ui->LEstartX->text() != "" && ui->LEstartY->text() != ""){
-        startX = ui->LEresizeX->text().toInt();
-        startY = ui->LEresizeY->text().toInt();
-        ui->LBstart->setText(ui->LEstartX->text() + "," + ui->LEstartY->text());
-        ui->LEstartX->setText("");
-        ui->LEstartY->setText("");
-    }
-}
-
 void MapMaker::on_PBsetTime_clicked()
 {
     if (ui->LEtime->text() != "") {
@@ -263,11 +252,11 @@ void MapMaker::on_PBsetTime_clicked()
 
 void MapMaker::on_Save_clicked()
 {
-    if (ui->LEfilename->text() == "" || ui->LEfilename->text().indexOf(' ') == NULL) {
+	if (ui->LEfilename->text().trimmed() == "") {
         QMessageBox::warning(this,"Error","supply a file name please.");
         return;
     }
-    string filename = (ui->LEfilename->text().toStdString()) + ".lv";
+	string filename = "data/" + (ui->LEfilename->text().toStdString()) + ".lv";
     fstream stream;
     stream.open(filename,ios::out);
     stream << ui->LEfilename->text().toStdString() << endl;

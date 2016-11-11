@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="lblTitle">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -26,13 +26,13 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/P&amp;Plogo_composite.png</pixmap>
+    <pixmap resource="resources.qrc">:/images/P&amp;Plogo_composite.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnStart">
+  <widget class="QPushButton" name="btnEasy">
    <property name="geometry">
     <rect>
      <x>374</x>
@@ -45,7 +45,7 @@
     <string>Easy</string>
    </property>
   </widget>
-  <widget class="QLabel" name="btnHelp">
+  <widget class="QLabel" name="lblBackground">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -61,25 +61,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>635</x>
-     <y>380</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 7pt &quot;Droid Sans&quot;;</string>
-   </property>
-   <property name="text">
-    <string>Beta Version</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="lblHighScores">
    <property name="geometry">
     <rect>
@@ -93,11 +74,11 @@
     <string>High Scores</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btnMapMaker">
    <property name="geometry">
     <rect>
      <x>452</x>
-     <y>560</y>
+     <y>610</y>
      <width>120</width>
      <height>32</height>
     </rect>
@@ -155,13 +136,13 @@
     <string>Hard</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="btnHelp">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>610</y>
-     <width>85</width>
-     <height>27</height>
+     <x>452</x>
+     <y>560</y>
+     <width>120</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
@@ -209,8 +190,36 @@
   <zorder>label</zorder>
   <zorder>btnStart</zorder>
   <zorder>label_2</zorder>
+  <widget class="QLabel" name="lblVersion">
+   <property name="geometry">
+    <rect>
+     <x>635</x>
+     <y>380</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sawasdee</family>
+     <pointsize>7</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Version 1.0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <zorder>lblBackground</zorder>
+  <zorder>lblTitle</zorder>
+  <zorder>btnEasy</zorder>
   <zorder>lblHighScores</zorder>
-  <zorder>pushButton</zorder>
+  <zorder>btnMapMaker</zorder>
   <zorder>btnMedium</zorder>
   <zorder>btnOtherMap</zorder>
   <zorder>leOtherMap</zorder>
@@ -219,6 +228,8 @@
   <zorder>leInitialHighScore</zorder>
   <zorder>lblHighScorePrompt</zorder>
   <zorder>btnGo</zorder>
+  <zorder>btnHelp</zorder>
+  <zorder>lblVersion</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>
