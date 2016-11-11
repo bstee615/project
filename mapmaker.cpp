@@ -7,6 +7,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <QScrollBar>
 
 using namespace std;
 
@@ -38,6 +39,9 @@ MapMaker::~MapMaker()
 
 void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful, QString& errorMSG)
 {
+	int x = scrollArea->horizontalScrollBar()->value();
+	int y = scrollArea->verticalScrollBar()->value();
+
     label->xRange = 0;
     label->yRange = 0;
     label->xSpeed = 0;
@@ -47,7 +51,7 @@ void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful,
         errorMSG = "Please enter width and height.";
         return;
     } else {
-        label->setGeometry(0,0,ui->LEwidth->text().toInt(),ui->LEheight->text().toInt());
+		label->setGeometry(x,y,ui->LEwidth->text().toInt(),ui->LEheight->text().toInt());
     }
     if (ui->LExRange->text() != ""){
         label->xRange = ui->LExRange->text().toInt();
@@ -78,7 +82,9 @@ void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful,
 
 void MapMaker::makeDecor(MovableLabel *label, QString file, int w, int h)
 {
-    label->setGeometry(0,0,w,h);
+	int x = scrollArea->horizontalScrollBar()->value();
+	int y = scrollArea->verticalScrollBar()->value();
+	label->setGeometry(x,y,w,h);
     label->setPixmap(QPixmap(file));
     label->type = "object";
     label->file = file.toStdString();
@@ -87,7 +93,9 @@ void MapMaker::makeDecor(MovableLabel *label, QString file, int w, int h)
 
 void MapMaker::makeItem(MovableLabel *label, QString file, string colType)
 {
-    label->setGeometry(0,0,32,32);
+	int x = scrollArea->horizontalScrollBar()->value();
+	int y = scrollArea->verticalScrollBar()->value();
+	label->setGeometry(x,y,32,32);
     label->setPixmap(QPixmap(file));
     label->type = "collectible";
     label->file = file.toStdString();
@@ -136,6 +144,9 @@ void MapMaker::on_PBmakeObject_clicked()
     bool successful = true;
     QString errorMSG = "";
 
+	int x = scrollArea->horizontalScrollBar()->value();
+	int y = scrollArea->verticalScrollBar()->value();
+
     if (ui->PBplayer->isChecked()) {
         for (int i = 0; i < ui->QWworld->children().size(); ++i) {
             MovableLabel* current = dynamic_cast<MovableLabel*>(ui->QWworld->children().at(i));
@@ -146,17 +157,17 @@ void MapMaker::on_PBmakeObject_clicked()
                 }
             }
         }
-        label->setGeometry(0,0,25,48);
+		label->setGeometry(x,y,25,48);
         label->setPixmap(QPixmap(":/images/maincharacter/stand.png"));
         label->type = "player";
         label->file = "images/maincharacter/stand.png";
     } else if (ui->PBcoin->isChecked()){
-        label->setGeometry(0,0,32,32);
+		label->setGeometry(x,y,32,32);
         label->setPixmap(QPixmap(":/images/goldCoin/goldCoin5.png"));
         label->type = "coin";
         label->file = ":/images/goldCoin/goldCoin5.png";
     } else if (ui->PBwin->isChecked()){
-        label->setGeometry(0,0,50,50);
+		label->setGeometry(x,y,50,50);
         label->setPixmap(QPixmap(":/images/flag.png"));
         label->setScaledContents(true);
         label->type = "endGame";
@@ -180,12 +191,12 @@ void MapMaker::on_PBmakeObject_clicked()
     } else if (ui->PBplatform9->isChecked()){
         makePlatform(label,":/images/platformstone.png",successful,errorMSG);
     } else if (ui->PBenemyFly->isChecked()) {
-        label->setGeometry(0,0,42,42);
+		label->setGeometry(x,y,42,42);
         label->setPixmap(QPixmap(":/images/flyingrobot.png").scaled(42,42));
         label->type = "flyingenemy";
         label->file = ":/images/flyingrobot.png";
     } else if (ui->PBenemyGround->isChecked()) {
-        label->setGeometry(0,0,42,48);
+		label->setGeometry(x,y,42,48);
         label->setPixmap(QPixmap(":/images/groundrobot.png").scaled(42,48));
         label->type = "enemy";
         label->file = ":/images/groundrobot.png";
@@ -272,7 +283,7 @@ void MapMaker::on_Save_clicked()
                 QRect thisone = current->geometry();
                 stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
                        << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()
-                       << ",0,0,none,3,false,0,false,0,false,0,false,0" << endl;
+					   << ",0,0,3,false,0,false,0,false,0,false,0" << endl;
             }
         }
     }
