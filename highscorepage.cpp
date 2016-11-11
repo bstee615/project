@@ -22,14 +22,13 @@ HighScorePage::HighScorePage(QWidget *parent) :
 
 HighScorePage::~HighScorePage()
 {
+    HighScore::teardown();
     delete ui;
 }
 
 void HighScorePage::on_btnReturnHome_clicked()
 {
-    //TitleScreen* title = new TitleScreen(widgetParent);
-    //title->show();
-    //title->raise();
+    HighScore::instance().SaveScores(World::instance().getLevelName());
     deleteLater();
 }
 
