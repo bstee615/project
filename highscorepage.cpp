@@ -22,7 +22,6 @@ HighScorePage::HighScorePage(QWidget *parent) :
 
 HighScorePage::~HighScorePage()
 {
-    HighScore::teardown();
     delete ui;
 }
 

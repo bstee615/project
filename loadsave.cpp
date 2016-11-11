@@ -5,6 +5,7 @@
 #include "world.h"
 #include "loadsave.h"
 #include "object.h"
+#include "highscore.h"
 
 QString getQListElement(QList<QString> theList, int index)
 {
@@ -27,6 +28,8 @@ LoadSave& LoadSave::instance()
 void LoadSave::load(QString filename)
 {
     World::instance().reset();
+    HighScore::instance();
+    HighScore::teardown();
     QFile file(filename);
     if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
