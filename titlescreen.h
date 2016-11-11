@@ -35,6 +35,8 @@ private slots:
 
 	void on_btnHelp_clicked();
 
+    void on_btnGo_clicked();
+
 private:
 	Ui::TitleScreen *ui;
     QWidget* widgetParent;

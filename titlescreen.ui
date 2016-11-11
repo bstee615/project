@@ -149,6 +149,47 @@
     <string>Help</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="leInitialHighScore">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>510</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblHighScorePrompt">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>500</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Please specify the high score level you want 
+ and then press go!</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnGo">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>550</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>go!</string>
+   </property>
+  </widget>
+  <zorder>btnHelp</zorder>
+  <zorder>label</zorder>
+  <zorder>btnStart</zorder>
+  <zorder>label_2</zorder>
   <widget class="QLabel" name="lblVersion">
    <property name="geometry">
     <rect>
@@ -183,6 +224,10 @@
   <zorder>btnOtherMap</zorder>
   <zorder>leOtherMap</zorder>
   <zorder>btnHard</zorder>
+  <zorder>pushButton_2</zorder>
+  <zorder>leInitialHighScore</zorder>
+  <zorder>lblHighScorePrompt</zorder>
+  <zorder>btnGo</zorder>
   <zorder>btnHelp</zorder>
   <zorder>lblVersion</zorder>
  </widget>
