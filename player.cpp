@@ -195,12 +195,13 @@ void Player::collide(CollisionDetails *details)
 		if(c->getisCollectible()) {
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
-		}
-		if (coinSound->state() == QMediaPlayer::PlayingState) {
-			coinSound->setPosition(0);
-		} else if (coinSound->state() == QMediaPlayer::PlayingState) {
-			coinSound->play();
-		}
+        }
+        if (coinSound->state() == QMediaPlayer::PlayingState) {
+            coinSound->setPosition(0);
+
+        } else if (coinSound->state() == QMediaPlayer::StoppedState) {
+            coinSound->play();
+        }
 	}
 	else if (dynamic_cast<Enemy*>(details->getCollided()) != NULL)
 	{
@@ -214,11 +215,12 @@ void Player::collide(CollisionDetails *details)
 				ySpeed = 5;
 			en->setVisibility(false);
 
-			if (hurtSound->state() == QMediaPlayer::PlayingState) {
-				hurtSound->setPosition(0);
-			} else if (hurtSound->state() == QMediaPlayer::PlayingState) {
-				hurtSound->play();
-			}
+            if (hurtSound->state() == QMediaPlayer::PlayingState) {
+                hurtSound->setPosition(0);
+
+            } else if (hurtSound->state() == QMediaPlayer::StoppedState) {
+                hurtSound->play();
+            }
 			return;
 		}
 
@@ -262,11 +264,11 @@ void Player::collide(CollisionDetails *details)
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
 
-		if (victorySound->state() == QMediaPlayer::PlayingState) {
-			victorySound->setPosition(0);
-		} else if (victorySound->state() == QMediaPlayer::PlayingState) {
-			victorySound->play();
-		}
+        if (victorySound->state() == QMediaPlayer::PlayingState) {
+            victorySound->setPosition(0);
+        } else if (victorySound->state() == QMediaPlayer::StoppedState) {
+            victorySound->play();
+        }
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{

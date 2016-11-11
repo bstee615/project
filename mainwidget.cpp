@@ -321,6 +321,7 @@ void MainWidget::death(Player* player)
 		QMediaPlayer * deathSound = new QMediaPlayer();
 		deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
 		deathSound->play();
+
 	} else {
 		if (!player->getIsAtEndOfLevel())
 		{
