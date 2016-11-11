@@ -169,7 +169,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Please specify the high score level you want 
+    <string>Please specify the level you want 
  and then press go!</string>
    </property>
   </widget>
@@ -183,13 +183,9 @@
     </rect>
    </property>
    <property name="text">
-    <string>go!</string>
+    <string>Go!</string>
    </property>
   </widget>
-  <zorder>btnHelp</zorder>
-  <zorder>label</zorder>
-  <zorder>btnStart</zorder>
-  <zorder>label_2</zorder>
   <widget class="QLabel" name="lblVersion">
    <property name="geometry">
     <rect>
@@ -224,7 +220,6 @@
   <zorder>btnOtherMap</zorder>
   <zorder>leOtherMap</zorder>
   <zorder>btnHard</zorder>
-  <zorder>pushButton_2</zorder>
   <zorder>leInitialHighScore</zorder>
   <zorder>lblHighScorePrompt</zorder>
   <zorder>btnGo</zorder>
