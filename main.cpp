@@ -8,7 +8,8 @@ void UnitTest() {
     Object::unitTest();
 	PlayingScreen::unitTest();
     //HighScore::UnitTests();
-	qDebug() << "Passed all unit tests.";
+    Enemy::unitTest();
+    qDebug() << "Passed all unit tests.";
 }
 
 int main(int argc, char *argv[])

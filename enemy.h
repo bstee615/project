@@ -21,17 +21,19 @@ public:
 
     virtual void move();
     virtual void collide(CollisionDetails* details);
+
+    static void unitTest();
 };
 
 class FlyingEnemy: public Enemy
 {
     bool up;
-    int xCount;
+    int xCount, yCount;
 	int startX, startY;
 
 public:
-    FlyingEnemy(): Enemy(), up(true), xCount(0) { ySpeed = 2; }
-    FlyingEnemy(int x_, int y_, int width_, int height_, QString image_): Enemy(x_,y_,width_,height_,image_), up(true), xCount(0) { ySpeed = 2; }
+    FlyingEnemy();
+    FlyingEnemy(int x_, int y_, int width_, int height_, QString image_);
 
     void move();
     void collide(CollisionDetails*);
@@ -44,6 +46,8 @@ public:
 
 	void setStartX(int x) {startX = x;}
 	void setStartY(int y) {startY = y;}
+
+    static void unitTest() { }
 };
 
 #endif // ENEMY_H
