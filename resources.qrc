@@ -81,5 +81,7 @@
         <file>images/victorysound.wav</file>
         <file>images/goldCoin/goldCoinback1.png</file>
         <file>images/goldCoin/goldCoinback2.png</file>
+        <file>images/grunt.mp3</file>
+        <file>images/gruntsound.wav</file>
     </qresource>
 </RCC>

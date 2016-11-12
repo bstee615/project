@@ -325,7 +325,20 @@ void MainWidget::resetPlayer(Player* player)
 			coin->setVisibility(true);
 			coin->setisCollectible(true);
 		}
-	}
+
+        Enemy* enemy = dynamic_cast<Enemy*>(worldObj);
+        if (enemy != NULL)
+            enemy->setVisibility(true);
+
+        Collectible* col = dynamic_cast<Collectible*>(worldObj);
+        if (col != NULL)
+            col->setVisibility(true);
+    }
+
+    player->setPower("speed",false);
+    player->setPower("shield",false);
+    player->setPower("jump",false);
+    player->setPower("score",false);
 
     for (int i = 0; i < ui->worldWidget->children().length(); i++)
     {
@@ -355,7 +368,9 @@ void MainWidget::death(Player* player)
 			ui->lblLife2->hide();
 		}
 		QMediaPlayer * deathSound = new QMediaPlayer();
-		deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
+        deathSound->setMedia(QUrl("qrc:/images/grunt.mp3"));
+        if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
+            deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
 		deathSound->play();
 
 	} else {
@@ -373,7 +388,7 @@ void MainWidget::death(Player* player)
 		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
-	}
+    }
 }
 
 // displays all the coins in the world if the player has lives left
