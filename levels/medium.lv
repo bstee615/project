@@ -25,9 +25,9 @@ object,891,609,30,75,:/images/objecthill.png
 object,2635,547,30,75,:/images/objecthill.png
 object,140,643,50,50,:/images/objectarrowsign.png
 object,1251,575,30,75,:/images/objecthill.png
-flyingenemy,2119,641,42,42,:/images/flyingrobot.png,true,2119,641
-flyingenemy,1986,527,42,42,:/images/flyingrobot.png,true,1986,527
-flyingenemy,1032,598,42,42,:/images/flyingrobot.png,true,1032,598
+flyingenemy,2119,641,32,32,:/images/flyingrobot.png,true,2119,641
+flyingenemy,1986,527,32,32,:/images/flyingrobot.png,true,1986,527
+flyingenemy,1032,598,32,32,:/images/flyingrobot.png,true,1032,598
 enemy,748,633,42,48,:/images/groundrobot.png,true,748,633
 enemy,2410,625,42,48,:/images/groundrobot.png,true,2430,625
 enemy,1677,602,42,48,:/images/groundrobot.png,true,1677,602

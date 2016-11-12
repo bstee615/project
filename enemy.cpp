@@ -3,6 +3,10 @@
 #include "platform.h"
 #include <QApplication>
 
+#include <cassert>
+
+using namespace std;
+
 Enemy::Enemy()
 {
     right = true;
@@ -11,6 +15,8 @@ Enemy::Enemy()
     ySpeed = 1;
     count = 0;
     currentPlatform = new Platform();
+
+    unitTest();
 }
 Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_): Object(x_,y_,width_,height_,image_)
 {
@@ -20,6 +26,8 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_): Object(x_
     ySpeed = 1;
     count = 0;
     currentPlatform = new Platform();
+
+    unitTest();
 }
 
 void Enemy::load(QString config)
@@ -48,6 +56,7 @@ QString Enemy::save()
 
 void Enemy::move()
 {
+    // if the enemy's at a cliff, it turns around.
     if (getRightPoint() + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
         right = !right;
 
@@ -81,14 +90,10 @@ void Enemy::collide(CollisionDetails *details)
             if (details->getXStopCollide() > 0)
             {
                 right = true;
-                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
-                    x += 5;
             }
             if (details->getXStopCollide() < 0)
             {
                 right = false;
-                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
-                    x -= 5;
             }
         }
         if (details->getYStopCollide() != 0) {
@@ -99,6 +104,43 @@ void Enemy::collide(CollisionDetails *details)
 }
 
 // ======FlyingEnemy=====
+
+void FlyingEnemy::unitTest()
+{
+    Enemy* enemy = new Enemy(0,0,20,20,"enemy");
+    Player* player = new Player(10,0,20,20,"player");
+    CollisionDetails* collision = player->checkCollision(enemy);
+
+    player->setWalkImage();
+    assert(player->getImage() == ":/images/maincharacter/hurtleft.png");
+
+    collision = player->checkCollision(enemy);
+    assert (enemy->getVisibility() == false);
+    delete player;
+
+    Platform* plat = new Platform(10,0,20,20,"player");
+    enemy->setRight(true);
+    collision = enemy->checkCollision(plat);
+    assert (enemy->isRight() == true);
+
+    delete plat;
+    delete enemy;
+    delete collision;
+}
+
+FlyingEnemy::FlyingEnemy(): Enemy(), up(true), xCount(0), yCount(0)
+{
+    ySpeed = 2;
+
+    unitTest();
+}
+
+FlyingEnemy::FlyingEnemy(int x_, int y_, int width_, int height_, QString image_): Enemy(x_,y_,width_,height_,image_), up(true), xCount(0), yCount(0)
+{
+    ySpeed = 2;
+
+    unitTest();
+}
 
 void FlyingEnemy::load(QString config)
 {
@@ -139,14 +181,15 @@ void FlyingEnemy::move()
     else
         y += ySpeed;
 
-    count ++;
+    // used to turn the FlyingEnemy after it travels a certain distance.
+    yCount ++;
     xCount ++;
-    if (count == 10)
+    if (yCount == 10)
     {
         up = !up;
-        count = 0;
+        yCount = 0;
     }
-    if (xCount == 40)
+    if (xCount == 50)
     {
         right = !right;
         xCount = 0;
@@ -171,26 +214,20 @@ void FlyingEnemy::collide(CollisionDetails *details)
             if (details->getXStopCollide() > 0)
             {
                 setRight(true);
-                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
-                    setX(getX() + 5);
             }
             if (details->getXStopCollide() < 0)
             {
                 setRight(false);
-                if (dynamic_cast<Player*>(details->getCollided()) != NULL)
-                    setX(getX() - 5);
             }
         }
         if (details->getYStopCollide() != 0) {
             y += details->getYStopCollide();
             if (details->getYStopCollide() < 0)
             {
-                setY(getY() + 5);
                 up = true;
             }
             if (details->getYStopCollide() > 0)
             {
-                setY(getY() + 5);
                 up = false;
             }
         }

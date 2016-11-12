@@ -32,5 +32,5 @@ collectible,800,100,32,32,:/images/powerspeed.png,speed,true
 collectible,500,150,32,32,:/images/powershield.png,shield,true
 collectible,400,150,32,32,:/images/powerscore.png,score,true
 enemy,400,212,42,48,:/images/groundrobot.png,true
-flyingenemy,800,100,42,42,:/images/flyingrobot.png,true,800,100
-flyingenemy,1960,59,42,42,:/images/flyingrobot.png,true,1960,59
+flyingenemy,800,100,32,32,:/images/flyingrobot.png,true,800,100
+flyingenemy,1960,59,32,32,:/images/flyingrobot.png,true,1960,59
