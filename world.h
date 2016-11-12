@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "playingscreen.h"
 #include "endgameobject.h"
+#include "QRect"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ class World {
 	QString backgroundPath;
 	bool cheat;
     bool isPlaying;
+    QRect currentScreen;
 
 public:
 	Object *createObject(const string& type);
@@ -78,6 +80,9 @@ public:
 
 	QString getBackgroundPath() {return backgroundPath;}
 	void setBackgroundPath(QString filename) {backgroundPath = filename;}
+
+    QRect getCurrentScreen() { return currentScreen; }
+    void setCurrentScreen(QRect rect) { currentScreen = rect; }
 
 
 	// Removes object with <id> from objects and returns it, or returns NULL if not found

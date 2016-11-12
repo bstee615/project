@@ -168,5 +168,9 @@ void LoadSave::save(QString filename)
 
 void LoadSave::teardown()
 {
-    delete loadsave;
+	if (loadsave != NULL)
+	{
+		delete loadsave;
+		loadsave = NULL;
+	}
 }

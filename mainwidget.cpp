@@ -118,7 +118,7 @@ void MainWidget::loadLevel(QString filename)
 void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
-	World& world = World::instance();
+    World& world = World::instance();
 	Player* player = world.getPlayer();
 
 	if ((right && left) || (!right && !left)) {
@@ -178,6 +178,8 @@ void MainWidget::timerHit(){
 		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
 	}
 
+    world.setCurrentScreen(QRect(screen->getX() - 20, screen->getY() - 20, screen->getScreenWidth() + 40, screen->getScreenHeight() + 40));
+
 	vector<MoveThread*> moveThreads;
 	for (size_t i = 0; i < world.getObjects().size(); i ++)
 	{
@@ -201,14 +203,17 @@ void MainWidget::timerHit(){
 		QCoreApplication::processEvents();
 		ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
 		if (guiObject != NULL) {
-			// updates the position of each label to the position of its object in the model
-			guiObject->updateLabelPosition();
-			// showCoin method replacement
-			if (guiObject->getObject()->getVisibility() == true) {
-				guiObject->show();
-			} else {
-				guiObject->hide();
-			}
+            Object * obj = guiObject->getObject();
+            if(QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(world.getCurrentScreen())){
+                // updates the position of each label to the position of its object in the model
+                guiObject->updateLabelPosition();
+                // showCoin method replacement
+                if (guiObject->getObject()->getVisibility() == true) {
+                    guiObject->show();
+                } else {
+                    guiObject->hide();
+                }
+            }
 		}
 	}
 	playerCollide->wait();
@@ -306,6 +311,22 @@ void MainWidget::resetPlayer(Player* player)
 			coin->setisCollectible(true);
 		}
 	}
+
+    for (int i = 0; i < ui->worldWidget->children().length(); i++)
+    {
+        QCoreApplication::processEvents();
+        ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+		if (guiObject != NULL) {
+            // updates the position of each label to the position of its object in the model
+            guiObject->updateLabelPosition();
+            // showCoin method replacement
+            if (guiObject->getObject()->getVisibility() == true) {
+                guiObject->show();
+            } else {
+                guiObject->hide();
+            }
+        }
+    }
 }
 
 void MainWidget::death(Player* player)
