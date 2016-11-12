@@ -467,9 +467,14 @@ void MoveThread::run()
 
 void CheckPlayerCollisionThread::run()
 {
-	for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
-		// checks to see if player the player collides with each object
-		CollisionDetails* collision = World::instance().getPlayer()->checkCollision(World::instance().getObjects().at(i));
+    Object* obj;
+    for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
+        obj = World::instance().getObjects().at(i);
+        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+            continue;
+        }
+        // checks to see if player the player collides with each object
+        CollisionDetails* collision = World::instance().getPlayer()->checkCollision(obj);
 		if (collision != NULL) {
 			World::instance().getPlayer()->collide(collision);
 			if (dynamic_cast<Enemy*>(collision->getCollided()))
