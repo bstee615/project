@@ -201,14 +201,14 @@ CollisionDetails* Object::checkCollision(Object *that)
             }
         } else if (thisRec.intersects(QRect(that->x,that->y,that->width,1)) &&
                    thisRec.intersects(QRect(that->x,thatY2,that->width,1))) {
-            if (size_t(this->x - thatX2) < size_t(thisX2 - that->x)){
+            if (size_t(this->x - thatX2) > size_t(this->x - that->x)){
                 xStopCollide = thatX2 - this->x;
             } else {
                 xStopCollide = that->x - thisX2;
             }
         } else if (thisRec.intersects(QRect(that->x,that->y,1,that->height)) &&
                    thisRec.intersects(QRect(thatX2,that->y,1,that->height))) {
-            if (size_t(this->y - thatY2) > size_t(thisY2 - that->y)){
+            if (size_t(this->y - thatY2) > size_t(this->y - that->y)){
                 yStopCollide = thatY2 - this->y + 1;
             } else {
                 yStopCollide = that->y - thisY2;

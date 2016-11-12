@@ -101,10 +101,16 @@ void MainWidget::loadLevel(QString filename)
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
 	}
+    ui->lblPowerups->raise();
+    ui->lblPowerJump->raise();
+    ui->lblPowerScore->raise();
+    ui->lblPowerShield->raise();
+    ui->lblPowerSpeed->raise();
 	ui->lblLife1->show();
 	ui->lblLife2->show();
 	ui->lblLife3->show();
 
+    ui->lblHealth->raise();
 	ui->lblLife1->raise();
 	ui->lblLife2->raise();
 	ui->lblLife3->raise();
