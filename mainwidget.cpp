@@ -136,17 +136,13 @@ void MainWidget::RotateTimerHit() {
         ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
         if (object != NULL){
             Object * obj = object->getObject();
-            if (dynamic_cast<Coin*>(obj) != nullptr) {
+            if (dynamic_cast<Coin*>(obj) != nullptr || dynamic_cast<EndGameObject*>(obj) != nullptr) {
                 if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
                     continue;
                 }
                 //replace moveCoin
                 obj->move();
                 object->setPixmap(QPixmap(obj->getImage()));
-            }
-           else if (dynamic_cast<EndGameObject*>(object->getObject()) != nullptr) {
-		    obj->move();
-                    object->setPixmap(QPixmap(obj->getImage()));
             }
          }
      }
