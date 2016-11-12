@@ -2,6 +2,7 @@
 #include "world.h"
 #include "platform.h"
 #include <QApplication>
+#include "QRect"
 
 void Enemy::load(QString config)
 {
@@ -29,6 +30,9 @@ QString Enemy::save()
 
 void Enemy::move()
 {
+    if(!QRect(x,y,width,height).intersects(World::instance().getCurrentScreen())) {
+        return;
+    }
     if (getRightPoint() + xSpeed >= currentPlatform->getRightPoint() || x - xSpeed <= currentPlatform->getX())
         right = !right;
 
@@ -106,6 +110,9 @@ QString FlyingEnemy::save()
 
 void FlyingEnemy::move()
 {
+    if(!QRect(x,y,width,height).intersects(World::instance().getCurrentScreen())) {
+        return;
+    }
     if (isRight())
     {
         x += xSpeed;
