@@ -6,7 +6,7 @@
         <file>images/maincharacter/hurtleft.png</file>
         <file>images/groundrobotleft.png</file>
         <file>images/flag.png</file>
-	<file>images/flag2.png</file>
+        <file>images/flag2.png</file>
         <file>images/flyingrobot.png</file>
         <file>images/flyingrobotleft.png</file>
         <file>images/bridgelogs.png</file>
@@ -77,6 +77,9 @@
         <file>levels/hard.lv</file>
         <file>levels/medium.lv</file>
         <file>images/coinDrop.wav</file>
-        
+        <file>images/coinsound.wav</file>
+        <file>images/deathsound.wav</file>
+        <file>images/punchsound.wav</file>
+        <file>images/victorysound.wav</file>
     </qresource>
 </RCC>

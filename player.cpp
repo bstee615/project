@@ -248,6 +248,7 @@ void Player::collide(CollisionDetails *details)
 				World::instance().incScore(15);
 				en->setVisibility(false);
 				xSpeed /= 2;
+                attackSound->play();
 				return;
 			}
 			if (World::instance().getCheat())
@@ -265,6 +266,7 @@ void Player::collide(CollisionDetails *details)
 				World::instance().incScore(15);
 				en->setVisibility(false);
 				xSpeed /= 2;
+                attackSound->play();
 				return;
 			}
 			if (World::instance().getCheat())

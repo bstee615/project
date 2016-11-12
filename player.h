@@ -38,15 +38,18 @@ class Player : public Object
     QSoundEffect * coinSound;
     QSoundEffect * victorySound;
     QSoundEffect * hurtSound;
+    QSoundEffect * attackSound;
 
 public:
     Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {
         coinSound = new QSoundEffect;
-        coinSound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
+        coinSound->setSource(QUrl::fromLocalFile(":/images/coinsound.wav"));
         victorySound = new QSoundEffect;
-        victorySound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
+        victorySound->setSource(QUrl::fromLocalFile(":/images/victorysound.wav"));
         hurtSound = new QSoundEffect;
-        hurtSound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
+        hurtSound->setSource(QUrl::fromLocalFile(":/images/punchsound.wav"));
+        attackSound = new QSoundEffect;
+        attackSound->setSource(QUrl::fromLocalFile(":/images/punchsound.wav"));
 
         enableMoveCount = 0;
         kickingCount = 0;
