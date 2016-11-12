@@ -401,9 +401,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 	if (event->key() == Qt::Key_Left) {
 		this->left = true;
         player->setRight(false);
+        if (player->isRight())
+            player->setXSpeed(-1);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
         player->setRight(true);
+        if (!player->isRight())
+            player->setXSpeed(-1);
 	} else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
 		player->setJumping(true);
         player->setJumpOnMove(true);
@@ -416,7 +420,6 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 			player->setCanKick(false);
         }
     }
-    player->setWalkImage();
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
