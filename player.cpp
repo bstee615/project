@@ -339,32 +339,12 @@ void Player::setWalkImage()
 		{
 			canMove = true;
 			enableMoveCount = 0;
-		}
+        }
 
-		return;
+        return;
 	}
 
-	if (!cankick)
-	{
-		kickingCount ++;
-		if (kickingCount == 10)
-		{
-			kicking = false;
-		}
-		if (kickingCount == 20)
-		{
-			cankick = true;
-			kickingCount = 0;
-		}
-
-		image = ":/images/maincharacter/kick";
-		if (!right)
-			image = ":/images/maincharacter/kickleft.png";
-
-		return;
-	}
-
-	if (xSpeed != 0)
+    if (xSpeed != 0)
 	{
 		image = ":/images/maincharacter/walk";
 		if (count < 7)
@@ -386,7 +366,8 @@ void Player::setWalkImage()
 			image += "left";
 		image += ".png";
 	}
-	else
+
+    if (xSpeed == 0)
 	{
 		image = ":/images/maincharacter/stand";
 		if (powerscore)
@@ -395,7 +376,8 @@ void Player::setWalkImage()
 			image += "left";
 		image += ".png";
 	}
-	if (jumping)
+
+    if (jumping)
 	{
 		image = ":/images/maincharacter/jump2";
 		if (powerjump)
@@ -404,4 +386,24 @@ void Player::setWalkImage()
 			image += "left";
 		image += ".png";
 	}
+
+    if (!cankick)
+    {
+        kickingCount ++;
+        if (kickingCount == 10)
+        {
+            kicking = false;
+        }
+        if (kickingCount == 20)
+        {
+            cankick = true;
+            kickingCount = 0;
+        }
+
+        image = ":/images/maincharacter/kick.png";
+        if (!right)
+            image = ":/images/maincharacter/kickleft.png";
+
+        return;
+    }
 }
