@@ -90,6 +90,7 @@ void LoadSave::load(QString filename)
             throw runtime_error("The program did not load all of the objects!");
 
         file.close();
+        World::instance().setCurrentScreen(QRect(0,0,944,688));
     }
     else
     {

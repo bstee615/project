@@ -125,13 +125,19 @@ void MainWidget::loadLevel(QString filename)
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
 void MainWidget::coinRotateTimerHit() {
-    moveCoin();
+    // Andrew - consolidated to 1 loop
+    //moveCoin();
     foreach (QObject * o , ui->worldWidget->children()) {
-
-        if (dynamic_cast<ObjectLabel*>(o) != nullptr){
-            ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
+        QCoreApplication::processEvents();
+        ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
+        if (object != NULL){
+            if (!object->geometry().intersects(World::instance().getCurrentScreen())) {
+                continue;
+            }
             if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
                     Coin * c = dynamic_cast<Coin *>(object->getObject());
+                    //replace moveCoin
+                    c->move();
                     object->setPixmap(QPixmap(c->getImage()));
             }
          }
