@@ -30,6 +30,7 @@ QString Coin::save()
 	return out;
 }
 
+// instead of moving the coin, changes the animation frame.
 void Coin::move()
 {
     count ++;

@@ -317,7 +317,6 @@ void MainWidget::resetPlayer(Player* player)
         QCoreApplication::processEvents();
         ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
         if (guiObject != NULL) {
-            Object * obj = guiObject->getObject();
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
