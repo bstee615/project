@@ -161,9 +161,7 @@ void Player::move()
 	{
 		y = World::instance().getScreen()->getLevelHeight() - height;
 		ySpeed = 0;
-	}
-
-	setWalkImage();
+    }
 
     if (x < 0)
     {
@@ -175,6 +173,24 @@ void Player::move()
         x = World::instance().getScreen()->getLevelWidth() - width;
         xSpeed = 0;
     }
+
+    if (!cankick)
+    {
+        kickingCount ++;
+        if (kickingCount == 10)
+        {
+            kicking = false;
+        }
+        if (kickingCount == 20)
+        {
+            cankick = true;
+            kickingCount = 0;
+        }
+    }
+
+    count ++;
+    if (count == 15)
+        count = 0;
 }
 
 void Player::collide(CollisionDetails *details)
@@ -332,8 +348,6 @@ int& Player::getPowerTime(string pow)
 
 void Player::setWalkImage()
 {
-	count ++;
-
 	if (!canMove)
 	{
 		image = ":/images/maincharacter/hurt";
@@ -360,17 +374,16 @@ void Player::setWalkImage()
 		{
 			image += "1";
 		}
-		else if (count < 15)
+        else
 		{
 			image += "2";
-		}
-		else if (count == 15)
-		{
-			count = 0;
-			image += "1";
-		}
+        }
 		if (powerspeed)
 			image += "speed";
+        if (xSpeed > 0)
+            right = true;
+        if (xSpeed < 0)
+            right = false;
 		if (!right)
 			image += "left";
 		image += ".png";
@@ -396,19 +409,8 @@ void Player::setWalkImage()
 		image += ".png";
 	}
 
-    if (!cankick)
+    if (kicking)
     {
-        kickingCount ++;
-        if (kickingCount == 10)
-        {
-            kicking = false;
-        }
-        if (kickingCount == 20)
-        {
-            cankick = true;
-            kickingCount = 0;
-        }
-
         image = ":/images/maincharacter/kick.png";
         if (!right)
             image = ":/images/maincharacter/kickleft.png";

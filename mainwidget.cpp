@@ -138,6 +138,7 @@ void MainWidget::timerHit(){
 	// updates player's position in the model
     MoveThread * playerMove = new MoveThread(player);
     playerMove->start();
+    player->setWalkImage();
 
 	ui->lblPowerJump->setVisible(player->powerJump());
 	ui->lblPowerSpeed->setVisible(player->powerSpeed());
@@ -373,13 +374,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 
 	if (event->key() == Qt::Key_Left) {
 		this->left = true;
-		player->setRight(false);
+        player->setRight(false);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
-		player->setRight(true);
+        player->setRight(true);
 	} else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
 		player->setJumping(true);
-		player->setJumpOnMove(true);
+        player->setJumpOnMove(true);
 	}
 	else if (event->key() == Qt::Key_A)
 	{
@@ -387,17 +388,18 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 		{
 			player->setKicking(true);
 			player->setCanKick(false);
-		}
-	}
+        }
+    }
+    player->setWalkImage();
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Left) {
-		this->left = false;
+        this->left = false;
 	} else if (event->key() == Qt::Key_Right) {
-		this->right = false;
-	}
+        this->right = false;
+    }
 }
 
 void MoveThread::run()
