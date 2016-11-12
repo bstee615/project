@@ -356,7 +356,10 @@ void MainWidget::death(Player* player)
 		if (!player->getIsAtEndOfLevel())
 		{
 			ui->lblLife1->hide();
-			player->setImage(":/images/maincharacter/hurt");
+			if (player->isRight())
+				player->setImage(":/images/maincharacter/hurt.png");
+			else
+				player->setImage(":/images/maincharacter/hurtleft.png");
 		}
 		timer->stop();
 		clock->stop();
