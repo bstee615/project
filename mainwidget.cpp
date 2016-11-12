@@ -136,58 +136,32 @@ void MainWidget::timerHit(){
 	}
 
 	// updates player's position in the model
-	player->move();
-
-	if (player->getX() < 0)
-	{
-		player->setX(0);
-		player->setXSpeed(0);
-	}
-	if (player->getRightPoint() > World::instance().getScreen()->getLevelWidth())
-	{
-		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
-		player->setXSpeed(0);
-	}
+    MoveThread * playerMove = new MoveThread(player);
+    playerMove->start();
 
 	ui->lblPowerJump->setVisible(player->powerJump());
 	ui->lblPowerSpeed->setVisible(player->powerSpeed());
 	ui->lblPowerShield->setVisible(player->powerShield());
 	ui->lblPowerScore->setVisible(player->powerScore());
 
-	// update screen location based on player location
-	PlayingScreen* screen = World::instance().getScreen();
-	if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
-			&& (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
-	{
-		screen->setX(min(player->getX() - screen->getCenterX((player->getWidth())), screen->getLevelWidth() - screen->getScreenWidth()));
-	}
-	else if (player->getX() - screen->getX() < screen->getCenterX(player->getWidth())
-			 && screen->getX() > 0)
-	{
-		screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
-	}
-
-	if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
-			&& (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
-	{
-		screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
-	}
-	else if (player->getY() - screen->getY() < screen->getCenterY(player->getHeight())
-			 && screen->getY() > 0)
-	{
-		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
-	}
-
-    world.setCurrentScreen(QRect(screen->getX() - 20, screen->getY() - 20, screen->getScreenWidth() + 40, screen->getScreenHeight() + 40));
-
 	vector<MoveThread*> moveThreads;
 	for (size_t i = 0; i < world.getObjects().size(); i ++)
 	{
-		QCoreApplication::processEvents();
-		MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
-		moveThreads.push_back(currentThread);
-		currentThread->start();
+        QCoreApplication::processEvents();
+        Object* obj = world.getObjects().at(i);
+        if(dynamic_cast<Enemy*>(obj) != NULL || dynamic_cast<Platform*>(obj) != NULL){
+            MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
+            moveThreads.push_back(currentThread);
+            currentThread->start();
+        }
 	}
+
+    playerMove->wait();
+    delete playerMove;
+
+    // update screen location based on player location
+    ScreenMoveThread * screenMove = new ScreenMoveThread();
+    screenMove->start();
 
 	for (size_t i = 0; i < moveThreads.size(); ++i) {
 		QCoreApplication::processEvents();
@@ -195,8 +169,12 @@ void MainWidget::timerHit(){
 		currentThread->wait();
 		delete currentThread;
 	}
+
 	CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
 	playerCollide->start();
+
+    screenMove->wait();
+    delete screenMove;
 
 	for (int i = 0; i < ui->worldWidget->children().length(); i++)
 	{
@@ -475,4 +453,35 @@ void MainWidget::on_restartFromPause()
 void MainWidget::on_loadState(QString filename)
 {
 	loadLevel(filename);
+}
+
+
+void ScreenMoveThread::run()
+{
+    Player* player = World::instance().getPlayer();
+    // update screen location based on player location
+    PlayingScreen* screen = World::instance().getScreen();
+    if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
+            && (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
+    {
+        screen->setX(min(player->getX() - screen->getCenterX((player->getWidth())), screen->getLevelWidth() - screen->getScreenWidth()));
+    }
+    else if (player->getX() - screen->getX() < screen->getCenterX(player->getWidth())
+             && screen->getX() > 0)
+    {
+        screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
+    }
+
+    if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
+            && (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
+    {
+        screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
+    }
+    else if (player->getY() - screen->getY() < screen->getCenterY(player->getHeight())
+             && screen->getY() > 0)
+    {
+        screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
+    }
+
+    World::instance().setCurrentScreen(QRect(screen->getX() - 20, screen->getY() - 20, screen->getScreenWidth() + 40, screen->getScreenHeight() + 40));
 }

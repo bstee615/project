@@ -164,6 +164,17 @@ void Player::move()
 	}
 
 	setWalkImage();
+
+    if (x < 0)
+    {
+        x = 0;
+        xSpeed = 0;
+    }
+    if (getRightPoint() > World::instance().getScreen()->getLevelWidth())
+    {
+        x = World::instance().getScreen()->getLevelWidth() - width;
+        xSpeed = 0;
+    }
 }
 
 void Player::collide(CollisionDetails *details)
