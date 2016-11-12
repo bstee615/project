@@ -16,7 +16,7 @@ Enemy::Enemy()
     count = 0;
     currentPlatform = new Platform();
 
-    unitTest();
+    //unitTest();
 }
 Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_): Object(x_,y_,width_,height_,image_)
 {
@@ -27,7 +27,7 @@ Enemy::Enemy(int x_, int y_, int width_, int height_, QString image_): Object(x_
     count = 0;
     currentPlatform = new Platform();
 
-    unitTest();
+    //unitTest();
 }
 
 void Enemy::load(QString config)
@@ -132,14 +132,14 @@ FlyingEnemy::FlyingEnemy(): Enemy(), up(true), xCount(0), yCount(0)
 {
     ySpeed = 2;
 
-    unitTest();
+    //unitTest();
 }
 
 FlyingEnemy::FlyingEnemy(int x_, int y_, int width_, int height_, QString image_): Enemy(x_,y_,width_,height_,image_), up(true), xCount(0), yCount(0)
 {
     ySpeed = 2;
 
-    unitTest();
+    //unitTest();
 }
 
 void FlyingEnemy::load(QString config)
