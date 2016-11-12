@@ -47,6 +47,8 @@ private slots:
 
     void on_Save_clicked();
 
+    void on_any_click();
+
 private:
     Ui::MapMaker *ui;
 };
