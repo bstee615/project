@@ -176,7 +176,7 @@ CollisionDetails* Object::checkCollision(Object *that)
         } else if (topLeft && !topRight && bottomLeft && !bottomRight) {
             xStopCollide = thatX2 - this->x;
         } else if (!topLeft && topRight && !bottomLeft && !bottomRight) {
-            if (size_t(that->x - thisX2) > size_t(thatY2 - this->y)) {
+            if (size_t(that->x - this->x) < size_t(thatY2 - this->y)) {
                 xStopCollide = that->x - thisX2;
             } else {
                 yStopCollide = thatY2 - this->y + 1;
@@ -214,7 +214,7 @@ CollisionDetails* Object::checkCollision(Object *that)
                 yStopCollide = that->y - thisY2;
             }
         } else {
-            //yStopCollide = that->y - thisY2;
+            yStopCollide = that->y - thisY2;
         }
 
         return new CollisionDetails(xStopCollide, yStopCollide, that);
