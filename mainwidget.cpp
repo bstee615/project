@@ -309,9 +309,11 @@ void MainWidget::resetPlayer(Player* player)
 	ui->lblScore->setText("0");
 	World::instance().getScreen()->setLocation(0, 0);
 	clock->stop();
+	coinRotateTimer->stop();
 	World::instance().setSeconds(World::instance().getStartSeconds() + 1);
 	clockHit();
 	clock->start();
+	coinRotateTimer->start();
 
 	for (Object* worldObj : World::instance().getObjects()) {
 
@@ -478,6 +480,7 @@ void MainWidget::on_PBpause_clicked()
 		return;
 	timer->stop();
 	clock->stop();
+	coinRotateTimer->stop();
 	PauseScreen* pause = new PauseScreen(this);
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumeFromPause);
 	connect(pause, &PauseScreen::restartClicked, this, &MainWidget::on_restartFromPause);
@@ -490,6 +493,7 @@ void MainWidget::on_resumeFromPause()
 	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+	coinRotateTimer->start();
 }
 
 void MainWidget::on_restartFromPause()
@@ -498,6 +502,7 @@ void MainWidget::on_restartFromPause()
 	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+	coinRotateTimer->start();
 }
 
 void MainWidget::on_loadState(QString filename)
