@@ -140,7 +140,7 @@ void TitleScreen::startLevel(QString level)
 		World::instance().setIsPlaying(true);
 		prnt->getTimer()->start();
 		prnt->getClock()->start();
-        prnt->getCoinRotateTimer()->start();
+        prnt->getRotateTimer()->start();
 	}
 	deleteLater();
 

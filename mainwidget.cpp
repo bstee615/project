@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <cmath>
 #include <QTime>
+#include <QSoundEffect>
 
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
@@ -37,9 +38,11 @@ MainWidget::MainWidget(QWidget *parent) :
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
-    coinRotateTimer = new QTimer(this);
-	coinRotateTimer->setInterval(200);
-	connect(coinRotateTimer, SIGNAL(timeout()), this, SLOT(coinRotateTimerHit()));
+
+        RotateTimer = new QTimer(this);
+        RotateTimer->setInterval(200);
+        connect(clock, SIGNAL(timeout()), this, SLOT(RotateTimerHit()));
+
 
 	right = false;
 	left = false;
@@ -125,15 +128,15 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
-void MainWidget::coinRotateTimerHit() {
-    // Andrew - consolidated to 1 loop
-    //moveCoin();
+
+void MainWidget::RotateTimerHit() {
+
     foreach (QObject * o , ui->worldWidget->children()) {
         QCoreApplication::processEvents();
         ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
         if (object != NULL){
             Object * obj = object->getObject();
-            if (dynamic_cast<Coin*>(obj) != nullptr) {
+            if (dynamic_cast<Coin*>(obj) != nullptr || dynamic_cast<EndGameObject*>(obj) != nullptr) {
                 if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
                     continue;
                 }
@@ -309,9 +312,11 @@ void MainWidget::resetPlayer(Player* player)
 	ui->lblScore->setText("0");
 	World::instance().getScreen()->setLocation(0, 0);
 	clock->stop();
+    RotateTimer->stop();
 	World::instance().setSeconds(World::instance().getStartSeconds() + 1);
 	clockHit();
 	clock->start();
+    RotateTimer->start();
 
 	for (Object* worldObj : World::instance().getObjects()) {
 
@@ -357,11 +362,14 @@ void MainWidget::death(Player* player)
 		if (!player->getIsAtEndOfLevel())
 		{
 			ui->lblLife1->hide();
-			player->setImage(":/images/maincharacter/hurt");
+			if (player->isRight())
+				player->setImage(":/images/maincharacter/hurt.png");
+			else
+				player->setImage(":/images/maincharacter/hurtleft.png");
 		}
 		timer->stop();
 		clock->stop();
-        coinRotateTimer->stop();
+        RotateTimer->stop();
 		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
@@ -396,11 +404,15 @@ void MainWidget::showCoin() {
 	}
 }
 
-void MainWidget::moveCoin() {
+void MainWidget::moveCoinOrFlag() {
     for (Object* worldObj : World::instance().getObjects()) {
         Coin * coin = dynamic_cast<Coin*>(worldObj);
-        if (coin != NULL) {
+        if (coin != nullptr) {
             coin->move();
+        }
+        EndGameObject * flag = dynamic_cast<EndGameObject*>(worldObj);
+        if(flag != nullptr) {
+            flag->move();
         }
     }
 }
@@ -455,9 +467,14 @@ void MoveThread::run()
 
 void CheckPlayerCollisionThread::run()
 {
-	for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
-		// checks to see if player the player collides with each object
-		CollisionDetails* collision = World::instance().getPlayer()->checkCollision(World::instance().getObjects().at(i));
+    Object* obj;
+    for(size_t i = 0; i < World::instance().getObjects().size(); ++i) {
+        obj = World::instance().getObjects().at(i);
+        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+            continue;
+        }
+        // checks to see if player the player collides with each object
+        CollisionDetails* collision = World::instance().getPlayer()->checkCollision(obj);
 		if (collision != NULL) {
 			World::instance().getPlayer()->collide(collision);
 			if (dynamic_cast<Enemy*>(collision->getCollided()))
@@ -475,6 +492,7 @@ void MainWidget::on_PBpause_clicked()
 		return;
 	timer->stop();
 	clock->stop();
+    RotateTimer->stop();
 	PauseScreen* pause = new PauseScreen(this);
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumeFromPause);
 	connect(pause, &PauseScreen::restartClicked, this, &MainWidget::on_restartFromPause);
@@ -487,6 +505,7 @@ void MainWidget::on_resumeFromPause()
 	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+    RotateTimer->start();
 }
 
 void MainWidget::on_restartFromPause()
@@ -495,6 +514,7 @@ void MainWidget::on_restartFromPause()
 	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+    RotateTimer->start();
 }
 
 void MainWidget::on_loadState(QString filename)

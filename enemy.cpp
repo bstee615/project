@@ -4,6 +4,7 @@
 #include <QApplication>
 
 #include <cassert>
+#include <iostream>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ void Enemy::unitTest()
     Player* player = new Player(10,0,20,20,"player");
     CollisionDetails* collision = player->checkCollision(enemy);
 
+    player->setPower("shield",false);
     player->setWalkImage();
     assert(player->getImage() == ":/images/maincharacter/hurtleft.png");
 
@@ -94,8 +96,13 @@ void Enemy::move()
 
     y += ySpeed;
 
+    Object* obj;
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
+        obj = World::instance().getObjects().at(i);
+        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+            continue;
+        }
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
@@ -132,15 +139,11 @@ void Enemy::collide(CollisionDetails *details)
 FlyingEnemy::FlyingEnemy(): Enemy(), up(true), xCount(0), yCount(0)
 {
     ySpeed = 2;
-
-    //unitTest();
 }
 
 FlyingEnemy::FlyingEnemy(int x_, int y_, int width_, int height_, QString image_): Enemy(x_,y_,width_,height_,image_), up(true), xCount(0), yCount(0)
 {
     ySpeed = 2;
-
-    //unitTest();
 }
 
 void FlyingEnemy::load(QString config)
@@ -195,9 +198,13 @@ void FlyingEnemy::move()
         right = !right;
         xCount = 0;
     }
-
+    Object* obj;
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
+        obj = World::instance().getObjects().at(i);
+        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+            continue;
+        }
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {

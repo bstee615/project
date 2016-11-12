@@ -133,6 +133,11 @@ void Player::move()
 
     // gravity accelerates the player down 1 pixel per timer hit
     ++ySpeed;
+    if (ySpeed > 20) {
+        ySpeed = 20;
+    } else if (ySpeed < -20) {
+        ySpeed = -20;
+    }
 
     double multiplier;
     // updates the x and y coordinates for the player
@@ -238,6 +243,7 @@ void Player::collide(CollisionDetails *details)
             en->setVisibility(false);
 
            hurtSound->play();
+
             return;
         }
 
@@ -248,6 +254,7 @@ void Player::collide(CollisionDetails *details)
                 World::instance().incScore(15);
                 en->setVisibility(false);
                 xSpeed /= 2;
+		    attackSound->play();
                 return;
             }
             if (World::instance().getCheat())
@@ -265,6 +272,7 @@ void Player::collide(CollisionDetails *details)
                 World::instance().incScore(15);
                 en->setVisibility(false);
                 xSpeed /= 2;
+		    attackSound->play();
                 return;
             }
             if (World::instance().getCheat())

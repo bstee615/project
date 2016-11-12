@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QTimer>
 
 namespace Ui {
 class EndGame;
@@ -19,13 +20,19 @@ public:
     ~EndGame();
 
 	bool checkHighScore();
+    QTimer* getBonusTimer() { return bonusTimer; }
+
 
 private slots:
 	void on_PBcontinue_clicked();
+    void bonusTimerHit();
 
 private:
     Ui::EndGame *ui;
     QWidget* widgetParent;
+    QTimer* bonusTimer;
+    int bonusToAdd;
+    int bonusAmount;
 };
 
 #endif // ENDGAME_H

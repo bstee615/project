@@ -68,16 +68,16 @@ public:
 	void setWalkImage(Player* player);
 	void setJumpImage(Player* player);
 	void showCoin();
-    void moveCoin();
+    void moveCoinOrFlag();
 	QTimer* getTimer() {return timer;}
 	QTimer* getClock() { return clock; }
-    QTimer * getCoinRotateTimer() { return coinRotateTimer; }
+    QTimer * getRotateTimer() { return RotateTimer; }
     void delay(int);
 
 private:
 	Ui::MainWidget *ui;
 	QTimer * timer;
-    QTimer * coinRotateTimer;
+    QTimer * RotateTimer;
 	QTimer * clock;
 
 	bool right;
@@ -94,7 +94,7 @@ private slots:
 	void keyPressEvent(QKeyEvent *event);
 	void keyReleaseEvent(QKeyEvent *event);
 	void timerHit();
-    void coinRotateTimerHit();
+    void RotateTimerHit();
 	void clockHit();
 	void normalMove() {}
 	void normalImage() {}
