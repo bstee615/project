@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <QScrollBar>
+#include <QIcon>
 
 using namespace std;
 
@@ -23,13 +24,20 @@ MapMaker::MapMaker(QWidget *parent) :
     time = 300;
 
     scrollArea = new QScrollArea;
-    ui->QWworld->resize(1024,768);
+    ui->QWworld->resize(1022,766);
     scrollArea->setWidget(ui->QWworld);
     scrollArea->resize(1024,768);
     scrollArea->setWidgetResizable(false);
     scrollArea->setWindowTitle("World");
 
     scrollArea->show();
+
+    for(int i = 0; i < this->children().size(); ++i){
+        QPushButton* button = dynamic_cast<QPushButton*>(children().at(i));
+        if (button != NULL) {
+            connect(button, SIGNAL(pressed()), this, SLOT(on_any_click()));
+        }
+    }
 }
 
 MapMaker::~MapMaker()
@@ -51,27 +59,37 @@ void MapMaker::makePlatform(MovableLabel *label, QString file, bool& successful,
         errorMSG = "Please enter width and height.";
         return;
     } else {
-		label->setGeometry(x,y,ui->LEwidth->text().toInt(),ui->LEheight->text().toInt());
+        label->setGeometry(x,y,ui->LEwidth->text().toInt(&successful),ui->LEheight->text().toInt(&successful));
     }
     if (ui->LExRange->text() != ""){
-        label->xRange = ui->LExRange->text().toInt();
+        label->xRange = ui->LExRange->text().toInt(&successful);
     } else {
         label->xRange = 0;
     }
     if (ui->LEyRange->text() != ""){
-        label->yRange = ui->LEyRange->text().toInt();
+        label->yRange = ui->LEyRange->text().toInt(&successful);
     } else {
         label->yRange = 0;
     }
     if (ui->LExSpeed->text() != ""){
-        label->xSpeed = ui->LExSpeed->text().toInt();
+        label->xSpeed = ui->LExSpeed->text().toInt(&successful);
     } else {
         label->xSpeed = 0;
     }
     if (ui->LEySpeed->text() != ""){
-        label->ySpeed = ui->LEySpeed->text().toInt();
+        label->ySpeed = ui->LEySpeed->text().toInt(&successful);
     } else {
         label->ySpeed = 0;
+    }
+    if (!successful) {
+        errorMSG = "Please enter intiger values.";
+        ui->LEwidth->setText("");
+        ui->LEheight->setText("");
+        ui->LExRange->setText("");
+        ui->LEyRange->setText("");
+        ui->LExSpeed->setText("");
+        ui->LEySpeed->setText("");
+        return;
     }
 
     label->setPixmap(QPixmap(file));
@@ -163,9 +181,9 @@ void MapMaker::on_PBmakeObject_clicked()
         label->file = "images/maincharacter/stand.png";
     } else if (ui->PBcoin->isChecked()){
 		label->setGeometry(x,y,32,32);
-        label->setPixmap(QPixmap(":/images/goldCoin/goldCoin5.png"));
+		label->setPixmap(QPixmap(":/images/goldCoin/goldCoin1.png"));
         label->type = "coin";
-        label->file = ":/images/goldCoin/goldCoin5.png";
+		label->file = ":/images/goldCoin/goldCoin1.png";
     } else if (ui->PBwin->isChecked()){
 		label->setGeometry(x,y,50,50);
         label->setPixmap(QPixmap(":/images/flag.png"));
@@ -244,18 +262,59 @@ void MapMaker::on_PBmakeObject_clicked()
 
 void MapMaker::on_PBresize_clicked()
 {
-    if (ui->LEresizeX->text() != "" && ui->LEresizeY->text() != ""){
-        ui->QWworld->resize(ui->LEresizeX->text().toInt(),ui->LEresizeY->text().toInt());
-        ui->LBsize->setText(ui->LEresizeX->text() + "x" + ui->LEresizeY->text());
+    int newX = 0;
+    int newY = 0;
+    bool sucessful = true;
+    if (ui->LEresizeX->text().trimmed() != "" && ui->LEresizeY->text().trimmed() != ""){
+        newX = ui->LEresizeX->text().toInt(&sucessful);
+        newY = ui->LEresizeY->text().toInt(&sucessful);
+    } else if (ui->LEresizeX->text().trimmed() != "") {
+        newX = ui->LEresizeX->text().toInt(&sucessful);
+        newY = ui->QWworld->size().height();
+    } else if (ui->LEresizeY->text().trimmed() != "") {
+        newX = ui->QWworld->size().width();
+        newY = ui->LEresizeY->text().toInt(&sucessful);
+    } else {
+        QMessageBox::warning(this,"ERROR", "Please enter an X and/or Y value.");
         ui->LEresizeX->setText("");
         ui->LEresizeY->setText("");
+        return;
     }
+    if(!sucessful){
+        QMessageBox::warning(this,"ERROR", "Please enter an intiger for the X and/or Y value.");
+        ui->LEresizeX->setText("");
+        ui->LEresizeY->setText("");
+        return;
+    }
+    if(newX < 944 || newY < 688) {
+        QMessageBox::warning(this,"ERROR", "The game size must be at least 944x688.");
+        ui->LEresizeX->setText("");
+        ui->LEresizeY->setText("");
+        return;
+    }
+    ui->QWworld->resize(newX,newY);
+    ui->LBsize->setText(QString::fromStdString(to_string(ui->QWworld->size().width())) + "x" + QString::fromStdString(to_string(ui->QWworld->size().height())));
+    ui->LEresizeX->setText("");
+    ui->LEresizeY->setText("");
 }
 
 void MapMaker::on_PBsetTime_clicked()
 {
-    if (ui->LEtime->text() != "") {
-        time = ui->LEtime->text().toInt();
+    bool sucess = true;
+    if (ui->LEtime->text().trimmed() != "") {
+        int newTime = 0;
+        newTime = ui->LEtime->text().toInt(&sucess);
+        if(!sucess) {
+            QMessageBox::warning(this,"ERROR", "Please enter an integer.");
+            ui->LEtime->setText("");
+            return;
+        }
+        if(newTime < 30){
+            QMessageBox::warning(this,"ERROR", "The level must have at least a 30 second time limit.");
+            ui->LEtime->setText("");
+            return;
+        }
+        time = newTime;
         ui->LBtime->setText(QString::fromStdString(std::to_string(time)));
         ui->LEtime->setText("");
     }
@@ -276,16 +335,29 @@ void MapMaker::on_Save_clicked()
     stream << startX << "," << startY << endl;
     stream << 0 << endl;
     stream << ":/images/easybackground.png" << endl;
+    bool containPlayer = false;
+    bool containEnd = false;
     for (int i = 0; i < ui->QWworld->children().size(); ++i) {
         MovableLabel * current = dynamic_cast<MovableLabel*>(ui->QWworld->children().at(i));
         if (current != NULL) {
             if (current->type == "player") {
+                containPlayer = true;
                 QRect thisone = current->geometry();
                 stream << current->type << "," << thisone.x() << "," << thisone.y() << "," << thisone.width() << ","
                        << thisone.height() << "," << current->file << "," << thisone.x() << "," << thisone.y()
 					   << ",0,0,3,false,0,false,0,false,0,false,0" << endl;
+            } else if (current->type == "endGame") {
+                containEnd = true;
             }
         }
+    }
+    if (!containPlayer) {
+        QMessageBox::warning(this,"ERROR", "You must add a player to the world.");
+        return;
+    }
+    if (!containEnd) {
+        QMessageBox::warning(this, "ERROR", "You must have at least one end game object.");
+        return;
     }
     for (int i = 0; i < ui->QWworld->children().size(); ++i) {
         MovableLabel * current = dynamic_cast<MovableLabel*>(ui->QWworld->children().at(i));
@@ -312,4 +384,23 @@ void MapMaker::on_Save_clicked()
         }
     }
     stream.close();
+    QMessageBox::information(this, "Success", "Your level has been saved! Go to the Title Screen, type in your level name, and click \"Other Map\" to play your new level.");
+}
+
+void MapMaker::on_any_click()
+{
+    QPushButton* send = dynamic_cast<QPushButton*>(sender());
+    if(!send->isCheckable()) {
+        return;
+    }
+    for(int i = 0; i < this->children().size(); ++i){
+        QPushButton* button = dynamic_cast<QPushButton*>(children().at(i));
+        if (button != NULL) {
+            if (button->isCheckable()) {
+                if (button->geometry().x() != send->geometry().x()) {
+                    button->setChecked(false);
+                }
+            }
+        }
+    }
 }

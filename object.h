@@ -28,7 +28,7 @@ protected:
 
     bool right;
 
-    int count = 10;// used to animate images. thought it'd be better to move it here from mainwindow.
+	int count = 10;// used to animate images. thought it'd be better to move it here from mainwindow.
 
 public:
     Object();

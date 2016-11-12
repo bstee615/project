@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <cmath>
 #include <QTime>
+#include <QSoundEffect>
 
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
@@ -37,9 +38,11 @@ MainWidget::MainWidget(QWidget *parent) :
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
-    RotateTimer = new QTimer(this);
-    RotateTimer->setInterval(20);
-    connect(clock, SIGNAL(timeout()), this, SLOT(RotateTimerHit()));
+
+        RotateTimer = new QTimer(this);
+        RotateTimer->setInterval(200);
+        connect(clock, SIGNAL(timeout()), this, SLOT(RotateTimerHit()));
+
 
 	right = false;
 	left = false;
@@ -101,15 +104,22 @@ void MainWidget::loadLevel(QString filename)
 		lblPlayer->raise();
 		labelPlayer = lblPlayer;
 	}
+    ui->lblPowerups->raise();
+    ui->lblPowerJump->raise();
+    ui->lblPowerScore->raise();
+    ui->lblPowerShield->raise();
+    ui->lblPowerSpeed->raise();
 	ui->lblLife1->show();
 	ui->lblLife2->show();
 	ui->lblLife3->show();
 
+    ui->lblHealth->raise();
 	ui->lblLife1->raise();
 	ui->lblLife2->raise();
 	ui->lblLife3->raise();
 	ui->lblScore->raise();
-	ui->lblTimeLeft->raise();
+    ui->lblTimeLeft->raise();
+    ui->PBpause->raise();
 
 	ui->lblCheat->hide();
 
@@ -118,19 +128,25 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
-void MainWidget::RotateTimerHit() {
-    moveCoinOrFlag();
-    foreach (QObject * o , ui->worldWidget->children()) {
 
-        if (dynamic_cast<ObjectLabel*>(o) != nullptr){
-            ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
-            if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
-                    Coin * c = dynamic_cast<Coin *>(object->getObject());
-                    object->setPixmap(QPixmap(c->getImage()));
+void MainWidget::RotateTimerHit() {
+
+    foreach (QObject * o , ui->worldWidget->children()) {
+        QCoreApplication::processEvents();
+        ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
+        if (object != NULL){
+            Object * obj = object->getObject();
+            if (dynamic_cast<Coin*>(obj) != nullptr) {
+                if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+                    continue;
+                }
+                //replace moveCoin
+                obj->move();
+                object->setPixmap(QPixmap(obj->getImage()));
             }
-            if (dynamic_cast<EndGameObject*>(object->getObject()) != nullptr) {
-                    EndGameObject * e = dynamic_cast<EndGameObject *>(object->getObject());
-                    object->setPixmap(QPixmap(e->getImage()));
+           else if (dynamic_cast<EndGameObject*>(object->getObject()) != nullptr) {
+		    obj->move();
+                    object->setPixmap(QPixmap(obj->getImage()));
             }
          }
      }
@@ -232,7 +248,8 @@ void MainWidget::timerHit(){
 		if (world.getCheat())
 			return;
 		death(player);
-		resetPlayer(player);
+		if (player->getNumLives() != 0)
+			resetPlayer(player);
 	}
 
 	labelPlayer->setPixmap(player->getImage());
@@ -255,7 +272,8 @@ void MainWidget::clockHit()
 	if (World::instance().getSeconds() == 0)
 	{
 		death(World::instance().getPlayer());
-		resetPlayer(World::instance().getPlayer());
+		if (World::instance().getPlayer()->getNumLives() != 0)
+			resetPlayer(World::instance().getPlayer());
 	}
 
 	// decrement powerup times
@@ -298,9 +316,11 @@ void MainWidget::resetPlayer(Player* player)
 	ui->lblScore->setText("0");
 	World::instance().getScreen()->setLocation(0, 0);
 	clock->stop();
+    RotateTimer->stop();
 	World::instance().setSeconds(World::instance().getStartSeconds() + 1);
 	clockHit();
 	clock->start();
+    RotateTimer->start();
 
 	for (Object* worldObj : World::instance().getObjects()) {
 
@@ -315,7 +335,7 @@ void MainWidget::resetPlayer(Player* player)
     {
         QCoreApplication::processEvents();
         ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
-        if (guiObject != NULL) {
+		if (guiObject != NULL) {
             // updates the position of each label to the position of its object in the model
             guiObject->updateLabelPosition();
             // showCoin method replacement
@@ -345,7 +365,11 @@ void MainWidget::death(Player* player)
 	} else {
 		if (!player->getIsAtEndOfLevel())
 		{
-            ui->lblLife1->hide();
+			ui->lblLife1->hide();
+			if (player->isRight())
+				player->setImage(":/images/maincharacter/hurt.png");
+			else
+				player->setImage(":/images/maincharacter/hurtleft.png");
 		}
 		timer->stop();
 		clock->stop();
@@ -467,6 +491,7 @@ void MainWidget::on_PBpause_clicked()
 		return;
 	timer->stop();
 	clock->stop();
+    RotateTimer->stop();
 	PauseScreen* pause = new PauseScreen(this);
 	connect(pause, &PauseScreen::resumeClicked, this, &MainWidget::on_resumeFromPause);
 	connect(pause, &PauseScreen::restartClicked, this, &MainWidget::on_restartFromPause);
@@ -476,15 +501,19 @@ void MainWidget::on_PBpause_clicked()
 
 void MainWidget::on_resumeFromPause()
 {
+	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+    RotateTimer->start();
 }
 
 void MainWidget::on_restartFromPause()
 {
 	loadLevel(World::instance().getCurrentLevel());
+	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
+    RotateTimer->start();
 }
 
 void MainWidget::on_loadState(QString filename)

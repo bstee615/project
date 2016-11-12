@@ -333,7 +333,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/images/goldCoin/goldCoin5.png</normaloff>:/images/goldCoin/goldCoin5.png</iconset>
+     <normaloff>:/images/goldCoin/goldCoin1.png</normaloff>:/images/goldCoin/goldCoin1.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -507,7 +507,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Win</string>
+    <string>End</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
@@ -811,7 +811,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>1024x768</string>
+    <string>1022x766</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_21">
