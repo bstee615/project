@@ -170,7 +170,7 @@ CollisionDetails* Object::checkCollision(Object *that)
             xStopCollide = thatX2 - this->x;
             yStopCollide = that->y - thisY2;
         } else if (topLeft && topRight && !bottomLeft && !bottomRight) {
-            yStopCollide = thatY2 - this->y;
+            yStopCollide = thatY2 - this->y + 1;
         } else if (!topLeft && topRight && !bottomLeft && bottomRight) {
             xStopCollide = that->x - thisX2;
         } else if (topLeft && !topRight && bottomLeft && !bottomRight) {
@@ -179,13 +179,13 @@ CollisionDetails* Object::checkCollision(Object *that)
             if (size_t(that->x - thisX2) > size_t(thatY2 - this->y)) {
                 xStopCollide = that->x - thisX2;
             } else {
-                yStopCollide = thatY2 - this->y;
+                yStopCollide = thatY2 - this->y + 1;
             }
         } else if (topLeft && !topRight && !bottomLeft && !bottomRight) {
-            if (size_t(thatX2 - this->x) > size_t(thatY2 - this->y)) {
+            if (size_t(thatX2 - this->x) < size_t(thatY2 - this->y)) {
                 xStopCollide = thatX2 - this->x;
             } else {
-                yStopCollide = thatY2 - this->y;
+                yStopCollide = thatY2 - this->y + 1;
             }
         } else if (!topLeft && !topRight && bottomLeft && !bottomRight) {
             if (size_t(thatX2 - this->x) > size_t(that->y - thisY2)) {
@@ -208,13 +208,13 @@ CollisionDetails* Object::checkCollision(Object *that)
             }
         } else if (thisRec.intersects(QRect(that->x,that->y,1,that->height)) &&
                    thisRec.intersects(QRect(thatX2,that->y,1,that->height))) {
-            if (size_t(this->y - thatY2) < size_t(thisY2 - that->y)){
-                yStopCollide = thatY2 - this->y;
+            if (size_t(this->y - thatY2) > size_t(thisY2 - that->y)){
+                yStopCollide = thatY2 - this->y + 1;
             } else {
                 yStopCollide = that->y - thisY2;
             }
         } else {
-            yStopCollide = that->y - thisY2;
+            //yStopCollide = that->y - thisY2;
         }
 
         return new CollisionDetails(xStopCollide, yStopCollide, that);
