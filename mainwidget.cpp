@@ -311,6 +311,23 @@ void MainWidget::resetPlayer(Player* player)
 			coin->setisCollectible(true);
 		}
 	}
+
+    for (int i = 0; i < ui->worldWidget->children().length(); i++)
+    {
+        QCoreApplication::processEvents();
+        ObjectLabel * guiObject = dynamic_cast<ObjectLabel*>(ui->worldWidget->children().at(i));
+        if (guiObject != NULL) {
+            Object * obj = guiObject->getObject();
+            // updates the position of each label to the position of its object in the model
+            guiObject->updateLabelPosition();
+            // showCoin method replacement
+            if (guiObject->getObject()->getVisibility() == true) {
+                guiObject->show();
+            } else {
+                guiObject->hide();
+            }
+        }
+    }
 }
 
 void MainWidget::death(Player* player)
