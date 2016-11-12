@@ -32,7 +32,7 @@ void Object::unitTest()
     collision = one->checkCollision(two);
 
     assert(collision->getXStopCollide() == 0);
-    assert(collision->getYStopCollide() == 5);
+    assert(collision->getYStopCollide() == 6);
 
     delete two;
     delete collision;

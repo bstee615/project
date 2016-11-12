@@ -22,7 +22,7 @@ public:
     virtual void move();
     virtual void collide(CollisionDetails* details);
 
-    virtual void unitTest() { }
+    static void unitTest();
 };
 
 class FlyingEnemy: public Enemy
@@ -47,7 +47,7 @@ public:
 	void setStartX(int x) {startX = x;}
 	void setStartY(int y) {startY = y;}
 
-    void unitTest();
+    static void unitTest() { }
 };
 
 #endif // ENEMY_H
