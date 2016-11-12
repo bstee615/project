@@ -127,4 +127,10 @@ public:
 	bool getDeath() { return death; }
 };
 
+class ScreenMoveThread : public QThread {
+    Q_OBJECT
+protected:
+    void run();
+};
+
 #endif // MAINWIDGET_H
