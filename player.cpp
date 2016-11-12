@@ -161,9 +161,36 @@ void Player::move()
 	{
 		y = World::instance().getScreen()->getLevelHeight() - height;
 		ySpeed = 0;
-	}
+    }
 
-	setWalkImage();
+    if (x < 0)
+    {
+        x = 0;
+        xSpeed = 0;
+    }
+    if (getRightPoint() > World::instance().getScreen()->getLevelWidth())
+    {
+        x = World::instance().getScreen()->getLevelWidth() - width;
+        xSpeed = 0;
+    }
+
+    if (!cankick)
+    {
+        kickingCount ++;
+        if (kickingCount == 10)
+        {
+            kicking = false;
+        }
+        if (kickingCount == 20)
+        {
+            cankick = true;
+            kickingCount = 0;
+        }
+    }
+
+    count ++;
+    if (count == 15)
+        count = 0;
 }
 
 void Player::collide(CollisionDetails *details)
@@ -193,7 +220,7 @@ void Player::collide(CollisionDetails *details)
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
 		if(c->getisCollectible()) {
-			coinSound.play();
+            coinSound->play();
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
 		}
@@ -210,12 +237,7 @@ void Player::collide(CollisionDetails *details)
 				ySpeed = 5;
 			en->setVisibility(false);
 
-            if (hurtSound->state() == QMediaPlayer::PlayingState) {
-                hurtSound->setPosition(0);
-
-            } else if (hurtSound->state() == QMediaPlayer::StoppedState) {
-                hurtSound->play();
-            }
+           hurtSound->play();
 			return;
 		}
 
@@ -258,12 +280,8 @@ void Player::collide(CollisionDetails *details)
 
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
+        victorySound->play();
 
-        if (victorySound->state() == QMediaPlayer::PlayingState) {
-            victorySound->setPosition(0);
-        } else if (victorySound->state() == QMediaPlayer::StoppedState) {
-            victorySound->play();
-        }
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{
@@ -321,8 +339,6 @@ int& Player::getPowerTime(string pow)
 
 void Player::setWalkImage()
 {
-	count ++;
-
 	if (!canMove)
 	{
 		image = ":/images/maincharacter/hurt";
@@ -337,54 +353,34 @@ void Player::setWalkImage()
 		{
 			canMove = true;
 			enableMoveCount = 0;
-		}
+        }
 
-		return;
+        return;
 	}
 
-	if (!cankick)
-	{
-		kickingCount ++;
-		if (kickingCount == 10)
-		{
-			kicking = false;
-		}
-		if (kickingCount == 20)
-		{
-			cankick = true;
-			kickingCount = 0;
-		}
-
-		image = ":/images/maincharacter/kick";
-		if (!right)
-			image = ":/images/maincharacter/kickleft.png";
-
-		return;
-	}
-
-	if (xSpeed != 0)
+    if (xSpeed != 0)
 	{
 		image = ":/images/maincharacter/walk";
 		if (count < 7)
 		{
 			image += "1";
 		}
-		else if (count < 15)
+        else
 		{
 			image += "2";
-		}
-		else if (count == 15)
-		{
-			count = 0;
-			image += "1";
-		}
+        }
 		if (powerspeed)
 			image += "speed";
+        if (xSpeed > 0)
+            right = true;
+        if (xSpeed < 0)
+            right = false;
 		if (!right)
 			image += "left";
 		image += ".png";
 	}
-	else
+
+    if (xSpeed == 0)
 	{
 		image = ":/images/maincharacter/stand";
 		if (powerscore)
@@ -393,7 +389,8 @@ void Player::setWalkImage()
 			image += "left";
 		image += ".png";
 	}
-	if (jumping)
+
+    if (jumping)
 	{
 		image = ":/images/maincharacter/jump2";
 		if (powerjump)
@@ -402,4 +399,13 @@ void Player::setWalkImage()
 			image += "left";
 		image += ".png";
 	}
+
+    if (kicking)
+    {
+        image = ":/images/maincharacter/kick.png";
+        if (!right)
+            image = ":/images/maincharacter/kickleft.png";
+
+        return;
+    }
 }

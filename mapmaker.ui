@@ -333,7 +333,7 @@
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/images/goldCoin/goldCoin5.png</normaloff>:/images/goldCoin/goldCoin5.png</iconset>
+     <normaloff>:/images/goldCoin/goldCoin1.png</normaloff>:/images/goldCoin/goldCoin1.png</iconset>
    </property>
    <property name="iconSize">
     <size>

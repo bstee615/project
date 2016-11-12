@@ -30,29 +30,16 @@ QString Coin::save()
 	return out;
 }
 
+// instead of moving the coin, changes the animation frame.
 void Coin::move()
 {
-    count ++;
+	count += 10;
+	int frame = count / 10;
 
-    if (count < 10)
-        image = ":/images/goldCoin/goldCoin1.png";
-    if (count < 20)
-        image = ":/images/goldCoin/goldCoin2.png";
-    if (count < 30)
-        image = ":/images/goldCoin/goldCoin3.png";
-    if (count < 40)
-        image = ":/images/goldCoin/goldCoin4.png";
-    if (count < 50)
-        image = ":/images/goldCoin/goldCoin5.png";
-    if (count < 60)
-        image = ":/images/goldCoin/goldCoin6.png";
-    if (count < 70)
-        image = ":/images/goldCoin/goldCoin7.png";
-    if (count < 80)
-        image = ":/images/goldCoin/goldCoin8.png";
-    if (count < 90)
-    {
-        image = ":/images/goldCoin/goldCoin1.png";
-        count = 0;
-    }
+	image = ":/images/goldCoin/goldCoin" + QString::number(frame) + ".png";
+	if (frame == 8)
+	{
+		image = ":/images/goldCoin/goldCoin1.png";
+		count = 10;
+	}
 }

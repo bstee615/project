@@ -163,9 +163,9 @@ void MapMaker::on_PBmakeObject_clicked()
         label->file = "images/maincharacter/stand.png";
     } else if (ui->PBcoin->isChecked()){
 		label->setGeometry(x,y,32,32);
-        label->setPixmap(QPixmap(":/images/goldCoin/goldCoin5.png"));
+		label->setPixmap(QPixmap(":/images/goldCoin/goldCoin1.png"));
         label->type = "coin";
-        label->file = ":/images/goldCoin/goldCoin5.png";
+		label->file = ":/images/goldCoin/goldCoin1.png";
     } else if (ui->PBwin->isChecked()){
 		label->setGeometry(x,y,50,50);
         label->setPixmap(QPixmap(":/images/flag.png"));

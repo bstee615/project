@@ -112,7 +112,7 @@ When you get a Game Over, press the button to return to home.
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/images/goldCoin/goldCoin5.png</pixmap>
+    <pixmap resource="resources.qrc">:/images/goldCoin/goldCoin1.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

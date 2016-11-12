@@ -37,6 +37,10 @@ MainWidget::MainWidget(QWidget *parent) :
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
+    coinRotateTimer = new QTimer(this);
+	coinRotateTimer->setInterval(200);
+	connect(coinRotateTimer, SIGNAL(timeout()), this, SLOT(coinRotateTimerHit()));
+
 	right = false;
 	left = false;
 
@@ -114,7 +118,19 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
+void MainWidget::coinRotateTimerHit() {
+    moveCoin();
+    foreach (QObject * o , ui->worldWidget->children()) {
 
+        if (dynamic_cast<ObjectLabel*>(o) != nullptr){
+            ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
+            if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
+                    Coin * c = dynamic_cast<Coin *>(object->getObject());
+                    object->setPixmap(QPixmap(c->getImage()));
+            }
+         }
+     }
+}
 void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
@@ -136,58 +152,33 @@ void MainWidget::timerHit(){
 	}
 
 	// updates player's position in the model
-	player->move();
-
-	if (player->getX() < 0)
-	{
-		player->setX(0);
-		player->setXSpeed(0);
-	}
-	if (player->getRightPoint() > World::instance().getScreen()->getLevelWidth())
-	{
-		player->setX(World::instance().getScreen()->getLevelWidth() - player->getWidth());
-		player->setXSpeed(0);
-	}
+    MoveThread * playerMove = new MoveThread(player);
+    playerMove->start();
+    player->setWalkImage();
 
 	ui->lblPowerJump->setVisible(player->powerJump());
 	ui->lblPowerSpeed->setVisible(player->powerSpeed());
 	ui->lblPowerShield->setVisible(player->powerShield());
 	ui->lblPowerScore->setVisible(player->powerScore());
 
-	// update screen location based on player location
-	PlayingScreen* screen = World::instance().getScreen();
-	if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
-			&& (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
-	{
-		screen->setX(min(player->getX() - screen->getCenterX((player->getWidth())), screen->getLevelWidth() - screen->getScreenWidth()));
-	}
-	else if (player->getX() - screen->getX() < screen->getCenterX(player->getWidth())
-			 && screen->getX() > 0)
-	{
-		screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
-	}
-
-	if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
-			&& (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
-	{
-		screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
-	}
-	else if (player->getY() - screen->getY() < screen->getCenterY(player->getHeight())
-			 && screen->getY() > 0)
-	{
-		screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
-	}
-
-    world.setCurrentScreen(QRect(screen->getX() - 20, screen->getY() - 20, screen->getScreenWidth() + 40, screen->getScreenHeight() + 40));
-
 	vector<MoveThread*> moveThreads;
 	for (size_t i = 0; i < world.getObjects().size(); i ++)
 	{
-		QCoreApplication::processEvents();
-		MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
-		moveThreads.push_back(currentThread);
-		currentThread->start();
+        QCoreApplication::processEvents();
+        Object* obj = world.getObjects().at(i);
+        if(dynamic_cast<Enemy*>(obj) != NULL || dynamic_cast<Platform*>(obj) != NULL){
+            MoveThread* currentThread = new MoveThread(world.getObjects().at(i));
+            moveThreads.push_back(currentThread);
+            currentThread->start();
+        }
 	}
+
+    playerMove->wait();
+    delete playerMove;
+
+    // update screen location based on player location
+    ScreenMoveThread * screenMove = new ScreenMoveThread();
+    screenMove->start();
 
 	for (size_t i = 0; i < moveThreads.size(); ++i) {
 		QCoreApplication::processEvents();
@@ -195,8 +186,12 @@ void MainWidget::timerHit(){
 		currentThread->wait();
 		delete currentThread;
 	}
+
 	CheckPlayerCollisionThread* playerCollide = new CheckPlayerCollisionThread();
 	playerCollide->start();
+
+    screenMove->wait();
+    delete screenMove;
 
 	for (int i = 0; i < ui->worldWidget->children().length(); i++)
 	{
@@ -346,11 +341,11 @@ void MainWidget::death(Player* player)
 	} else {
 		if (!player->getIsAtEndOfLevel())
 		{
-			ui->lblLife1->hide();
-			player->setImage(":/images/maincharacter/hurt");
+            ui->lblLife1->hide();
 		}
 		timer->stop();
 		clock->stop();
+        coinRotateTimer->stop();
 		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
@@ -385,6 +380,15 @@ void MainWidget::showCoin() {
 	}
 }
 
+void MainWidget::moveCoin() {
+    for (Object* worldObj : World::instance().getObjects()) {
+        Coin * coin = dynamic_cast<Coin*>(worldObj);
+        if (coin != NULL) {
+            coin->move();
+        }
+    }
+}
+
 MainWidget::~MainWidget() {
 	ui->worldWidget->deleteLater();
 	delete ui;
@@ -396,13 +400,13 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 
 	if (event->key() == Qt::Key_Left) {
 		this->left = true;
-		player->setRight(false);
+        player->setRight(false);
 	} else if (event->key() == Qt::Key_Right) {
 		this->right = true;
-		player->setRight(true);
+        player->setRight(true);
 	} else if (event->key() == Qt::Key_Space || event->key() == Qt::Key_Up) {
 		player->setJumping(true);
-		player->setJumpOnMove(true);
+        player->setJumpOnMove(true);
 	}
 	else if (event->key() == Qt::Key_A)
 	{
@@ -410,17 +414,18 @@ void MainWidget::keyPressEvent(QKeyEvent *event)
 		{
 			player->setKicking(true);
 			player->setCanKick(false);
-		}
-	}
+        }
+    }
+    player->setWalkImage();
 }
 
 void MainWidget::keyReleaseEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Left) {
-		this->left = false;
+        this->left = false;
 	} else if (event->key() == Qt::Key_Right) {
-		this->right = false;
-	}
+        this->right = false;
+    }
 }
 
 void MoveThread::run()
@@ -476,4 +481,35 @@ void MainWidget::on_restartFromPause()
 void MainWidget::on_loadState(QString filename)
 {
 	loadLevel(filename);
+}
+
+
+void ScreenMoveThread::run()
+{
+    Player* player = World::instance().getPlayer();
+    // update screen location based on player location
+    PlayingScreen* screen = World::instance().getScreen();
+    if (player->getX() - screen->getX() > screen->getCenterX(player->getWidth())
+            && (screen->getX() + screen->getScreenWidth()) < screen->getLevelWidth())
+    {
+        screen->setX(min(player->getX() - screen->getCenterX((player->getWidth())), screen->getLevelWidth() - screen->getScreenWidth()));
+    }
+    else if (player->getX() - screen->getX() < screen->getCenterX(player->getWidth())
+             && screen->getX() > 0)
+    {
+        screen->setX(max(player->getX() - screen->getCenterX((player->getWidth())), 0));
+    }
+
+    if (player->getY() - screen->getY() > screen->getCenterY(player->getHeight())
+            && (screen->getY() + screen->getScreenHeight()) < screen->getLevelHeight())
+    {
+        screen->setY(min(player->getY() - screen->getCenterY((player->getHeight())), screen->getLevelHeight() - screen->getScreenHeight()));
+    }
+    else if (player->getY() - screen->getY() < screen->getCenterY(player->getHeight())
+             && screen->getY() > 0)
+    {
+        screen->setY(max(player->getY() - screen->getCenterY((player->getHeight())), 0));
+    }
+
+    World::instance().setCurrentScreen(QRect(screen->getX() - 20, screen->getY() - 20, screen->getScreenWidth() + 40, screen->getScreenHeight() + 40));
 }

@@ -67,8 +67,6 @@
         <file>images/goldCoin/goldCoin5.png</file>
         <file>images/goldCoin/goldCoin6.png</file>
         <file>images/goldCoin/goldCoin7.png</file>
-        <file>images/goldCoin/goldCoin8.png</file>
-        <file>images/goldCoin/goldCoin9.png</file>
         <file>images/P&amp;Plogo_composite.png</file>
         <file>images/GameOver.png</file>
         <file>images/LevelClear.png</file>
@@ -76,5 +74,7 @@
         <file>levels/hard.lv</file>
         <file>levels/medium.lv</file>
         <file>images/coinDrop.wav</file>
+        <file>images/goldCoin/goldCoinback1.png</file>
+        <file>images/goldCoin/goldCoinback2.png</file>
     </qresource>
 </RCC>
