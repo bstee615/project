@@ -85,7 +85,7 @@ void HighScore::SaveScores(string filename) {
     ofstream file;
     names.resize(10);
     scores.resize(10);
-    filename = "data\\" + filename;
+    filename = "data/" + filename;
 	file.open (filename);
 	if (file.is_open()) {
 		for (int i = 0; i < 10; i++) {
