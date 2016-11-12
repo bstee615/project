@@ -25,6 +25,7 @@ EndGame::EndGame(QWidget *parent, bool gameOver_) :
 		ui->lblBackground->setStyleSheet("");
         ui->lblBonusText->show();
         ui->lblBonusText->raise();
+        bonusAmount = 0;
         bonusTimer->start();
 	}
 }
