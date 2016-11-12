@@ -7,6 +7,29 @@
 
 using namespace std;
 
+void Enemy::unitTest()
+{
+    Enemy* enemy = new Enemy(0,0,20,20,"enemy");
+    Player* player = new Player(10,0,20,20,"player");
+    CollisionDetails* collision = player->checkCollision(enemy);
+
+    player->setWalkImage();
+    assert(player->getImage() == ":/images/maincharacter/hurtleft.png");
+
+    collision = player->checkCollision(enemy);
+    assert (enemy->getVisibility() == false);
+    delete player;
+
+    Platform* plat = new Platform(10,0,20,20,"player");
+    enemy->setRight(true);
+    collision = enemy->checkCollision(plat);
+    assert (enemy->isRight() == true);
+
+    delete plat;
+    delete enemy;
+    delete collision;
+}
+
 Enemy::Enemy()
 {
     right = true;
@@ -105,28 +128,6 @@ void Enemy::collide(CollisionDetails *details)
 
 // ======FlyingEnemy=====
 
-void FlyingEnemy::unitTest()
-{
-    Enemy* enemy = new Enemy(0,0,20,20,"enemy");
-    Player* player = new Player(10,0,20,20,"player");
-    CollisionDetails* collision = player->checkCollision(enemy);
-
-    player->setWalkImage();
-    assert(player->getImage() == ":/images/maincharacter/hurtleft.png");
-
-    collision = player->checkCollision(enemy);
-    assert (enemy->getVisibility() == false);
-    delete player;
-
-    Platform* plat = new Platform(10,0,20,20,"player");
-    enemy->setRight(true);
-    collision = enemy->checkCollision(plat);
-    assert (enemy->isRight() == true);
-
-    delete plat;
-    delete enemy;
-    delete collision;
-}
 
 FlyingEnemy::FlyingEnemy(): Enemy(), up(true), xCount(0), yCount(0)
 {

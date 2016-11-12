@@ -8,6 +8,7 @@ void UnitTest() {
     Object::unitTest();
 	PlayingScreen::unitTest();
     //HighScore::UnitTests();
+    Enemy::unitTest();
 	qDebug() << "Passed all unit tests.";
 }
 
