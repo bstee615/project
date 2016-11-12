@@ -98,26 +98,29 @@ void HighScore::SaveScores(string filename) {
 }
 
 
-/* void HighScore::UnitTests() {
+ void HighScore::UnitTests() {
 
 			//unit tests
-			HighScore::instance().LoadScore();
-			assert(HighScore::instance().getScore(0) == 0);
+            HighScore::instance().LoadScore("impossiblescores.txt");
+            assert(HighScore::instance().getScore(0) == 90);
 			assert(HighScore::instance().getName(0) == "none");
 
-			int i = HighScore::instance().NewHighScore("Joe", 1);
-			assert(i == 5);
-			assert(HighScore::instance().getScore(0) == 1);
+            int i = HighScore::instance().NewHighScore(100);
+            assert(i == 0);
+
+
+            assert(HighScore::instance().getScore(0) == 100);
+            HighScore::instance().NewHighScoreName("Joe", i);
 			assert(HighScore::instance().getName(0) == "Joe");
 			
-			assert(HighScore::instance().getScore(9) == 0);
+            assert(HighScore::instance().getScore(9) == 10);
 			assert(HighScore::instance().getName(9) == "none");
 			
 			HighScore::instance().SaveScores("createnewfile.txt");
-			HighScore::instance().SaveScores("highscores.txt");
+
 
 	}
-	*/
+
 void HighScore::teardown() {
 	delete instance_;
     instance_ = NULL;

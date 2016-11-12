@@ -220,7 +220,7 @@ void Player::collide(CollisionDetails *details)
 		Coin * c = dynamic_cast<Coin*>(details->getCollided());
 		c->setVisibility(false);
 		if(c->getisCollectible()) {
-			coinSound.play();
+            coinSound->play();
 			World::instance().incScore(c->getAmount());
 			c->setisCollectible(false);
 		}
@@ -237,12 +237,7 @@ void Player::collide(CollisionDetails *details)
 				ySpeed = 5;
 			en->setVisibility(false);
 
-            if (hurtSound->state() == QMediaPlayer::PlayingState) {
-                hurtSound->setPosition(0);
-
-            } else if (hurtSound->state() == QMediaPlayer::StoppedState) {
-                hurtSound->play();
-            }
+           hurtSound->play();
 			return;
 		}
 
@@ -285,12 +280,8 @@ void Player::collide(CollisionDetails *details)
 
 	} else if (dynamic_cast<EndGameObject*>(details->getCollided()) != NULL){
 		setAtEndOfLevel(true);
+        victorySound->play();
 
-        if (victorySound->state() == QMediaPlayer::PlayingState) {
-            victorySound->setPosition(0);
-        } else if (victorySound->state() == QMediaPlayer::StoppedState) {
-            victorySound->play();
-        }
 	}
 	else if (dynamic_cast<Collectible*>(details->getCollided()) != NULL)
 	{
