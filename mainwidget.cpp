@@ -228,7 +228,8 @@ void MainWidget::timerHit(){
 		if (world.getCheat())
 			return;
 		death(player);
-		resetPlayer(player);
+		if (player->getNumLives() != 0)
+			resetPlayer(player);
 	}
 
 	labelPlayer->setPixmap(player->getImage());
@@ -251,7 +252,8 @@ void MainWidget::clockHit()
 	if (World::instance().getSeconds() == 0)
 	{
 		death(World::instance().getPlayer());
-		resetPlayer(World::instance().getPlayer());
+		if (World::instance().getPlayer()->getNumLives() != 0)
+			resetPlayer(World::instance().getPlayer());
 	}
 
 	// decrement powerup times
@@ -341,7 +343,8 @@ void MainWidget::death(Player* player)
 	} else {
 		if (!player->getIsAtEndOfLevel())
 		{
-            ui->lblLife1->hide();
+			ui->lblLife1->hide();
+			player->setImage(":/images/maincharacter/hurt");
 		}
 		timer->stop();
 		clock->stop();
