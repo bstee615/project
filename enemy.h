@@ -9,30 +9,18 @@
 
 class Enemy : public Object
 {
-    int damage;// if false, then enemy is facing left.
-    Platform* currentPlatform;
+protected:
+    Platform* currentPlatform;// used to tell the Enemy when it has reached a ledge.
 
 public:
-    Enemy(): Object()
-    {
-        damage = 0;
-        right = true;
-        onPlatform = true;
-        xSpeed = 3;
-        ySpeed = 1;
-        count = 0;
-        currentPlatform = new Platform();
-	}
+    Enemy();
+    Enemy(int x_, int y_, int width_, int height_, QString image_);
 
 	virtual void load(QString config);
 	virtual QString save();
 
     virtual void move();
     virtual void collide(CollisionDetails* details);
-
-    virtual int getSpeed() { return xSpeed; }
-
-    void setDamage(int newDamage) { damage = newDamage; }
 };
 
 class FlyingEnemy: public Enemy
@@ -43,6 +31,7 @@ class FlyingEnemy: public Enemy
 
 public:
     FlyingEnemy(): Enemy(), up(true), xCount(0) { ySpeed = 2; }
+    FlyingEnemy(int x_, int y_, int width_, int height_, QString image_): Enemy(x_,y_,width_,height_,image_), up(true), xCount(0) { ySpeed = 2; }
 
     void move();
     void collide(CollisionDetails*);
