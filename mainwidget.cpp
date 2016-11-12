@@ -37,9 +37,9 @@ MainWidget::MainWidget(QWidget *parent) :
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
-    coinRotateTimer = new QTimer(this);
-    coinRotateTimer->setInterval(20);
-    connect(clock, SIGNAL(timeout()), this, SLOT(coinRotateTimerHit()));
+    RotateTimer = new QTimer(this);
+    RotateTimer->setInterval(20);
+    connect(clock, SIGNAL(timeout()), this, SLOT(RotateTimerHit()));
 
 	right = false;
 	left = false;
@@ -118,8 +118,8 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
-void MainWidget::coinRotateTimerHit() {
-    moveCoin();
+void MainWidget::RotateTimerHit() {
+    moveCoinOrFlag();
     foreach (QObject * o , ui->worldWidget->children()) {
 
         if (dynamic_cast<ObjectLabel*>(o) != nullptr){
@@ -127,6 +127,10 @@ void MainWidget::coinRotateTimerHit() {
             if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
                     Coin * c = dynamic_cast<Coin *>(object->getObject());
                     object->setPixmap(QPixmap(c->getImage()));
+            }
+            if (dynamic_cast<EndGameObject*>(object->getObject()) != nullptr) {
+                    EndGameObject * e = dynamic_cast<EndGameObject *>(object->getObject());
+                    object->setPixmap(QPixmap(e->getImage()));
             }
          }
      }
@@ -345,7 +349,7 @@ void MainWidget::death(Player* player)
 		}
 		timer->stop();
 		clock->stop();
-        coinRotateTimer->stop();
+        RotateTimer->stop();
 		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
@@ -380,11 +384,15 @@ void MainWidget::showCoin() {
 	}
 }
 
-void MainWidget::moveCoin() {
+void MainWidget::moveCoinOrFlag() {
     for (Object* worldObj : World::instance().getObjects()) {
         Coin * coin = dynamic_cast<Coin*>(worldObj);
-        if (coin != NULL) {
+        if (coin != nullptr) {
             coin->move();
+        }
+        EndGameObject * flag = dynamic_cast<EndGameObject*>(worldObj);
+        if(flag != nullptr) {
+            flag->move();
         }
     }
 }

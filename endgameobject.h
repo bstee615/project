@@ -5,6 +5,7 @@
 
 class EndGameObject : public Object
 {
+    int count = 0;
 public:
     EndGameObject() : Object() {}
     EndGameObject(int x_, int y_, int width_, int height_, QString image_):
@@ -12,6 +13,7 @@ public:
 
 	virtual void load(QString config);
 	virtual QString save();
+    void move();
 };
 
 #endif // ENDGAMEOBJECT_H

@@ -15,8 +15,17 @@ EndGame::EndGame(QWidget *parent, bool gameOver_) :
     ui->setupUi(this);
 	if (!gameOver)
 	{
+        ui->PBcontinue->setEnabled(false);
+        ui->lblBonusText->setStyleSheet("QLabel {color : red; }");
+        bonusToAdd = World::instance().getSeconds();
+        bonusTimer = new QTimer(this);
+        bonusTimer->setInterval(30);
+        connect(bonusTimer, SIGNAL(timeout()), this, SLOT(bonusTimerHit()));
 		ui->lblTitle->setPixmap(QPixmap(":/images/LevelClear.png"));
 		ui->lblBackground->setStyleSheet("");
+        ui->lblBonusText->show();
+        ui->lblBonusText->raise();
+        bonusTimer->start();
 	}
 }
 
@@ -27,7 +36,9 @@ EndGame::~EndGame()
 
 bool EndGame::checkHighScore(){
 	HighScore::instance().LoadScore("data/" + World::instance().getLevelName());
-	if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
+    World::instance().setScore(World::instance().getScore() + bonusAmount);
+    if (World::instance().getScore() > HighScore::instance().getLowestScore()) {
+
 		return true;
 	} else {
 		return false;
@@ -37,6 +48,8 @@ bool EndGame::checkHighScore(){
 void EndGame::on_PBcontinue_clicked()
 {
 	if (!gameOver && checkHighScore()) {
+
+
 		int place = HighScore::instance().NewHighScore(World::instance().getScore());
         TitleScreen * title = new TitleScreen(widgetParent);
         title->show();
@@ -63,4 +76,17 @@ void EndGame::on_PBcontinue_clicked()
 		title->raise();
 	}
     deleteLater();
+}
+
+void EndGame::bonusTimerHit() {
+    bonusToAdd--;
+
+    if (bonusToAdd == 0){
+        bonusTimer->stop();
+        ui->PBcontinue->setEnabled(true);
+    } else {
+         bonusAmount+=2;
+         ui->lblBonusText->setText("+" + QString("%1").arg(bonusAmount));
+    }
+
 }
