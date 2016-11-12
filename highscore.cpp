@@ -76,13 +76,16 @@ int HighScore::NewHighScore(int score) {
 }
 
 void HighScore::NewHighScoreName(string name, int placeInVector){
-	names.insert(names.begin() + placeInVector, name);
+    names.insert(names.begin() + placeInVector, name);
 	names.pop_back();
 }
 
 //writes the scores and names in the vector to the file
 void HighScore::SaveScores(string filename) {
-	ofstream file;
+    ofstream file;
+    names.resize(10);
+    scores.resize(10);
+    filename = "data\\" + filename;
 	file.open (filename);
 	if (file.is_open()) {
 		for (int i = 0; i < 10; i++) {
@@ -120,4 +123,5 @@ void HighScore::SaveScores(string filename) {
 
 void HighScore::teardown() {
 	delete instance_;
+    instance_ = NULL;
 }
