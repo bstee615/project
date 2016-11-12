@@ -115,7 +115,8 @@ void MainWidget::loadLevel(QString filename)
 	ui->lblLife2->raise();
 	ui->lblLife3->raise();
 	ui->lblScore->raise();
-	ui->lblTimeLeft->raise();
+    ui->lblTimeLeft->raise();
+    ui->PBpause->raise();
 
 	ui->lblCheat->hide();
 
@@ -131,14 +132,14 @@ void MainWidget::coinRotateTimerHit() {
         QCoreApplication::processEvents();
         ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
         if (object != NULL){
-            if (!object->geometry().intersects(World::instance().getCurrentScreen())) {
-                continue;
-            }
-            if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
-                    Coin * c = dynamic_cast<Coin *>(object->getObject());
-                    //replace moveCoin
-                    c->move();
-                    object->setPixmap(QPixmap(c->getImage()));
+            Object * obj = object->getObject();
+            if (dynamic_cast<Coin*>(obj) != nullptr) {
+                if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
+                    continue;
+                }
+                //replace moveCoin
+                obj->move();
+                object->setPixmap(QPixmap(obj->getImage()));
             }
          }
      }
