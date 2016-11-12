@@ -120,5 +120,5 @@ void HighScore::SaveScores(string filename) {
 	*/
 void HighScore::teardown() {
 	delete instance_;
-    instance_ = nullptr();
+	instance_ = nullptr;
 }

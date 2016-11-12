@@ -439,6 +439,7 @@ void MainWidget::on_PBpause_clicked()
 
 void MainWidget::on_resumeFromPause()
 {
+	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
 }
@@ -446,6 +447,7 @@ void MainWidget::on_resumeFromPause()
 void MainWidget::on_restartFromPause()
 {
 	loadLevel(World::instance().getCurrentLevel());
+	ui->worldWidget->setFocus();
 	timer->start();
 	clock->start();
 }
