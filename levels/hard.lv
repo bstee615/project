@@ -37,8 +37,8 @@ platform,4703,574,400,200,:/images/platformdirt.png,0,0,0,0,4703,574
 platform,5101,574,400,200,:/images/platformdirt.png,0,0,0,0,5101,574
 enemy,694,517,42,48,:/images/groundrobot.png,true
 enemy,4547,526,42,48,:/images/groundrobot.png,true
-flyingenemy,1356,460,42,42,:/images/flyingrobot.png,true,1308,468
-flyingenemy,2961,340,42,42,:/images/flyingrobot.png,true,2913,348
+flyingenemy,1356,460,32,32,:/images/flyingrobot.png,true,1308,468
+flyingenemy,2961,340,32,32,:/images/flyingrobot.png,true,2913,348
 endGame,5250,524,50,50,:/images/flag.png
 enemy,2329,548,42,48,:/images/groundrobot.png,true
 coin,2387,235,32,32,:/images/goldCoin/goldCoin1.png,50,true
