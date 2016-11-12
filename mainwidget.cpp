@@ -37,6 +37,10 @@ MainWidget::MainWidget(QWidget *parent) :
 	clock->setInterval(1000);
 	connect(clock, SIGNAL(timeout()), this, SLOT(clockHit()));
 
+    coinRotateTimer = new QTimer(this);
+    coinRotateTimer->setInterval(20);
+    connect(clock, SIGNAL(timeout()), this, SLOT(coinRotateTimerHit()));
+
 	right = false;
 	left = false;
 
@@ -114,7 +118,19 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
 }
+void MainWidget::coinRotateTimerHit() {
+    moveCoin();
+    foreach (QObject * o , ui->worldWidget->children()) {
 
+        if (dynamic_cast<ObjectLabel*>(o) != nullptr){
+            ObjectLabel * object = dynamic_cast<ObjectLabel*>(o);
+            if (dynamic_cast<Coin*>(object->getObject()) != nullptr) {
+                    Coin * c = dynamic_cast<Coin *>(object->getObject());
+                    object->setPixmap(QPixmap(c->getImage()));
+            }
+         }
+     }
+}
 void MainWidget::timerHit(){
 
 	//program 4 code below (for reference)
@@ -330,6 +346,7 @@ void MainWidget::death(Player* player)
 		}
 		timer->stop();
 		clock->stop();
+        coinRotateTimer->stop();
 		EndGame * e = new EndGame(this, !player->getIsAtEndOfLevel());
 		e->show();
 		e->raise();
@@ -362,6 +379,15 @@ void MainWidget::showCoin() {
 			}
 		}
 	}
+}
+
+void MainWidget::moveCoin() {
+    for (Object* worldObj : World::instance().getObjects()) {
+        Coin * coin = dynamic_cast<Coin*>(worldObj);
+        if (coin != NULL) {
+            coin->move();
+        }
+    }
 }
 
 MainWidget::~MainWidget() {

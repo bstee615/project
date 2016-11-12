@@ -35,23 +35,26 @@ class Player : public Object
     bool powerscore;
     int powerscoreTime;
 
-	QSoundEffect coinSound;
-    QMediaPlayer * victorySound;
-    QMediaPlayer * hurtSound;
+    QSoundEffect * coinSound;
+    QSoundEffect * victorySound;
+    QSoundEffect * hurtSound;
 
 public:
     Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {
-		coinSound.setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
-        victorySound = new QMediaPlayer();
-        victorySound->setMedia(QUrl("qrc:/images/victory.mp3"));
-        hurtSound = new QMediaPlayer();
-        hurtSound->setMedia(QUrl("qrc:/images/hurt.mp3"));
+        coinSound = new QSoundEffect;
+        coinSound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
+        victorySound = new QSoundEffect;
+        victorySound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
+        hurtSound = new QSoundEffect;
+        hurtSound->setSource(QUrl::fromLocalFile(":/images/coinDrop.wav"));
 
         enableMoveCount = 0;
         kickingCount = 0;
     }
     Player(int x_, int y_, int width_, int height_, QString image_) :
-		Object(x_, y_, width_, height_, image_) {Player();}
+        Object(x_, y_, width_, height_, image_) {
+        Player();
+    }
 
 	virtual void load(QString config);
     virtual QString save();
