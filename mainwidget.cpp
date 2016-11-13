@@ -371,7 +371,7 @@ void MainWidget::death(Player* player)
         deathSound->setSource(QUrl::fromLocalFile(":/images/gruntsound.wav"));
         if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
              deathSound->setSource(QUrl::fromLocalFile(":/images/deathsound.wav"));
-             deathSound->play();
+		deathSound->play();
 
 	} else {
 		if (!player->getIsAtEndOfLevel())
