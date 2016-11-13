@@ -359,6 +359,7 @@ void MainWidget::resetPlayer(Player* player)
 
 void MainWidget::death(Player* player)
 {
+   QSoundEffect * deathSound = new QSoundEffect;
 	player->setNumLives(player->getNumLives() - 1);
 
 	if (player->getNumLives() > 0 && !player->getIsAtEndOfLevel()) {
@@ -367,11 +368,10 @@ void MainWidget::death(Player* player)
 		} else if (player->getNumLives() == 1){
 			ui->lblLife2->hide();
 		}
-		QMediaPlayer * deathSound = new QMediaPlayer();
-        deathSound->setMedia(QUrl("qrc:/images/grunt.mp3"));
+        deathSound->setSource(QUrl::fromLocalFile(":/images/gruntsound.wav"));
         if (player->getBottomPoint() > World::instance().getScreen()->getLevelHeight())
-            deathSound->setMedia(QUrl("qrc:/images/death.mp3"));
-		deathSound->play();
+             deathSound->setSource(QUrl::fromLocalFile(":/images/deathsound.wav"));
+             deathSound->play();
 
 	} else {
 		if (!player->getIsAtEndOfLevel())
@@ -382,6 +382,8 @@ void MainWidget::death(Player* player)
 			else
 				player->setImage(":/images/maincharacter/hurtleft.png");
 		}
+        deathSound->setSource(QUrl::fromLocalFile(":/images/deathsound.wav"));
+        deathSound->play();
 		timer->stop();
 		clock->stop();
         RotateTimer->stop();

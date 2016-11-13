@@ -83,7 +83,9 @@ void EndGame::bonusTimerHit() {
     bonusToAdd--;
 
     if (bonusToAdd == 0){
+        bonusAmount+=2;
         bonusTimer->stop();
+        ui->lblBonusText->setText("+" + QString("%1").arg(bonusAmount));
         ui->PBcontinue->setEnabled(true);
     } else {
          bonusAmount+=2;

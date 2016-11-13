@@ -254,7 +254,7 @@ void Player::collide(CollisionDetails *details)
                 World::instance().incScore(15);
                 en->setVisibility(false);
                 xSpeed /= 2;
-		    attackSound->play();
+                attackSound->play();
                 return;
             }
             if (World::instance().getCheat())
@@ -272,7 +272,7 @@ void Player::collide(CollisionDetails *details)
                 World::instance().incScore(15);
                 en->setVisibility(false);
                 xSpeed /= 2;
-		    attackSound->play();
+                attackSound->play();
                 return;
             }
             if (World::instance().getCheat())
@@ -296,9 +296,19 @@ void Player::collide(CollisionDetails *details)
         Collectible* item = dynamic_cast<Collectible*>(details->getCollided());
         if (item->getVisibility() && (item->getType() == "jump" || item->getType() == "speed" || item->getType() == "shield" || item->getType() == "score"))
         {
+            if (item->getType() == "jump" && item->getVisibility()) {
+                flySound->play();
+            } else if (item->getType() == "speed" && item->getVisibility()) {
+                runSound->play();
+            } else if (item->getType() == "score" && item->getVisibility()) {
+                doublePointsSound->play();
+            } else if (item->getVisibility()){
+                shieldSound->play();
+            }
             setPower(item->getType().toStdString(), true);
             item->setVisibility(false);
         }
+
     }
 }
 

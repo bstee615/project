@@ -83,5 +83,11 @@
         <file>images/goldCoin/goldCoinback2.png</file>
         <file>images/grunt.mp3</file>
         <file>images/gruntsound.wav</file>
+        <file>images/doublepointssound.wav</file>
+        <file>images/fallsound.wav</file>
+        <file>images/flyingsound.wav</file>
+        <file>images/runpowerupsound.wav</file>
+        <file>images/shieldpowerupsound.wav</file>
+        <file>images/shieldsound.wav</file>
     </qresource>
 </RCC>

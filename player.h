@@ -39,6 +39,11 @@ class Player : public Object
     QSoundEffect * victorySound;
     QSoundEffect * hurtSound;
     QSoundEffect * attackSound;
+    QSoundEffect * shieldSound;
+    QSoundEffect * runSound;
+    QSoundEffect * flySound;
+    QSoundEffect * doublePointsSound;
+
 
 public:
     Player() : Object(), jumpOnMove(false), numLives(3), canMove(true), reachedEndGame(false), kicking(false), cankick(true), jumping(false), currentPlatform(NULL) {
@@ -50,6 +55,14 @@ public:
         hurtSound->setSource(QUrl::fromLocalFile(":/images/punchsound.wav"));
         attackSound = new QSoundEffect;
         attackSound->setSource(QUrl::fromLocalFile(":/images/punchsound.wav"));
+        shieldSound = new QSoundEffect;
+        shieldSound->setSource(QUrl::fromLocalFile(":/images/shieldpowerupsound.wav"));
+        runSound = new QSoundEffect;
+        runSound->setSource(QUrl::fromLocalFile(":/images/runpowerupsound.wav"));
+        flySound = new QSoundEffect;
+        flySound->setSource(QUrl::fromLocalFile(":/images/flyingsound.wav"));
+        doublePointsSound = new QSoundEffect;
+        doublePointsSound->setSource(QUrl::fromLocalFile(":/images/doublepointssound.wav"));
 
         enableMoveCount = 0;
         kickingCount = 0;
