@@ -95,14 +95,8 @@ void Enemy::move()
     }
 
     y += ySpeed;
-
-    Object* obj;
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
-        obj = World::instance().getObjects().at(i);
-        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
-            continue;
-        }
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
@@ -198,13 +192,8 @@ void FlyingEnemy::move()
         right = !right;
         xCount = 0;
     }
-    Object* obj;
     for (size_t i = 0; i < World::instance().getObjects().size(); i ++)
     {
-        obj = World::instance().getObjects().at(i);
-        if (!QRect(obj->getX(),obj->getY(),obj->getWidth(),obj->getHeight()).intersects(World::instance().getCurrentScreen())) {
-            continue;
-        }
         CollisionDetails* col = checkCollision(World::instance().getObjects().at(i));
         if (col != NULL)
         {
