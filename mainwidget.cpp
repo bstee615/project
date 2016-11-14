@@ -248,7 +248,7 @@ void MainWidget::timerHit(){
 			resetPlayer(player);
 	}
 
-	labelPlayer->setPixmap(player->getImage());
+    labelPlayer->setPixmap(player->getImage());
 }
 
 void MainWidget::clockHit()
