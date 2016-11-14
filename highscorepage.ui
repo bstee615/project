@@ -652,7 +652,7 @@ Enter your name to be remembered for all eternity!</string>
     </font>
    </property>
    <property name="text">
-    <string>Enter Name</string>
+    <string>Enter</string>
    </property>
   </widget>
   <zorder>scoreListWidget</zorder>
