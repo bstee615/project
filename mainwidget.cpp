@@ -123,7 +123,7 @@ void MainWidget::loadLevel(QString filename)
 
 	ui->lblCheat->hide();
 
-	World::instance().setSeconds(World::instance().getStartSeconds());
+	World::instance().setSeconds(World::instance().getSeconds());
 	World::instance().setCurrentLevel(filename);
 
 	ui->lblTimeLeft->setText(QDateTime::fromTime_t(World::instance().getSeconds()).toUTC().toString("m:ss"));
